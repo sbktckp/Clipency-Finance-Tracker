@@ -9,7 +9,34 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [forgotMode, setForgotMode] = useState(false)
+  const [resetSent, setResetSent] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+    setResetSent(false)
+
+    const redirectTo =
+      typeof window !== "undefined"
+        ? `${window.location.origin}/reset-password`
+        : undefined
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo,
+    })
+
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+      return
+    }
+
+    setResetSent(true)
+    setLoading(false)
+  }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -73,14 +100,14 @@ export default function LoginPage() {
 
         <h1 className="text-center text-3xl font-bold">Clipency Finance</h1>
         <p className="mt-2 text-center text-slate-400">
-          Internal Dashboard — Restricted Access
+          {forgotMode ? "Password Recovery — Secure Access" : "Internal Dashboard — Restricted Access"}
         </p>
 
         <div className="mt-8 rounded-xl border border-amber-700 bg-amber-950/40 p-4 text-sm text-amber-300">
           This system is accessible to authorized Clipency team members only.
         </div>
 
-        <form onSubmit={handleLogin} className="mt-6 space-y-5">
+        <form onSubmit={forgotMode ? handleForgotPassword : handleLogin} className="mt-6 space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium">Email</label>
             <input
@@ -105,7 +132,13 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && (
+          {resetSent && (
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">
+                Password reset link sent. Check your email inbox.
+              </div>
+            )}
+
+            {error && (
             <div className="rounded-lg border border-red-800 bg-red-950/50 p-3 text-sm text-red-300">
               {error}
             </div>
