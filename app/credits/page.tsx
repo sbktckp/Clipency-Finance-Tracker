@@ -36,6 +36,7 @@ export default function CreditsPage() {
   const [platformFeePercentage, setPlatformFeePercentage] = useState("20")
   const [paymentDate, setPaymentDate] = useState(new Date().toISOString().slice(0, 10))
   const [notes, setNotes] = useState("")
+  const [editingCreditId, setEditingCreditId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCredits()
@@ -56,6 +57,29 @@ export default function CreditsPage() {
     }
 
     setLoading(false)
+  }
+
+  function startEditCredit(credit: Credit) {
+    setEditingCreditId(credit.id)
+    setCreditType(credit.source_type)
+    setClientName(credit.client_name || "")
+    setCampaignName(credit.campaign_name || "")
+    setAmount(String(Math.round(Number(credit.amount || 0))))
+    setPlatformFee(String(Math.round(Number(credit.platform_fee_amount || 0))))
+    setPaymentDate(credit.payment_date)
+    setNotes(credit.notes || "")
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  function resetCreditForm() {
+    setEditingCreditId(null)
+    setCreditType("client_payment")
+    setClientName("")
+    setCampaignName("")
+    setAmount("")
+    setPlatformFee("")
+    setPaymentDate(new Date().toISOString().slice(0, 10))
+    setNotes("")
   }
 
   async function deleteCredit(id: string) {
@@ -256,8 +280,10 @@ export default function CreditsPage() {
 
           <div className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]">
             <form onSubmit={addCredit} className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
-              <h2 className="text-xl font-bold">Add Credit</h2>
-              <p className="mt-1 text-sm text-slate-400">Create a new credit entry.</p>
+              <h2 className="text-xl font-bold">{editingCreditId ? "Edit Credit" : "Add Credit"}</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                {editingCreditId ? "Update the selected credit entry." : "Create a new credit entry."}
+              </p>
 
               <div className="mt-6 space-y-4">
                 <div>
@@ -332,8 +358,18 @@ export default function CreditsPage() {
                   disabled={saving}
                   className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
-                  {saving ? "Saving..." : "Add Credit"}
+                  {saving ? "Saving..." : editingCreditId ? "Update Credit" : "Add Credit"}
                 </button>
+
+                {editingCreditId && (
+                  <button
+                    type="button"
+                    onClick={resetCreditForm}
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 font-bold text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+                  >
+                    Cancel Edit
+                  </button>
+                )}
               </div>
             </form>
 
@@ -379,12 +415,20 @@ export default function CreditsPage() {
                           <td className="px-4 py-4 text-violet-300">{formatINR(credit.static_fund_amount)}</td>
                           <td className="px-4 py-4">{credit.payment_date}</td>
                           <td className="px-4 py-4">
-                            <button
-                              onClick={() => deleteCredit(credit.id)}
-                              className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
-                            >
-                              Delete
-                            </button>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => startEditCredit(credit)}
+                                className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300 hover:bg-cyan-500/20"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => deleteCredit(credit.id)}
+                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
