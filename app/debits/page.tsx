@@ -275,7 +275,7 @@ export default function DebitsPage() {
                 Debit Control
               </p>
 
-              <h1 className="mt-4 text-3xl font-bold">Debits</h1>
+              <h1 className="mt-4 gradient-title text-3xl font-bold">Debits</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Record refunds, clipper payouts, salaries, intern payouts, subscriptions, and other expenses.
                 Every debit must be assigned to either Static Fund or Dynamic Fund.
@@ -298,7 +298,7 @@ export default function DebitsPage() {
             </p>
           </div>
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Debits</label>
@@ -306,7 +306,7 @@ export default function DebitsPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search recipient, campaign, type, notes..."
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -315,7 +315,7 @@ export default function DebitsPage() {
                 <select
                   value={fundFilter}
                   onChange={(e) => setFundFilter(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 >
                   <option value="all">All</option>
                   <option value="static">Static</option>
@@ -329,7 +329,7 @@ export default function DebitsPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -339,7 +339,7 @@ export default function DebitsPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -365,7 +365,7 @@ export default function DebitsPage() {
           </div>
 
           <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
-            <form onSubmit={addDebit} className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <form onSubmit={addDebit} className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">{editingDebitId ? "Edit Debit" : "Add Debit"}</h2>
               <p className="mt-1 text-sm text-slate-400">
                 {editingDebitId ? "Update the selected debit entry." : "Create a new debit entry."}
@@ -377,7 +377,7 @@ export default function DebitsPage() {
                   <select
                     value={debitType}
                     onChange={(e) => setDebitType(e.target.value as Debit["debit_type"])}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   >
                     {debitTypes.map((type) => (
                       <option key={type.value} value={type.value}>
@@ -406,7 +406,7 @@ export default function DebitsPage() {
                   <select
                     value={fundType}
                     onChange={(e) => setFundType(e.target.value as "static" | "dynamic")}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   >
                     <option value="dynamic">Dynamic Fund</option>
                     <option value="static">Static Fund</option>
@@ -420,7 +420,7 @@ export default function DebitsPage() {
                     inputMode="numeric"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value.replace(/[^0-9,]/g, ""))}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                     placeholder="5000"
                     required
                   />
@@ -432,7 +432,7 @@ export default function DebitsPage() {
                     type="date"
                     value={paymentDate}
                     onChange={(e) => setPaymentDate(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   />
                 </div>
 
@@ -455,7 +455,7 @@ export default function DebitsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full rounded-xl bg-gradient-to-r from-rose-500 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-rose-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button rounded-xl bg-gradient-to-r from-rose-500 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-rose-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : editingDebitId ? "Update Debit" : "Add Debit"}
                 </button>
@@ -472,7 +472,7 @@ export default function DebitsPage() {
               </div>
             </form>
 
-            <div className="min-w-0 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="min-w-0 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">Debit Ledger</h2>
               <p className="mt-1 text-sm text-slate-400">Live debit entries from Supabase.</p>
 
@@ -568,7 +568,7 @@ function Input({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+        className="finance-input finance-control-height"
         placeholder={placeholder}
       />
     </div>
@@ -577,7 +577,7 @@ function Input({
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>

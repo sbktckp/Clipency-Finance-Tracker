@@ -27,7 +27,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 hidden h-screen border-r border-white/10 bg-[#050718]/95 text-white shadow-2xl shadow-black/40 backdrop-blur-xl transition-all duration-300 ease-out lg:block ${
+      className={`fixed left-0 top-0 z-40 hidden h-screen border-r border-white/10 bg-[#050718]/90 text-white shadow-2xl shadow-black/50 backdrop-blur-2xl transition-all duration-300 ease-out lg:block ${
         collapsed ? "w-[96px]" : "w-[300px]"
       }`}
     >
@@ -96,12 +96,12 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 title={collapsed ? item.name : undefined}
-                className={`group flex items-center gap-4 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
+                className={`group flex items-center gap-4 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-300 ${
                   collapsed ? "justify-center" : ""
                 } ${
                   active
-                    ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-950/40"
-                    : "text-slate-300 hover:bg-white/[0.06] hover:text-white"
+                    ? "bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 text-white shadow-lg shadow-violet-950/40"
+                    : "text-slate-300 hover:bg-white/[0.07] hover:text-white hover:translate-x-1"
                 }`}
               >
                 <span

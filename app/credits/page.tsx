@@ -257,7 +257,7 @@ export default function CreditsPage() {
                 <p className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
                   Credit Control
                 </p>
-                <h1 className="mt-4 text-3xl font-bold">Credits</h1>
+                <h1 className="mt-4 gradient-title text-3xl font-bold">Credits</h1>
                 <p className="mt-2 max-w-4xl text-slate-400">
                   Record client payments and investments. Platform fee goes to Static Fund; remaining campaign money goes to Dynamic Fund.
                 </p>
@@ -272,7 +272,7 @@ export default function CreditsPage() {
             <Metric label="Platform Fees" value={formatINR(totals.platformFees)} color="from-amber-300 to-orange-400" />
           </div>
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Credits</label>
@@ -280,7 +280,7 @@ export default function CreditsPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search client, campaign, type, notes..."
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -290,7 +290,7 @@ export default function CreditsPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -300,7 +300,7 @@ export default function CreditsPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -325,7 +325,7 @@ export default function CreditsPage() {
           </div>
 
           <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
-            <form onSubmit={addCredit} className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <form onSubmit={addCredit} className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">{editingCreditId ? "Edit Credit" : "Add Credit"}</h2>
               <p className="mt-1 text-sm text-slate-400">
                 {editingCreditId ? "Update the selected credit entry." : "Create a new credit entry."}
@@ -337,7 +337,7 @@ export default function CreditsPage() {
                   <select
                     value={sourceType}
                     onChange={(e) => setSourceType(e.target.value as "client_payment" | "investment")}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   >
                     <option value="client_payment">Client Payment</option>
                     <option value="investment">Investment</option>
@@ -355,7 +355,7 @@ export default function CreditsPage() {
                         type="number"
                         value={platformFeePercentage}
                         onChange={(e) => setPlatformFeePercentage(e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                        className="finance-input finance-control-height"
                       />
                     </div>
                   </>
@@ -367,7 +367,7 @@ export default function CreditsPage() {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                     placeholder="50000"
                     required
                   />
@@ -379,7 +379,7 @@ export default function CreditsPage() {
                     type="date"
                     value={paymentDate}
                     onChange={(e) => setPaymentDate(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   />
                 </div>
 
@@ -402,7 +402,7 @@ export default function CreditsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : editingCreditId ? "Update Credit" : "Add Credit"}
                 </button>
@@ -419,7 +419,7 @@ export default function CreditsPage() {
               </div>
             </form>
 
-            <div className="min-w-0 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="min-w-0 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">Credit Ledger</h2>
               <p className="mt-1 text-sm text-slate-400">Live entries from Supabase.</p>
 
@@ -509,7 +509,7 @@ function Input({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+        className="finance-input finance-control-height"
         placeholder={placeholder}
       />
     </div>
@@ -518,7 +518,7 @@ function Input({
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>

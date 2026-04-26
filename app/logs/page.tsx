@@ -206,11 +206,11 @@ export default function LogsPage() {
                 ← Back to Dashboard
               </Link>
 
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Access + Finance Intelligence
               </p>
 
-              <h1 className="mt-4 text-3xl font-bold">System Logs</h1>
+              <h1 className="mt-4 gradient-title text-3xl font-bold">System Logs</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Track user entries and every credit/debit activity performed inside Clipency Finance OS.
               </p>
@@ -224,7 +224,7 @@ export default function LogsPage() {
             </button>
           </div>
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Logs</label>
@@ -232,7 +232,7 @@ export default function LogsPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search email, name, role, action, description..."
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -241,7 +241,7 @@ export default function LogsPage() {
                 <select
                   value={logTypeFilter}
                   onChange={(e) => setLogTypeFilter(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 >
                   <option value="all">All Logs</option>
                   <option value="finance">Finance Only</option>
@@ -255,7 +255,7 @@ export default function LogsPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function LogsPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -297,7 +297,7 @@ export default function LogsPage() {
           )}
 
           {loading ? (
-            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
+            <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-8 text-slate-400">
               Loading logs...
             </div>
           ) : (
@@ -444,7 +444,7 @@ function LogSection({
   children: React.ReactNode
 }) {
   return (
-    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+    <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
       <h2 className="text-xl font-bold">{title}</h2>
       <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
       <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
@@ -460,7 +460,7 @@ function Empty({ text }: { text: string }) {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>

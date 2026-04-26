@@ -20,7 +20,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [collapsed])
 
   return (
-    <div className="min-h-screen bg-[#02030a] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#02030a] text-white">
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_20%_10%,rgba(139,92,246,0.10),transparent_28%),radial-gradient(circle_at_90%_20%,rgba(34,211,238,0.08),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(217,70,239,0.07),transparent_30%)]" />
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       {/* Mobile top bar */}
@@ -74,7 +75,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
 
       <main
-        className={`min-h-screen transition-all duration-300 ease-out ${
+        className={`relative z-10 min-h-screen transition-all duration-300 ease-out ${
           collapsed ? "lg:pl-[96px]" : "lg:pl-[300px]"
         }`}
       >

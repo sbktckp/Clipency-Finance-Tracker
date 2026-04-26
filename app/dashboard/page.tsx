@@ -149,10 +149,10 @@ export default function DashboardPage() {
         <header className="relative z-10 border-b border-violet-500/20 bg-[#050816]/80 px-8 py-6 backdrop-blur-xl">
           <div className="flex items-center justify-between">
             <div>
-              <div className="mb-2 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <div className="mb-2 kicker">
                 Live Internal Finance Control
               </div>
-              <h1 className="text-3xl font-bold tracking-tight">Financial Command Centre</h1>
+              <h1 className="gradient-title text-3xl font-bold tracking-tight">Financial Command Centre</h1>
               <p className="mt-1 text-sm text-slate-400">
                 {email} · {role.replace("_", " ")}
               </p>
@@ -226,7 +226,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="mt-8 grid gap-6 xl:grid-cols-3">
-            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur xl:col-span-2">
+            <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur xl:col-span-2">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold">Central Fund Intelligence</h2>
@@ -322,7 +322,7 @@ function MetricCard({
   color: string
 }) {
   return (
-    <div className="group relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
+    <div className="group relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-4 max-w-full truncate bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent 2xl:text-3xl`}>

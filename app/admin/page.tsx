@@ -174,7 +174,7 @@ export default function AdminPage() {
                 Access Control
               </p>
 
-              <h1 className="mt-4 text-3xl font-bold">Admin</h1>
+              <h1 className="mt-4 gradient-title text-3xl font-bold">Admin</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Manage who can access Clipency Finance OS. Users with senior_management or finance role can enter the system.
               </p>
@@ -200,7 +200,7 @@ export default function AdminPage() {
           <div className="grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
             <form
               onSubmit={upsertProfile}
-              className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur"
+              className="premium-card premium-hover rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur"
             >
               <h2 className="text-xl font-bold">Add / Update Access</h2>
               <p className="mt-1 text-sm text-slate-400">
@@ -227,7 +227,7 @@ export default function AdminPage() {
                   <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="finance-input finance-control-height"
                   >
                     <option value="senior_management">Senior Management</option>
                     <option value="employee">Employee</option>
@@ -256,14 +256,14 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : "Save Access"}
                 </button>
               </div>
             </form>
 
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="min-w-0 premium-card premium-hover rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">User Access Ledger</h2>
               <p className="mt-1 text-sm text-slate-400">
                 Current users inside the profiles table.
@@ -353,7 +353,7 @@ function Input({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+        className="finance-input finance-control-height"
         placeholder={placeholder}
       />
     </div>

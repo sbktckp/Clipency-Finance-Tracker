@@ -235,11 +235,11 @@ export default function ProjectionsPage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Strategic Finance Intelligence
               </p>
 
-              <h1 className="mt-4 text-4xl font-black">Company Projections</h1>
+              <h1 className="mt-4 gradient-title text-4xl font-black">Company Projections</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Analyse current company status, project profit/loss scenarios, estimate fund impact, and calculate operating runway.
               </p>
@@ -277,7 +277,7 @@ export default function ProjectionsPage() {
           </div>
 
           <div className="mb-8 grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
-            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-300">
                 Current Company Status
               </p>
@@ -308,7 +308,7 @@ export default function ProjectionsPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.25em]">
                 Projection Risk
               </p>
-              <h2 className="mt-4 text-4xl font-black">{projection.riskLevel}</h2>
+              <h2 className="mt-4 gradient-title text-4xl font-black">{projection.riskLevel}</h2>
               <p className="mt-3 text-sm leading-6 opacity-80">
                 Based on current Static Fund, estimated monthly burn, and selected profit/loss scenario.
               </p>
@@ -322,7 +322,7 @@ export default function ProjectionsPage() {
             </div>
           </div>
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-violet-300">
@@ -341,7 +341,7 @@ export default function ProjectionsPage() {
                 <select
                   value={scenarioType}
                   onChange={(e) => setScenarioType(e.target.value as "profit" | "loss")}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 >
                   <option value="profit">Profit</option>
                   <option value="loss">Loss</option>
@@ -355,7 +355,7 @@ export default function ProjectionsPage() {
                   value={scenarioAmount}
                   onChange={(e) => setScenarioAmount(e.target.value)}
                   placeholder="Example: 50000"
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -366,7 +366,7 @@ export default function ProjectionsPage() {
                   value={scenarioMonths}
                   onChange={(e) => setScenarioMonths(e.target.value)}
                   min="1"
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
             </div>
@@ -379,7 +379,7 @@ export default function ProjectionsPage() {
             </div>
           </div>
 
-          <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-300">
               Recommended Actions
             </p>
@@ -405,7 +405,7 @@ export default function ProjectionsPage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>

@@ -647,3 +647,263 @@ table {
 .finance-control-height {
   min-height: 52px;
 }
+
+/* ---------- Clipency Finance OS Premium UI System ---------- */
+
+:root {
+  --clipency-bg: #02030a;
+  --clipency-panel: rgba(255, 255, 255, 0.035);
+  --clipency-border: rgba(255, 255, 255, 0.10);
+  --clipency-muted: #94a3b8;
+  --clipency-cyan: #22d3ee;
+  --clipency-violet: #8b5cf6;
+  --clipency-fuchsia: #d946ef;
+  --clipency-emerald: #34d399;
+  --clipency-rose: #fb7185;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(139, 92, 246, 0.12), transparent 28%),
+    radial-gradient(circle at 92% 18%, rgba(34, 211, 238, 0.10), transparent 26%),
+    radial-gradient(circle at 55% 92%, rgba(217, 70, 239, 0.08), transparent 28%),
+    #02030a;
+  color: white;
+}
+
+/* Premium page entry */
+main > section {
+  animation: clipencyPageIn 420ms ease-out both;
+}
+
+@keyframes clipencyPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Premium cards */
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--clipency-border);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025)),
+    rgba(255, 255, 255, 0.03);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+}
+
+.premium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(139, 92, 246, 0.14), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.08), transparent 30%);
+  opacity: 0.9;
+}
+
+.premium-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.premium-hover {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease;
+}
+
+.premium-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(34, 211, 238, 0.26);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.38),
+    0 0 44px rgba(34, 211, 238, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Neon top border card accent */
+.neon-top {
+  position: relative;
+}
+
+.neon-top::after {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  top: 0;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b5cf6, #d946ef, #22d3ee);
+  opacity: 0.95;
+}
+
+/* Premium buttons */
+.premium-button {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.premium-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transition: transform 450ms ease;
+}
+
+.premium-button:hover {
+  transform: translateY(-1px);
+}
+
+.premium-button:hover::before {
+  transform: translateX(100%);
+}
+
+.premium-button:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Inputs */
+.finance-input {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.finance-input:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: #0d1326;
+}
+
+.finance-input:focus {
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow:
+    0 0 0 4px rgba(34, 211, 238, 0.08),
+    0 0 30px rgba(139, 92, 246, 0.10);
+}
+
+/* Premium text gradient */
+.gradient-title {
+  background: linear-gradient(90deg, #ffffff, #c4b5fd, #67e8f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  background: rgba(34, 211, 238, 0.09);
+  color: #67e8f9;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Tables */
+table thead {
+  backdrop-filter: blur(12px);
+}
+
+table tbody tr {
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* Custom selection */
+::selection {
+  background: rgba(139, 92, 246, 0.45);
+  color: white;
+}
+
+/* Better scrollbars */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #22d3ee);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa, #67e8f9);
+}
+
+/* Status pulse */
+.live-pulse {
+  position: relative;
+}
+
+.live-pulse::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 0 rgba(52, 211, 153, 0.6);
+  animation: pulseLive 1.8s infinite;
+}
+
+@keyframes pulseLive {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(52, 211, 153, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

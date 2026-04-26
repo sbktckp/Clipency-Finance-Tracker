@@ -254,11 +254,11 @@ export default function MonthlySnapshotsPage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Month-End Control
               </p>
 
-              <h1 className="mt-4 text-4xl font-black">Monthly Finance Snapshots</h1>
+              <h1 className="mt-4 gradient-title text-4xl font-black">Monthly Finance Snapshots</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Freeze finance-cycle numbers into permanent records. Clipency’s finance month runs from the 10th of one month to the 9th of the next month.
               </p>
@@ -278,7 +278,7 @@ export default function MonthlySnapshotsPage() {
             </div>
           )}
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="grid gap-5 lg:grid-cols-[240px_1fr_auto] lg:items-end">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Finance Cycle Month</label>
@@ -286,7 +286,7 @@ export default function MonthlySnapshotsPage() {
                   type="month"
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -301,7 +301,7 @@ export default function MonthlySnapshotsPage() {
                 <button
                   onClick={createSnapshot}
                   disabled={saving}
-                  className="rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Create / Update Snapshot"}
                 </button>
@@ -322,7 +322,7 @@ export default function MonthlySnapshotsPage() {
             <InfoCard label="Entries Count" value={`${currentCycleTotals.creditEntries} credits · ${currentCycleTotals.debitEntries} debits`} />
           </div>
 
-          <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <h2 className="text-2xl font-bold">Snapshot Ledger</h2>
             <p className="mt-1 text-sm text-slate-400">
               Saved finance-cycle records appear here.
@@ -387,7 +387,7 @@ export default function MonthlySnapshotsPage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>
@@ -399,7 +399,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <p className="text-sm text-slate-400">{label}</p>
       <p className="mt-3 text-2xl font-black text-white">{value}</p>
     </div>

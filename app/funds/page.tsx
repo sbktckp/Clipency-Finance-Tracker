@@ -173,11 +173,11 @@ export default function FundsPage() {
                 ← Back to Dashboard
               </Link>
 
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Central Fund Control
               </p>
 
-              <h1 className="mt-4 text-3xl font-bold">Funds</h1>
+              <h1 className="mt-4 gradient-title text-3xl font-bold">Funds</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Live central fund breakdown. Every credit and debit entry reflects here automatically.
               </p>
@@ -198,7 +198,7 @@ export default function FundsPage() {
           )}
 
           {loading ? (
-            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
+            <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-8 text-slate-400">
               Loading fund data...
             </div>
           ) : (
@@ -326,7 +326,7 @@ export default function FundsPage() {
                 </div>
               </div>
 
-              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div>
                     <h2 className="text-xl font-bold">Recent Fund Movements</h2>
@@ -421,7 +421,7 @@ function Metric({
   color: string
 }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>

@@ -240,11 +240,11 @@ export default function CampaignFinancePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Campaign Intelligence
               </p>
 
-              <h1 className="mt-4 text-4xl font-black">Campaign Profit & Loss</h1>
+              <h1 className="mt-4 gradient-title text-4xl font-black">Campaign Profit & Loss</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Track campaign-wise client payments, platform revenue, outflows, remaining campaign balance, and net P&L.
               </p>
@@ -271,7 +271,7 @@ export default function CampaignFinancePage() {
             <Metric label="Net P&L" value={formatINR(totals.netPL)} color={totals.netPL >= 0 ? "from-violet-400 to-fuchsia-500" : "from-rose-400 to-red-500"} />
           </div>
 
-          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Campaigns</label>
@@ -279,7 +279,7 @@ export default function CampaignFinancePage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search campaign, client, status..."
-                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                  className="finance-input finance-control-height"
                 />
               </div>
 
@@ -299,7 +299,7 @@ export default function CampaignFinancePage() {
             </p>
           </div>
 
-          <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-2xl font-bold">Campaign P&L Ledger</h2>
@@ -365,7 +365,7 @@ export default function CampaignFinancePage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>

@@ -301,11 +301,11 @@ export default function TaxPage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
+              <p className="kicker">
                 Compliance Control
               </p>
 
-              <h1 className="mt-4 text-4xl font-black">Tax Control</h1>
+              <h1 className="mt-4 gradient-title text-4xl font-black">Tax Control</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Track GST, TDS, income tax provisions, statutory dues, due dates, payment status, and compliance exposure.
               </p>
@@ -350,7 +350,7 @@ export default function TaxPage() {
           <div className="mb-8 grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
             <form
               onSubmit={saveTaxRecord}
-              className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur"
+              className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur"
             >
               <h2 className="text-2xl font-bold">{editingId ? "Edit Tax Record" : "Add Tax Record"}</h2>
               <p className="mt-1 text-sm text-slate-400">
@@ -452,7 +452,7 @@ export default function TaxPage() {
 
                 <button
                   disabled={saving}
-                  className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editingId ? "Update Tax Record" : "Add Tax Record"}
                 </button>
@@ -470,7 +470,7 @@ export default function TaxPage() {
             </form>
 
             <div className="space-y-6">
-              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
                 <div className="finance-filter-grid overflow-safe">
                   <div>
                     <label className="mb-2 block text-sm text-slate-300">Search Tax Records</label>
@@ -532,7 +532,7 @@ export default function TaxPage() {
                 </p>
               </div>
 
-              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur">
                 <h2 className="text-2xl font-bold">Tax Ledger</h2>
                 <p className="mt-1 text-sm text-slate-400">
                   Latest compliance records and statutory dues.
@@ -625,7 +625,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>
@@ -637,7 +637,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <p className="text-sm text-slate-400">{label}</p>
       <p className="mt-3 text-2xl font-black text-white">{value}</p>
     </div>
