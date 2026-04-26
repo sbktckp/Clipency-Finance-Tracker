@@ -63,9 +63,13 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
       <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-950 p-8 shadow-2xl">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-600 text-2xl font-bold">
-          C
-        </div>
+        <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl border border-violet-400/30 bg-white/[0.04] p-3 shadow-2xl shadow-violet-950/40">
+            <img
+              src="/clipency-logo.png"
+              alt="Clipency"
+              className="h-full w-full object-contain"
+            />
+          </div>
 
         <h1 className="text-center text-3xl font-bold">Clipency Finance</h1>
         <p className="mt-2 text-center text-slate-400">
