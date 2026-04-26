@@ -37,6 +37,7 @@ export default function DebitsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [currentRole, setCurrentRole] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [fundFilter, setFundFilter] = useState("all")
   const [startDate, setStartDate] = useState("")
@@ -128,6 +129,18 @@ export default function DebitsPage() {
     }
 
     const { data: sessionData } = await supabase.auth.getSession()
+
+    const userEmail = sessionData.session?.user.email
+
+    if (userEmail) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("email", userEmail)
+        .single()
+
+      setCurrentRole(profile?.role || null)
+    }
 
     const payload = {
       debit_type: debitType,
@@ -476,12 +489,14 @@ export default function DebitsPage() {
                               >
                                 Edit
                               </button>
-                              <button
-                                onClick={() => deleteDebit(debit.id)}
-                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
-                              >
-                                Delete
-                              </button>
+                              {currentRole === "senior_management" && (
+                                <button
+                                  onClick={() => deleteDebit(debit.id)}
+                                  className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                                >
+                                  Delete
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>

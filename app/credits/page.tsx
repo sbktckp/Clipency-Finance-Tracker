@@ -25,6 +25,7 @@ export default function CreditsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [currentRole, setCurrentRole] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
@@ -130,6 +131,18 @@ export default function CreditsPage() {
       sourceType === "client_payment" ? platformFeeAmount : numericAmount
 
     const { data: sessionData } = await supabase.auth.getSession()
+
+    const userEmail = sessionData.session?.user.email
+
+    if (userEmail) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("email", userEmail)
+        .single()
+
+      setCurrentRole(profile?.role || null)
+    }
 
     const { error } = await supabase.from("finance_credits").insert({
       source_type: sourceType,
@@ -427,12 +440,14 @@ export default function CreditsPage() {
                               >
                                 Edit
                               </button>
-                              <button
-                                onClick={() => deleteCredit(credit.id)}
-                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
-                              >
-                                Delete
-                              </button>
+                              {currentRole === "senior_management" && (
+                                <button
+                                  onClick={() => deleteCredit(credit.id)}
+                                  className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                                >
+                                  Delete
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>
