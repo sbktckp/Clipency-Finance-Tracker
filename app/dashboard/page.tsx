@@ -1,18 +1,34 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { AppShell } from "@/components/app-shell"
+
+type Credit = {
+  amount: number
+  static_fund_amount: number
+  dynamic_fund_amount: number
+  platform_fee_amount: number
+}
+
+type Debit = {
+  amount: number
+  fund_type: "static" | "dynamic"
+  debit_type: string
+}
 
 export default function DashboardPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [role, setRole] = useState("")
+  const [credits, setCredits] = useState<Credit[]>([])
+  const [debits, setDebits] = useState<Debit[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
-    async function checkAccess() {
+    async function loadDashboard() {
       const { data: sessionData } = await supabase.auth.getSession()
 
       if (!sessionData.session) {
@@ -35,16 +51,83 @@ export default function DashboardPage() {
       }
 
       setRole(profile.role)
+
+      const [creditsResult, debitsResult] = await Promise.all([
+        supabase
+          .from("finance_credits")
+          .select("amount, static_fund_amount, dynamic_fund_amount, platform_fee_amount"),
+
+        supabase
+          .from("finance_debits")
+          .select("amount, fund_type, debit_type"),
+      ])
+
+      if (creditsResult.error) {
+        setError(creditsResult.error.message)
+      } else {
+        setCredits(creditsResult.data || [])
+      }
+
+      if (debitsResult.error) {
+        setError(debitsResult.error.message)
+      } else {
+        setDebits(debitsResult.data || [])
+      }
+
       setLoading(false)
     }
 
-    checkAccess()
+    loadDashboard()
   }, [router])
 
   async function logout() {
     await supabase.auth.signOut()
     router.push("/login")
   }
+
+  const totals = useMemo(() => {
+    const totalCredits = credits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+    const totalDebits = debits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+    const staticCredits = credits.reduce(
+      (sum, item) => sum + Number(item.static_fund_amount || 0),
+      0
+    )
+
+    const dynamicCredits = credits.reduce(
+      (sum, item) => sum + Number(item.dynamic_fund_amount || 0),
+      0
+    )
+
+    const staticDebits = debits
+      .filter((item) => item.fund_type === "static")
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+    const dynamicDebits = debits
+      .filter((item) => item.fund_type === "dynamic")
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+    const platformFees = credits.reduce(
+      (sum, item) => sum + Number(item.platform_fee_amount || 0),
+      0
+    )
+
+    const staticFund = staticCredits - staticDebits
+    const dynamicFund = dynamicCredits - dynamicDebits
+
+    return {
+      totalCredits,
+      totalDebits,
+      staticCredits,
+      dynamicCredits,
+      staticDebits,
+      dynamicDebits,
+      platformFees,
+      staticFund,
+      dynamicFund,
+    }
+  }, [credits, debits])
 
   if (loading) {
     return (
@@ -83,6 +166,12 @@ export default function DashboardPage() {
         </header>
 
         <section className="relative z-10 p-8">
+          {error && (
+            <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+              {error}
+            </div>
+          )}
+
           <div className="mb-8 overflow-hidden rounded-3xl border border-amber-400/30 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-violet-500/10 p-6 shadow-2xl shadow-amber-950/20">
             <div className="flex items-start justify-between gap-6">
               <div>
@@ -93,15 +182,15 @@ export default function DashboardPage() {
                   Dynamic Fund is not company-owned money.
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-                  Client campaign balances must remain traceable, refundable when applicable,
-                  and separated from Clipency’s Static Fund. Static Fund can be used fully in
-                  emergencies; Dynamic Fund must remain campaign-aware.
+                  Dashboard balances are now calculated live from Supabase. Static Fund equals
+                  static credits minus static debits. Dynamic Fund equals dynamic credits minus
+                  dynamic debits.
                 </p>
               </div>
 
               <div className="hidden rounded-2xl border border-amber-300/20 bg-black/20 px-5 py-4 text-right md:block">
                 <p className="text-xs text-slate-400">Control Status</p>
-                <p className="mt-1 text-lg font-bold text-emerald-300">Protected</p>
+                <p className="mt-1 text-lg font-bold text-emerald-300">Live</p>
               </div>
             </div>
           </div>
@@ -109,26 +198,26 @@ export default function DashboardPage() {
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <MetricCard
               label="Static Fund"
-              value="₹48.4L"
-              subtext="Company-owned reserve"
+              value={formatINR(totals.staticFund)}
+              subtext={`${formatINR(totals.staticCredits)} credits - ${formatINR(totals.staticDebits)} debits`}
               color="from-violet-500 to-fuchsia-500"
             />
             <MetricCard
               label="Dynamic Fund"
-              value="₹9.4L"
-              subtext="Client/campaign money"
+              value={formatINR(totals.dynamicFund)}
+              subtext={`${formatINR(totals.dynamicCredits)} credits - ${formatINR(totals.dynamicDebits)} debits`}
               color="from-cyan-400 to-sky-500"
             />
             <MetricCard
               label="Total Credits"
-              value="₹50.5L"
-              subtext="Clients + investments"
+              value={formatINR(totals.totalCredits)}
+              subtext="All incoming money recorded"
               color="from-emerald-400 to-teal-500"
             />
             <MetricCard
               label="Total Debits"
-              value="₹7.7L"
-              subtext="Payouts + expenses"
+              value={formatINR(totals.totalDebits)}
+              subtext="All outgoing money recorded"
               color="from-rose-400 to-pink-500"
             />
           </div>
@@ -137,35 +226,44 @@ export default function DashboardPage() {
             <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur xl:col-span-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-bold">Fund Intelligence</h2>
+                  <h2 className="text-xl font-bold">Central Fund Intelligence</h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    Static vs Dynamic fund separation overview.
+                    Live central balance derived from credits and debits.
                   </p>
                 </div>
                 <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
-                  Healthy
+                  Connected
                 </span>
               </div>
 
               <div className="mt-8 space-y-5">
-                <ProgressRow label="Static Fund Strength" value="84%" />
-                <ProgressRow label="Dynamic Fund Exposure" value="32%" />
-                <ProgressRow label="Debit Pressure" value="18%" />
+                <ProgressRow
+                  label="Static Fund Remaining"
+                  value={safePercent(totals.staticFund, totals.staticCredits)}
+                />
+                <ProgressRow
+                  label="Dynamic Fund Remaining"
+                  value={safePercent(totals.dynamicFund, totals.dynamicCredits)}
+                />
+                <ProgressRow
+                  label="Debit Pressure"
+                  value={safePercent(totals.totalDebits, totals.totalCredits)}
+                />
               </div>
             </div>
 
             <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 to-cyan-500/10 p-6 shadow-2xl shadow-violet-950/30">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
-                Next Build
+                Current System
               </p>
-              <h2 className="mt-4 text-2xl font-bold">Finance Modules</h2>
+              <h2 className="mt-4 text-2xl font-bold">Central Fund Connected</h2>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                Next we will connect Credits, Debits, Funds, Campaign Finance, Reports,
-                and Admin to live Supabase tables with CRUD operations.
+                Credits and debits are now feeding the dashboard. Next we’ll build the Funds page
+                as a detailed breakdown of Static Fund and Dynamic Fund.
               </p>
 
               <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
-                Current foundation: Auth, roles, sidebar, protected dashboard.
+                Platform Fees: {formatINR(totals.platformFees)}
               </div>
             </div>
           </div>
@@ -213,4 +311,18 @@ function ProgressRow({ label, value }: { label: string; value: string }) {
       </div>
     </div>
   )
+}
+
+function safePercent(value: number, total: number) {
+  if (!total || total <= 0) return "0%"
+  const percentage = Math.max(0, Math.min(100, Math.round((value / total) * 100)))
+  return `${percentage}%`
+}
+
+function formatINR(value: number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number(value || 0))
 }

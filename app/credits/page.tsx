@@ -55,6 +55,25 @@ export default function CreditsPage() {
     setLoading(false)
   }
 
+  async function deleteCredit(id: string) {
+    const confirmed = window.confirm("Delete this credit entry?")
+    if (!confirmed) return
+
+    setError("")
+
+    const { error } = await supabase
+      .from("finance_credits")
+      .delete()
+      .eq("id", id)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+
+    await fetchCredits()
+  }
+
   async function addCredit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
@@ -266,6 +285,7 @@ export default function CreditsPage() {
                         <th className="px-4 py-3">Dynamic</th>
                         <th className="px-4 py-3">Static</th>
                         <th className="px-4 py-3">Date</th>
+                        <th className="px-4 py-3">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -283,6 +303,14 @@ export default function CreditsPage() {
                           <td className="px-4 py-4 text-cyan-300">{formatINR(credit.dynamic_fund_amount)}</td>
                           <td className="px-4 py-4 text-violet-300">{formatINR(credit.static_fund_amount)}</td>
                           <td className="px-4 py-4">{credit.payment_date}</td>
+                          <td className="px-4 py-4">
+                            <button
+                              onClick={() => deleteCredit(credit.id)}
+                              className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                            >
+                              Delete
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>

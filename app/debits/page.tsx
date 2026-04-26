@@ -67,6 +67,25 @@ export default function DebitsPage() {
     setLoading(false)
   }
 
+  async function deleteDebit(id: string) {
+    const confirmed = window.confirm("Delete this debit entry?")
+    if (!confirmed) return
+
+    setError("")
+
+    const { error } = await supabase
+      .from("finance_debits")
+      .delete()
+      .eq("id", id)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+
+    await fetchDebits()
+  }
+
   async function addDebit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
@@ -294,6 +313,7 @@ export default function DebitsPage() {
                         <th className="px-5 py-3">Fund</th>
                         <th className="px-5 py-3">Amount</th>
                         <th className="px-5 py-3">Date</th>
+                        <th className="px-5 py-3">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -319,6 +339,14 @@ export default function DebitsPage() {
                           </td>
                           <td className="px-5 py-4 font-semibold text-rose-300">{formatINR(debit.amount)}</td>
                           <td className="px-5 py-4">{debit.payment_date}</td>
+                          <td className="px-5 py-4">
+                            <button
+                              onClick={() => deleteDebit(debit.id)}
+                              className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                            >
+                              Delete
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
