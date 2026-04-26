@@ -25,7 +25,7 @@ export default function DashboardPage() {
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.id)
+        .eq("email", user.email)
         .single()
 
       if (!profile || (profile.role !== "senior_management" && profile.role !== "finance")) {

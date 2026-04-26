@@ -32,7 +32,7 @@ export default function LoginPage() {
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("role")
-      .eq("id", user.id)
+      .eq("email", user.email)
       .single()
 
     if (profileError || !profile) {
