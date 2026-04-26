@@ -234,8 +234,8 @@ export default function CampaignFinancePage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
@@ -252,7 +252,7 @@ export default function CampaignFinancePage() {
 
             <button
               onClick={fetchCampaignData}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Data
             </button>
@@ -287,7 +287,7 @@ export default function CampaignFinancePage() {
                 <button
                   type="button"
                   onClick={() => setSearchTerm("")}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-[#2b1422]"
                 >
                   Clear
                 </button>
@@ -334,7 +334,7 @@ export default function CampaignFinancePage() {
                   <tbody>
                     {filteredCampaigns.map((item) => (
                       <tr key={item.campaign} className="border-t border-white/5 text-slate-300">
-                        <td className="px-5 py-4 font-bold text-white">{item.campaign}</td>
+                        <td className="px-5 py-4 font-bold text-[#2b1422]">{item.campaign}</td>
                         <td className="px-5 py-4">{item.client}</td>
                         <td className="px-5 py-4 font-semibold text-emerald-300">{formatINR(item.clientPayments)}</td>
                         <td className="px-5 py-4 font-semibold text-amber-300">{formatINR(item.platformRevenue)}</td>

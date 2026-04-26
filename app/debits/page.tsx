@@ -258,7 +258,7 @@ export default function DebitsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,63,94,0.14),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(124,58,237,0.12),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
@@ -266,7 +266,7 @@ export default function DebitsPage() {
             <div>
               <Link
                 href="/dashboard"
-                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-[#2b1422]"
               >
                 ← Back to Dashboard
               </Link>
@@ -352,7 +352,7 @@ export default function DebitsPage() {
                     setStartDate("")
                     setEndDate("")
                   }}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-[#2b1422]"
                 >
                   Clear
                 </button>
@@ -441,7 +441,7 @@ export default function DebitsPage() {
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="min-h-24 w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                    className="min-h-24 w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-[#2b1422] outline-none focus:border-violet-400"
                     placeholder="Optional notes"
                   />
                 </div>
@@ -464,7 +464,7 @@ export default function DebitsPage() {
                   <button
                     type="button"
                     onClick={resetDebitForm}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 font-bold text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 font-bold text-slate-300 transition hover:bg-white/[0.08] hover:text-[#2b1422]"
                   >
                     Cancel Edit
                   </button>

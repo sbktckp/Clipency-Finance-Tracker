@@ -193,15 +193,15 @@ export default function LogsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
-                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-[#2b1422]"
               >
                 ← Back to Dashboard
               </Link>
@@ -218,7 +218,7 @@ export default function LogsPage() {
 
             <button
               onClick={fetchLogs}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Logs
             </button>
@@ -278,7 +278,7 @@ export default function LogsPage() {
                     setStartDate("")
                     setEndDate("")
                   }}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-[#2b1422]"
                 >
                   Clear
                 </button>
@@ -344,7 +344,7 @@ export default function LogsPage() {
                               </span>
                             </td>
                             <td className="px-5 py-4 capitalize">{log.entity_type}</td>
-                            <td className="px-5 py-4 font-semibold text-white">
+                            <td className="px-5 py-4 font-semibold text-[#2b1422]">
                               {log.amount ? formatINR(log.amount) : "—"}
                             </td>
                             <td className="px-5 py-4">{log.description || "—"}</td>
@@ -396,7 +396,7 @@ export default function LogsPage() {
 
                         return (
                           <tr key={log.id} className="border-t border-white/5 text-slate-300">
-                            <td className="px-5 py-4 font-semibold text-white">{log.full_name || "—"}</td>
+                            <td className="px-5 py-4 font-semibold text-[#2b1422]">{log.full_name || "—"}</td>
                             <td className="px-5 py-4">{log.email}</td>
                             <td className="px-5 py-4">
                               <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs text-violet-300">

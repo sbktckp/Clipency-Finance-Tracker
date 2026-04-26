@@ -133,7 +133,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#02030a] text-white">
+      <main className="flex min-h-screen items-center justify-center bg-[#fff1f5] text-[#2b1422]">
         <div className="rounded-2xl border border-violet-500/20 bg-white/[0.03] px-6 py-4 text-sm text-slate-300">
           Loading Clipency Finance OS...
         </div>
@@ -143,8 +143,8 @@ export default function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="relative min-h-screen overflow-hidden bg-[#02030a] text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(34,211,238,0.10),transparent_28%),radial-gradient(circle_at_bottom,rgba(217,70,239,0.10),transparent_35%)]" />
+      <div className="relative min-h-screen overflow-hidden bg-[#fff1f5] text-[#2b1422]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(216,180,254,0.18),transparent_28%),radial-gradient(circle_at_bottom,rgba(217,70,239,0.10),transparent_35%)]" />
 
         <header className="relative z-10 border-b border-violet-500/20 bg-[#050816]/80 px-8 py-6 backdrop-blur-xl">
           <div className="flex items-center justify-between">
@@ -160,7 +160,7 @@ export default function DashboardPage() {
 
             <button
               onClick={logout}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:border-violet-400/40 hover:bg-violet-500/20"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] shadow-lg shadow-black/20 transition hover:border-violet-400/40 hover:bg-violet-500/20"
             >
               Logout
             </button>
@@ -181,7 +181,7 @@ export default function DashboardPage() {
                 <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">
                   Critical Fund Rule
                 </p>
-                <h2 className="mt-3 text-2xl font-bold text-white">
+                <h2 className="mt-3 text-2xl font-bold text-[#2b1422]">
                   Dynamic Fund is not company-owned money.
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
@@ -338,7 +338,7 @@ function ProgressRow({ label, value }: { label: string; value: string }) {
     <div>
       <div className="mb-2 flex items-center justify-between text-sm">
         <span className="text-slate-300">{label}</span>
-        <span className="font-semibold text-white">{value}</span>
+        <span className="font-semibold text-[#2b1422]">{value}</span>
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-white/5">
         <div

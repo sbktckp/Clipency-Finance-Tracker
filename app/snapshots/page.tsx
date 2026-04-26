@@ -248,8 +248,8 @@ export default function MonthlySnapshotsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
@@ -266,7 +266,7 @@ export default function MonthlySnapshotsPage() {
 
             <button
               onClick={fetchData}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Data
             </button>
@@ -301,7 +301,7 @@ export default function MonthlySnapshotsPage() {
                 <button
                   onClick={createSnapshot}
                   disabled={saving}
-                  className="premium-button premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="premium-button premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-bold text-[#2b1422] shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Create / Update Snapshot"}
                 </button>
@@ -353,13 +353,13 @@ export default function MonthlySnapshotsPage() {
                   <tbody>
                     {snapshots.map((snapshot) => (
                       <tr key={snapshot.id} className="border-t border-white/5 text-slate-300">
-                        <td className="px-5 py-4 font-bold text-white">{snapshot.snapshot_month}</td>
+                        <td className="px-5 py-4 font-bold text-[#2b1422]">{snapshot.snapshot_month}</td>
                         <td className="px-5 py-4 text-emerald-300">{formatINR(snapshot.total_credits)}</td>
                         <td className="px-5 py-4 text-rose-300">{formatINR(snapshot.total_debits)}</td>
                         <td className="px-5 py-4 text-violet-300">{formatINR(snapshot.static_fund)}</td>
                         <td className="px-5 py-4 text-cyan-300">{formatINR(snapshot.dynamic_fund)}</td>
                         <td className="px-5 py-4 text-amber-300">{formatINR(snapshot.platform_fees)}</td>
-                        <td className="px-5 py-4 font-bold text-white">{formatINR(snapshot.net_central_position)}</td>
+                        <td className="px-5 py-4 font-bold text-[#2b1422]">{formatINR(snapshot.net_central_position)}</td>
                         <td className="px-5 py-4">{snapshot.created_by_email || "—"}</td>
                         <td className="px-5 py-4">{new Date(snapshot.created_at).toLocaleString("en-IN")}</td>
                         {role === "senior_management" && (
@@ -401,7 +401,7 @@ function InfoCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20">
       <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-3 text-2xl font-black text-white">{value}</p>
+      <p className="mt-3 text-2xl font-black text-[#2b1422]">{value}</p>
     </div>
   )
 }

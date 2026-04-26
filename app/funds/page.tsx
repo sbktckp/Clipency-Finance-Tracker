@@ -160,15 +160,15 @@ export default function FundsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%),radial-gradient(circle_at_center,rgba(217,70,239,0.08),transparent_40%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%),radial-gradient(circle_at_center,rgba(217,70,239,0.08),transparent_40%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
-                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-[#2b1422]"
               >
                 ← Back to Dashboard
               </Link>
@@ -185,7 +185,7 @@ export default function FundsPage() {
 
             <button
               onClick={fetchFundData}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Data
             </button>
@@ -300,25 +300,25 @@ export default function FundsPage() {
                 </p>
                 <div className="mt-4 grid gap-4 text-sm leading-6 md:grid-cols-2">
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="font-bold text-white">Client Payment</p>
+                    <p className="font-bold text-[#2b1422]">Client Payment</p>
                     <p className="mt-1 text-slate-300">
                       Platform fee moves to Static Fund. Remaining client campaign money moves to Dynamic Fund.
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="font-bold text-white">Investment</p>
+                    <p className="font-bold text-[#2b1422]">Investment</p>
                     <p className="mt-1 text-slate-300">
                       Investment directly increases Static Fund because it is company-owned capital.
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="font-bold text-white">Static Debit</p>
+                    <p className="font-bold text-[#2b1422]">Static Debit</p>
                     <p className="mt-1 text-slate-300">
                       Company expenses such as salaries, tools, subscriptions, and operations reduce Static Fund.
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="font-bold text-white">Dynamic Debit</p>
+                    <p className="font-bold text-[#2b1422]">Dynamic Debit</p>
                     <p className="mt-1 text-slate-300">
                       Campaign payouts, refunds, and campaign-linked costs reduce Dynamic Fund.
                     </p>
@@ -444,7 +444,7 @@ function Row({
   return (
     <div className="flex items-center justify-between gap-4">
       <span className="text-slate-400">{label}</span>
-      <span className={danger ? "font-semibold text-rose-300" : "font-semibold text-white"}>
+      <span className={danger ? "font-semibold text-rose-300" : "font-semibold text-[#2b1422]"}>
         {value}
       </span>
     </div>
