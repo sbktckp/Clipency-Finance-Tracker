@@ -127,6 +127,82 @@ export default function ReportsPage() {
     }
   }, [credits, debits])
 
+  function downloadCSV(filename: string, rows: Record<string, any>[]) {
+    if (rows.length === 0) {
+      alert("No data available to export.")
+      return
+    }
+
+    const headers = Object.keys(rows[0])
+
+    const escapeCSV = (value: any) => {
+      const clean = value === null || value === undefined ? "" : String(value)
+      return `"${clean.replaceAll('"', '""')}"`
+    }
+
+    const csv = [
+      headers.join(","),
+      ...rows.map((row) => headers.map((header) => escapeCSV(row[header])).join(",")),
+    ].join("\n")
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+
+    link.href = url
+    link.download = filename
+    link.click()
+
+    URL.revokeObjectURL(url)
+  }
+
+  function exportCreditsCSV() {
+    downloadCSV(
+      `clipency-credits-${new Date().toISOString().slice(0, 10)}.csv`,
+      credits.map((credit) => ({
+        id: credit.id,
+        type: credit.source_type,
+        client: credit.client_name || "",
+        campaign: credit.campaign_name || "",
+        amount: credit.amount,
+        platform_fee: credit.platform_fee_amount,
+        static_fund: credit.static_fund_amount,
+        dynamic_fund: credit.dynamic_fund_amount,
+        payment_date: credit.payment_date,
+      }))
+    )
+  }
+
+  function exportDebitsCSV() {
+    downloadCSV(
+      `clipency-debits-${new Date().toISOString().slice(0, 10)}.csv`,
+      debits.map((debit) => ({
+        id: debit.id,
+        type: debit.debit_type,
+        recipient: debit.recipient_name || "",
+        campaign: debit.campaign_name || "",
+        fund_type: debit.fund_type,
+        amount: debit.amount,
+        payment_date: debit.payment_date,
+      }))
+    )
+  }
+
+  function exportTransactionsCSV() {
+    downloadCSV(
+      `clipency-transactions-${new Date().toISOString().slice(0, 10)}.csv`,
+      recentTransactions.map((item) => ({
+        type: item.type,
+        category: item.category,
+        party: item.party,
+        campaign: item.campaign,
+        amount: item.amount,
+        direction: item.direction,
+        date: item.date,
+      }))
+    )
+  }
+
   const recentTransactions = useMemo(() => {
     const creditRows = credits.map((item) => ({
       id: `credit-${item.id}`,
@@ -180,12 +256,35 @@ export default function ReportsPage() {
               </p>
             </div>
 
-            <button
-              onClick={fetchReports}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
-            >
-              Refresh Report
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={exportCreditsCSV}
+                className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-200 transition hover:border-emerald-300/40 hover:bg-emerald-500/20"
+              >
+                Export Credits
+              </button>
+
+              <button
+                onClick={exportDebitsCSV}
+                className="rounded-xl border border-rose-400/20 bg-rose-500/10 px-5 py-3 text-sm font-semibold text-rose-200 transition hover:border-rose-300/40 hover:bg-rose-500/20"
+              >
+                Export Debits
+              </button>
+
+              <button
+                onClick={exportTransactionsCSV}
+                className="rounded-xl border border-cyan-400/20 bg-cyan-500/10 px-5 py-3 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300/40 hover:bg-cyan-500/20"
+              >
+                Export Transactions
+              </button>
+
+              <button
+                onClick={fetchReports}
+                className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-violet-400/40 hover:bg-violet-500/10"
+              >
+                Refresh Report
+              </button>
+            </div>
           </div>
 
           {error && (
