@@ -65,7 +65,7 @@ export default function LoginPage() {
         </p>
 
         <div className="mt-8 rounded-xl border border-amber-700 bg-amber-950/40 p-4 text-sm text-amber-300">
-          This system is accessible to Senior Management and Finance only.
+          This system is accessible to authorized Clipency team members only.
         </div>
 
         <form onSubmit={handleLogin} className="mt-6 space-y-5">
