@@ -231,7 +231,7 @@ export default function FundsPage() {
 
               <div className="mb-8 grid gap-6 xl:grid-cols-2">
                 <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 to-fuchsia-500/10 p-6 shadow-2xl shadow-violet-950/30">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
                         Company-Owned Money
@@ -241,7 +241,7 @@ export default function FundsPage() {
                         Static Fund includes investments and platform fees. It is the company-owned operating balance.
                       </p>
                     </div>
-                    <p className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-3xl font-black text-transparent">
+                    <p className="max-w-full break-words bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-3xl font-black leading-tight text-transparent xl:text-right 2xl:text-4xl">
                       {formatINR(totals.staticFund)}
                     </p>
                   </div>
@@ -255,7 +255,7 @@ export default function FundsPage() {
                 </div>
 
                 <div className="rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-cyan-600/15 to-sky-500/10 p-6 shadow-2xl shadow-cyan-950/20">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
                         Client/Campaign Money
@@ -265,7 +265,7 @@ export default function FundsPage() {
                         Dynamic Fund is campaign-linked money. It should not be treated as free company balance.
                       </p>
                     </div>
-                    <p className="bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-3xl font-black text-transparent">
+                    <p className="max-w-full break-words bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-3xl font-black leading-tight text-transparent xl:text-right 2xl:text-4xl">
                       {formatINR(totals.dynamicFund)}
                     </p>
                   </div>
