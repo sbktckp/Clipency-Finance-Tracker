@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { CurrencySwitch } from "@/components/currency-switch"
 
 type SidebarProps = {
   collapsed: boolean
@@ -126,11 +127,15 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
 
         {/* Footer note */}
         {!collapsed && (
-          <div className="m-5 rounded-2xl border border-amber-400/20 bg-amber-500/10 p-4 text-sm leading-6 text-amber-200">
-            <p className="font-bold text-amber-300">Fund Discipline</p>
-            <p className="mt-2">
-              Dynamic Fund is client/campaign money. Static Fund is company-owned money.
-            </p>
+          <div className="m-5 space-y-4">
+            <CurrencySwitch />
+
+            <div className="rounded-2xl border border-amber-400/20 bg-amber-500/10 p-4 text-sm leading-6 text-amber-200">
+              <p className="font-bold text-amber-300">Fund Discipline</p>
+              <p className="mt-2">
+                Dynamic Fund is client/campaign money. Static Fund is company-owned money.
+              </p>
+            </div>
           </div>
         )}
       </div>
