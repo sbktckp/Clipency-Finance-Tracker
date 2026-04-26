@@ -40,7 +40,11 @@ export function Sidebar() {
 
   const navItems =
     role === "senior_management"
-      ? [...baseNavItems, { name: "Admin", href: "/admin", icon: "⚙" }]
+      ? [
+          ...baseNavItems,
+          { name: "Logs", href: "/logs", icon: "◷" },
+          { name: "Admin", href: "/admin", icon: "⚙" },
+        ]
       : baseNavItems
 
   return (

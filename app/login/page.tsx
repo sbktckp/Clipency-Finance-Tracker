@@ -31,7 +31,7 @@ export default function LoginPage() {
 
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
-      .select("role")
+      .select("full_name, role")
       .eq("email", user.email)
       .single()
 
@@ -48,6 +48,14 @@ export default function LoginPage() {
       setLoading(false)
       return
     }
+
+    await supabase.from("user_access_logs").insert({
+      user_id: user.id,
+      full_name: profile.full_name || user.email,
+      email: user.email || "",
+      role: profile.role,
+      event_type: "login",
+    })
 
     router.push("/dashboard")
   }
