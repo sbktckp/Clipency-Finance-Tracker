@@ -8,7 +8,6 @@ import { supabase } from "@/lib/supabase"
 
 type AccessLog = {
   id: string
-  user_id: string | null
   full_name: string | null
   email: string
   role: string | null
@@ -16,9 +15,22 @@ type AccessLog = {
   created_at: string
 }
 
+type FinanceLog = {
+  id: string
+  user_email: string | null
+  action: string
+  entity_type: string
+  entity_id: string | null
+  amount: number | null
+  description: string | null
+  created_at: string
+}
+
 export default function LogsPage() {
   const router = useRouter()
-  const [logs, setLogs] = useState<AccessLog[]>([])
+
+  const [accessLogs, setAccessLogs] = useState<AccessLog[]>([])
+  const [financeLogs, setFinanceLogs] = useState<FinanceLog[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -54,39 +66,87 @@ export default function LogsPage() {
   }
 
   async function fetchLogs() {
-    const { data, error } = await supabase
-      .from("user_access_logs")
-      .select("id, user_id, full_name, email, role, event_type, created_at")
-      .order("created_at", { ascending: false })
+    setError("")
 
-    if (error) {
-      setError(error.message)
+    const [accessResult, financeResult] = await Promise.all([
+      supabase
+        .from("user_access_logs")
+        .select("id, full_name, email, role, event_type, created_at")
+        .order("created_at", { ascending: false }),
+
+      supabase
+        .from("finance_audit_logs")
+        .select("id, user_email, action, entity_type, entity_id, amount, description, created_at")
+        .order("created_at", { ascending: false }),
+    ])
+
+    if (accessResult.error) {
+      setError(accessResult.error.message)
     } else {
-      setLogs(data || [])
+      setAccessLogs(accessResult.data || [])
+    }
+
+    if (financeResult.error) {
+      setError(financeResult.error.message)
+    } else {
+      setFinanceLogs(financeResult.data || [])
     }
 
     setLoading(false)
   }
 
+  async function deleteAccessLog(id: string) {
+    const ok = window.confirm("Delete this login log?")
+    if (!ok) return
+
+    const { error } = await supabase
+      .from("user_access_logs")
+      .delete()
+      .eq("id", id)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+
+    await fetchLogs()
+  }
+
+  async function deleteFinanceLog(id: string) {
+    const ok = window.confirm("Delete this finance activity log?")
+    if (!ok) return
+
+    const { error } = await supabase
+      .from("finance_audit_logs")
+      .delete()
+      .eq("id", id)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+
+    await fetchLogs()
+  }
+
   const stats = useMemo(() => {
-    const uniqueUsers = new Set(logs.map((log) => log.email)).size
     const today = new Date().toISOString().slice(0, 10)
 
-    const todayEntries = logs.filter((log) =>
-      new Date(log.created_at).toISOString().slice(0, 10) === today
-    ).length
-
-    const seniorEntries = logs.filter((log) => log.role === "senior_management").length
-    const employeeEntries = logs.filter((log) => log.role === "employee").length
-
     return {
-      totalEntries: logs.length,
-      uniqueUsers,
-      todayEntries,
-      seniorEntries,
-      employeeEntries,
+      loginEntries: accessLogs.length,
+      financeEntries: financeLogs.length,
+      uniqueUsers: new Set([
+        ...accessLogs.map((log) => log.email),
+        ...financeLogs.map((log) => log.user_email || ""),
+      ]).size,
+      todayLogins: accessLogs.filter((log) =>
+        new Date(log.created_at).toISOString().slice(0, 10) === today
+      ).length,
+      todayFinance: financeLogs.filter((log) =>
+        new Date(log.created_at).toISOString().slice(0, 10) === today
+      ).length,
     }
-  }, [logs])
+  }, [accessLogs, financeLogs])
 
   return (
     <AppShell>
@@ -98,24 +158,24 @@ export default function LogsPage() {
             <div>
               <Link
                 href="/dashboard"
-                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
               >
                 ← Back to Dashboard
               </Link>
 
               <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
-                Access Intelligence
+                Access + Finance Intelligence
               </p>
 
-              <h1 className="mt-4 text-3xl font-bold">User Entry Logs</h1>
+              <h1 className="mt-4 text-3xl font-bold">System Logs</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
-                Every successful user login is recorded here with name, email, role, date, and timestamp.
+                Track user entries and every credit/debit activity performed inside Clipency Finance OS.
               </p>
             </div>
 
             <button
               onClick={fetchLogs}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Logs
             </button>
@@ -129,99 +189,159 @@ export default function LogsPage() {
 
           {loading ? (
             <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
-              Loading access logs...
+              Loading logs...
             </div>
           ) : (
             <>
               <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
-                <Metric label="Total Entries" value={String(stats.totalEntries)} color="from-violet-500 to-fuchsia-500" />
-                <Metric label="Unique Users" value={String(stats.uniqueUsers)} color="from-cyan-400 to-sky-500" />
-                <Metric label="Today" value={String(stats.todayEntries)} color="from-emerald-400 to-teal-500" />
-                <Metric label="Senior Entries" value={String(stats.seniorEntries)} color="from-amber-300 to-orange-400" />
-                <Metric label="Employee Entries" value={String(stats.employeeEntries)} color="from-rose-400 to-pink-500" />
+                <Metric label="Login Entries" value={String(stats.loginEntries)} color="from-violet-500 to-fuchsia-500" />
+                <Metric label="Finance Actions" value={String(stats.financeEntries)} color="from-cyan-400 to-sky-500" />
+                <Metric label="Unique Users" value={String(stats.uniqueUsers)} color="from-emerald-400 to-teal-500" />
+                <Metric label="Today Logins" value={String(stats.todayLogins)} color="from-amber-300 to-orange-400" />
+                <Metric label="Today Finance" value={String(stats.todayFinance)} color="from-rose-400 to-pink-500" />
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
-                <h2 className="text-xl font-bold">Entry Ledger</h2>
-                <p className="mt-1 text-sm text-slate-400">
-                  Latest login entries appear first.
-                </p>
+              <LogSection
+                title="Finance Activity Ledger"
+                subtitle="Every credit/debit create, edit, and delete action appears here."
+              >
+                {financeLogs.length === 0 ? (
+                  <Empty text="No finance activity recorded yet." />
+                ) : (
+                  <table className="w-full min-w-[1000px] text-left text-sm">
+                    <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500">
+                      <tr>
+                        <th className="px-5 py-3">User</th>
+                        <th className="px-5 py-3">Action</th>
+                        <th className="px-5 py-3">Entity</th>
+                        <th className="px-5 py-3">Amount</th>
+                        <th className="px-5 py-3">Description</th>
+                        <th className="px-5 py-3">Date</th>
+                        <th className="px-5 py-3">Time</th>
+                        <th className="px-5 py-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {financeLogs.map((log) => {
+                        const date = new Date(log.created_at)
 
-                <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
-                  {logs.length === 0 ? (
-                    <div className="p-8 text-center text-slate-400">
-                      No login entries recorded yet.
-                    </div>
-                  ) : (
-                    <table className="w-full min-w-[950px] text-left text-sm">
-                      <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500">
-                        <tr>
-                          <th className="px-5 py-3">Name</th>
-                          <th className="px-5 py-3">Email</th>
-                          <th className="px-5 py-3">Role</th>
-                          <th className="px-5 py-3">Event</th>
-                          <th className="px-5 py-3">Date</th>
-                          <th className="px-5 py-3">Time</th>
-                          <th className="px-5 py-3">Timestamp</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {logs.map((log) => {
-                          const date = new Date(log.created_at)
+                        return (
+                          <tr key={log.id} className="border-t border-white/5 text-slate-300">
+                            <td className="px-5 py-4">{log.user_email || "—"}</td>
+                            <td className="px-5 py-4">
+                              <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300">
+                                {log.action.replaceAll("_", " ")}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4 capitalize">{log.entity_type}</td>
+                            <td className="px-5 py-4 font-semibold text-white">
+                              {log.amount ? formatINR(log.amount) : "—"}
+                            </td>
+                            <td className="px-5 py-4">{log.description || "—"}</td>
+                            <td className="px-5 py-4">{formatDate(date)}</td>
+                            <td className="px-5 py-4">{formatTime(date)}</td>
+                            <td className="px-5 py-4">
+                              <button
+                                onClick={() => deleteFinanceLog(log.id)}
+                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </LogSection>
 
-                          return (
-                            <tr key={log.id} className="border-t border-white/5 text-slate-300">
-                              <td className="px-5 py-4 font-semibold text-white">
-                                {log.full_name || "—"}
-                              </td>
-                              <td className="px-5 py-4">{log.email}</td>
-                              <td className="px-5 py-4">
-                                <span
-                                  className={`rounded-full px-3 py-1 text-xs ${
-                                    log.role === "senior_management"
-                                      ? "bg-violet-500/10 text-violet-300"
-                                      : "bg-slate-500/10 text-slate-300"
-                                  }`}
-                                >
-                                  {(log.role || "unknown").replace("_", " ")}
-                                </span>
-                              </td>
-                              <td className="px-5 py-4">
-                                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
-                                  {log.event_type}
-                                </span>
-                              </td>
-                              <td className="px-5 py-4">
-                                {date.toLocaleDateString("en-IN", {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                })}
-                              </td>
-                              <td className="px-5 py-4">
-                                {date.toLocaleTimeString("en-IN", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit",
-                                })}
-                              </td>
-                              <td className="px-5 py-4 text-slate-500">
-                                {date.toLocaleString("en-IN")}
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </table>
-                  )}
-                </div>
-              </div>
+              <div className="mt-8" />
+
+              <LogSection
+                title="User Entry Ledger"
+                subtitle="Successful login entries appear here."
+              >
+                {accessLogs.length === 0 ? (
+                  <Empty text="No login entries recorded yet." />
+                ) : (
+                  <table className="w-full min-w-[950px] text-left text-sm">
+                    <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500">
+                      <tr>
+                        <th className="px-5 py-3">Name</th>
+                        <th className="px-5 py-3">Email</th>
+                        <th className="px-5 py-3">Role</th>
+                        <th className="px-5 py-3">Event</th>
+                        <th className="px-5 py-3">Date</th>
+                        <th className="px-5 py-3">Time</th>
+                        <th className="px-5 py-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {accessLogs.map((log) => {
+                        const date = new Date(log.created_at)
+
+                        return (
+                          <tr key={log.id} className="border-t border-white/5 text-slate-300">
+                            <td className="px-5 py-4 font-semibold text-white">{log.full_name || "—"}</td>
+                            <td className="px-5 py-4">{log.email}</td>
+                            <td className="px-5 py-4">
+                              <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs text-violet-300">
+                                {(log.role || "unknown").replace("_", " ")}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4">
+                              <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
+                                {log.event_type}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4">{formatDate(date)}</td>
+                            <td className="px-5 py-4">{formatTime(date)}</td>
+                            <td className="px-5 py-4">
+                              <button
+                                onClick={() => deleteAccessLog(log.id)}
+                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </LogSection>
             </>
           )}
         </div>
       </section>
     </AppShell>
   )
+}
+
+function LogSection({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string
+  subtitle: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+      <h2 className="text-xl font-bold">{title}</h2>
+      <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function Empty({ text }: { text: string }) {
+  return <div className="p-8 text-center text-slate-400">{text}</div>
 }
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
@@ -234,4 +354,28 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
       </p>
     </div>
   )
+}
+
+function formatINR(value: number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number(value || 0))
+}
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  })
+}
+
+function formatTime(date: Date) {
+  return date.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  })
 }

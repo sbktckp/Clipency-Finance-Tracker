@@ -104,6 +104,17 @@ export default function CreditsPage() {
       return
     }
 
+    const { data: sessionData } = await supabase.auth.getSession()
+
+    await supabase.from("finance_audit_logs").insert({
+      user_id: sessionData.session?.user.id,
+      user_email: sessionData.session?.user.email,
+      action: "credit_deleted",
+      entity_type: "credit",
+      entity_id: id,
+      description: "Deleted credit entry",
+    })
+
     await fetchCredits()
   }
 

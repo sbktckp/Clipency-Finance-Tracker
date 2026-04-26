@@ -112,6 +112,17 @@ export default function DebitsPage() {
       return
     }
 
+    const { data: sessionData } = await supabase.auth.getSession()
+
+    await supabase.from("finance_audit_logs").insert({
+      user_id: sessionData.session?.user.id,
+      user_email: sessionData.session?.user.email,
+      action: "debit_deleted",
+      entity_type: "debit",
+      entity_id: id,
+      description: "Deleted debit entry",
+    })
+
     await fetchDebits()
   }
 
@@ -162,6 +173,16 @@ export default function DebitsPage() {
       setSaving(false)
       return
     }
+
+    await supabase.from("finance_audit_logs").insert({
+      user_id: sessionData.session?.user.id,
+      user_email: sessionData.session?.user.email,
+      action: editingDebitId ? "debit_updated" : "debit_created",
+      entity_type: "debit",
+      entity_id: editingDebitId,
+      amount: numericAmount,
+      description: `${editingDebitId ? "Updated" : "Created"} debit entry for ${recipientName || "recipient"} / ${campaignName || "no campaign"}`,
+    })
 
     resetDebitForm()
     await fetchDebits()
