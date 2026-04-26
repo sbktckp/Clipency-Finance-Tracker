@@ -13,6 +13,7 @@ const baseNavItems = [
   { name: "Funds", href: "/funds", icon: "◈" },
   { name: "Campaign Finance", href: "/campaigns", icon: "◎" },
   { name: "Reports", href: "/reports", icon: "▣" },
+  { name: "Snapshots", href: "/snapshots", icon: "◫" },
 ]
 
 export function Sidebar() {
