@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 
@@ -14,6 +15,7 @@ type Profile = {
 }
 
 export default function AdminPage() {
+  const router = useRouter()
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -26,8 +28,32 @@ export default function AdminPage() {
   const [department, setDepartment] = useState("Finance")
 
   useEffect(() => {
-    fetchProfiles()
+    checkAdminAccess()
   }, [])
+
+  async function checkAdminAccess() {
+    const { data: sessionData } = await supabase.auth.getSession()
+
+    if (!sessionData.session) {
+      router.push("/login")
+      return
+    }
+
+    const user = sessionData.session.user
+
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("email", user.email)
+      .single()
+
+    if (error || !profile || profile.role !== "senior_management") {
+      router.push("/access-restricted")
+      return
+    }
+
+    await fetchProfiles()
+  }
 
   async function fetchProfiles() {
     setLoading(true)
