@@ -61,11 +61,16 @@ export default function CreditsPage() {
 
   function startEditCredit(credit: Credit) {
     setEditingCreditId(credit.id)
-    setCreditType(credit.source_type)
+    setSourceType(credit.source_type)
     setClientName(credit.client_name || "")
     setCampaignName(credit.campaign_name || "")
     setAmount(String(Math.round(Number(credit.amount || 0))))
-    setPlatformFee(String(Math.round(Number(credit.platform_fee_amount || 0))))
+    const feePercentage =
+      Number(credit.amount || 0) > 0
+        ? Math.round((Number(credit.platform_fee_amount || 0) / Number(credit.amount || 0)) * 100)
+        : 0
+
+    setPlatformFeePercentage(String(feePercentage))
     setPaymentDate(credit.payment_date)
     setNotes(credit.notes || "")
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -73,11 +78,11 @@ export default function CreditsPage() {
 
   function resetCreditForm() {
     setEditingCreditId(null)
-    setCreditType("client_payment")
+    setSourceType("client_payment")
     setClientName("")
     setCampaignName("")
     setAmount("")
-    setPlatformFee("")
+    setPlatformFeePercentage("20")
     setPaymentDate(new Date().toISOString().slice(0, 10))
     setNotes("")
   }
