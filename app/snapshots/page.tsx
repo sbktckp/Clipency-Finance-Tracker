@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { PageSkeleton } from "@/components/loading-skeleton"
 import { supabase } from "@/lib/supabase"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   amount: number
@@ -35,6 +36,7 @@ type Snapshot = {
 
 export default function MonthlySnapshotsPage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
 
   const [credits, setCredits] = useState<Credit[]>([])
   const [debits, setDebits] = useState<Debit[]>([])
@@ -310,15 +312,15 @@ export default function MonthlySnapshotsPage() {
           </div>
 
           <div className="mobile-grid mb-8">
-            <Metric label="Cycle Credits" value={formatINR(currentCycleTotals.totalCredits)} color="from-emerald-400 to-teal-500" />
-            <Metric label="Cycle Debits" value={formatINR(currentCycleTotals.totalDebits)} color="from-rose-400 to-pink-500" />
-            <Metric label="Static Fund" value={formatINR(currentCycleTotals.staticFund)} color="from-violet-400 to-fuchsia-500" />
-            <Metric label="Dynamic Fund" value={formatINR(currentCycleTotals.dynamicFund)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Cycle Credits" value={formatMoney(currentCycleTotals.totalCredits)} color="from-emerald-400 to-teal-500" />
+            <Metric label="Cycle Debits" value={formatMoney(currentCycleTotals.totalDebits)} color="from-rose-400 to-pink-500" />
+            <Metric label="Static Fund" value={formatMoney(currentCycleTotals.staticFund)} color="from-violet-400 to-fuchsia-500" />
+            <Metric label="Dynamic Fund" value={formatMoney(currentCycleTotals.dynamicFund)} color="from-cyan-400 to-sky-500" />
           </div>
 
           <div className="mobile-grid mb-8">
-            <InfoCard label="Platform Fees" value={formatINR(currentCycleTotals.platformFees)} />
-            <InfoCard label="Net Central Position" value={formatINR(currentCycleTotals.netCentralPosition)} />
+            <InfoCard label="Platform Fees" value={formatMoney(currentCycleTotals.platformFees)} />
+            <InfoCard label="Net Central Position" value={formatMoney(currentCycleTotals.netCentralPosition)} />
             <InfoCard label="Entries Count" value={`${currentCycleTotals.creditEntries} credits · ${currentCycleTotals.debitEntries} debits`} />
           </div>
 
@@ -354,12 +356,12 @@ export default function MonthlySnapshotsPage() {
                     {snapshots.map((snapshot) => (
                       <tr key={snapshot.id} className="border-t border-white/5 text-slate-300">
                         <td className="px-5 py-4 font-bold text-white">{snapshot.snapshot_month}</td>
-                        <td className="px-5 py-4 text-emerald-300">{formatINR(snapshot.total_credits)}</td>
-                        <td className="px-5 py-4 text-rose-300">{formatINR(snapshot.total_debits)}</td>
-                        <td className="px-5 py-4 text-violet-300">{formatINR(snapshot.static_fund)}</td>
-                        <td className="px-5 py-4 text-cyan-300">{formatINR(snapshot.dynamic_fund)}</td>
-                        <td className="px-5 py-4 text-amber-300">{formatINR(snapshot.platform_fees)}</td>
-                        <td className="px-5 py-4 font-bold text-white">{formatINR(snapshot.net_central_position)}</td>
+                        <td className="px-5 py-4 text-emerald-300">{formatMoney(snapshot.total_credits)}</td>
+                        <td className="px-5 py-4 text-rose-300">{formatMoney(snapshot.total_debits)}</td>
+                        <td className="px-5 py-4 text-violet-300">{formatMoney(snapshot.static_fund)}</td>
+                        <td className="px-5 py-4 text-cyan-300">{formatMoney(snapshot.dynamic_fund)}</td>
+                        <td className="px-5 py-4 text-amber-300">{formatMoney(snapshot.platform_fees)}</td>
+                        <td className="px-5 py-4 font-bold text-white">{formatMoney(snapshot.net_central_position)}</td>
                         <td className="px-5 py-4">{snapshot.created_by_email || "—"}</td>
                         <td className="px-5 py-4">{new Date(snapshot.created_at).toLocaleString("en-IN")}</td>
                         {role === "senior_management" && (
@@ -406,7 +408,7 @@ function InfoCard({ label, value }: { label: string; value: string }) {
   )
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

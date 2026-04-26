@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { PageSkeleton } from "@/components/loading-skeleton"
 import { supabase } from "@/lib/supabase"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   id: string
@@ -43,6 +44,7 @@ type CampaignPL = {
 
 export default function CampaignFinancePage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
 
   const [credits, setCredits] = useState<Credit[]>([])
   const [debits, setDebits] = useState<Debit[]>([])
@@ -265,10 +267,10 @@ export default function CampaignFinancePage() {
           )}
 
           <div className="mobile-grid mb-8">
-            <Metric label="Client Payments" value={formatINR(totals.clientPayments)} color="from-emerald-400 to-teal-500" />
-            <Metric label="Platform Revenue" value={formatINR(totals.platformRevenue)} color="from-amber-300 to-orange-400" />
-            <Metric label="Campaign Pool" value={formatINR(totals.campaignPool)} color="from-cyan-400 to-sky-500" />
-            <Metric label="Net P&L" value={formatINR(totals.netPL)} color={totals.netPL >= 0 ? "from-violet-400 to-fuchsia-500" : "from-rose-400 to-red-500"} />
+            <Metric label="Client Payments" value={formatMoney(totals.clientPayments)} color="from-emerald-400 to-teal-500" />
+            <Metric label="Platform Revenue" value={formatMoney(totals.platformRevenue)} color="from-amber-300 to-orange-400" />
+            <Metric label="Campaign Pool" value={formatMoney(totals.campaignPool)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Net P&L" value={formatMoney(totals.netPL)} color={totals.netPL >= 0 ? "from-violet-400 to-fuchsia-500" : "from-rose-400 to-red-500"} />
           </div>
 
           <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
@@ -336,16 +338,16 @@ export default function CampaignFinancePage() {
                       <tr key={item.campaign} className="border-t border-white/5 text-slate-300">
                         <td className="px-5 py-4 font-bold text-white">{item.campaign}</td>
                         <td className="px-5 py-4">{item.client}</td>
-                        <td className="px-5 py-4 font-semibold text-emerald-300">{formatINR(item.clientPayments)}</td>
-                        <td className="px-5 py-4 font-semibold text-amber-300">{formatINR(item.platformRevenue)}</td>
-                        <td className="px-5 py-4 font-semibold text-cyan-300">{formatINR(item.campaignPool)}</td>
-                        <td className="px-5 py-4 font-semibold text-rose-300">-{formatINR(item.dynamicOutflows)}</td>
-                        <td className="px-5 py-4 font-semibold text-pink-300">-{formatINR(item.staticExpenses)}</td>
+                        <td className="px-5 py-4 font-semibold text-emerald-300">{formatMoney(item.clientPayments)}</td>
+                        <td className="px-5 py-4 font-semibold text-amber-300">{formatMoney(item.platformRevenue)}</td>
+                        <td className="px-5 py-4 font-semibold text-cyan-300">{formatMoney(item.campaignPool)}</td>
+                        <td className="px-5 py-4 font-semibold text-rose-300">-{formatMoney(item.dynamicOutflows)}</td>
+                        <td className="px-5 py-4 font-semibold text-pink-300">-{formatMoney(item.staticExpenses)}</td>
                         <td className={`px-5 py-4 font-bold ${item.remainingBalance >= 0 ? "text-cyan-300" : "text-red-300"}`}>
-                          {formatINR(item.remainingBalance)}
+                          {formatMoney(item.remainingBalance)}
                         </td>
                         <td className={`px-5 py-4 font-black ${item.netPL >= 0 ? "text-emerald-300" : "text-red-300"}`}>
-                          {formatINR(item.netPL)}
+                          {formatMoney(item.netPL)}
                         </td>
                         <td className="px-5 py-4">
                           <StatusBadge status={item.status} />
@@ -392,7 +394,7 @@ function StatusBadge({ status }: { status: CampaignPL["status"] }) {
   )
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

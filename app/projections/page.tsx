@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { PageSkeleton } from "@/components/loading-skeleton"
 import { supabase } from "@/lib/supabase"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   amount: number
@@ -22,6 +23,7 @@ type Debit = {
 
 export default function ProjectionsPage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
 
   const [credits, setCredits] = useState<Credit[]>([])
   const [debits, setDebits] = useState<Debit[]>([])
@@ -270,9 +272,9 @@ export default function ProjectionsPage() {
           </div>
 
           <div className="mobile-grid mb-8">
-            <Metric label="Static Fund" value={formatINR(projection.staticFund)} color="from-violet-400 to-fuchsia-500" />
-            <Metric label="Dynamic Fund" value={formatINR(projection.dynamicFund)} color="from-cyan-400 to-sky-500" />
-            <Metric label="Net Central Position" value={formatINR(projection.netCentralPosition)} color="from-emerald-400 to-teal-500" />
+            <Metric label="Static Fund" value={formatMoney(projection.staticFund)} color="from-violet-400 to-fuchsia-500" />
+            <Metric label="Dynamic Fund" value={formatMoney(projection.dynamicFund)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Net Central Position" value={formatMoney(projection.netCentralPosition)} color="from-emerald-400 to-teal-500" />
             <Metric label="Current Runway" value={`${formatMonths(projection.runwayMonths)} months`} color="from-amber-300 to-orange-400" />
           </div>
 
@@ -293,14 +295,14 @@ export default function ProjectionsPage() {
               </h2>
 
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <InfoRow label="Total Credits" value={formatINR(projection.totalCredits)} />
-                <InfoRow label="Total Debits" value={formatINR(projection.totalDebits)} />
-                <InfoRow label="Platform Fees Earned" value={formatINR(projection.platformFees)} />
-                <InfoRow label="Net Profit Position" value={formatINR(projection.netProfit)} />
-                <InfoRow label="Avg. Monthly Credits" value={formatINR(projection.averageMonthlyCredits)} />
-                <InfoRow label="Avg. Monthly Debits" value={formatINR(projection.averageMonthlyDebits)} />
-                <InfoRow label="Avg. Monthly Platform Revenue" value={formatINR(projection.averageMonthlyPlatformRevenue)} />
-                <InfoRow label="Estimated Monthly Burn" value={formatINR(projection.averageMonthlyBurn)} />
+                <InfoRow label="Total Credits" value={formatMoney(projection.totalCredits)} />
+                <InfoRow label="Total Debits" value={formatMoney(projection.totalDebits)} />
+                <InfoRow label="Platform Fees Earned" value={formatMoney(projection.platformFees)} />
+                <InfoRow label="Net Profit Position" value={formatMoney(projection.netProfit)} />
+                <InfoRow label="Avg. Monthly Credits" value={formatMoney(projection.averageMonthlyCredits)} />
+                <InfoRow label="Avg. Monthly Debits" value={formatMoney(projection.averageMonthlyDebits)} />
+                <InfoRow label="Avg. Monthly Platform Revenue" value={formatMoney(projection.averageMonthlyPlatformRevenue)} />
+                <InfoRow label="Estimated Monthly Burn" value={formatMoney(projection.averageMonthlyBurn)} />
               </div>
             </div>
 
@@ -372,9 +374,9 @@ export default function ProjectionsPage() {
             </div>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-              <MiniProjection label="Total Scenario Impact" value={formatINR(projection.totalScenarioImpact)} />
-              <MiniProjection label="Projected Static Fund" value={formatINR(projection.projectedStaticFund)} />
-              <MiniProjection label="Projected Net Position" value={formatINR(projection.projectedNetCentralPosition)} />
+              <MiniProjection label="Total Scenario Impact" value={formatMoney(projection.totalScenarioImpact)} />
+              <MiniProjection label="Projected Static Fund" value={formatMoney(projection.projectedStaticFund)} />
+              <MiniProjection label="Projected Net Position" value={formatMoney(projection.projectedNetCentralPosition)} />
               <MiniProjection label="Projected Runway" value={`${formatMonths(projection.projectedRunway)} months`} />
             </div>
           </div>
@@ -449,7 +451,7 @@ function riskCardClass(risk: "Healthy" | "Watch" | "Critical" | "Emergency") {
   return "border-red-400/20 bg-red-500/10 text-red-100 shadow-red-950/20"
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

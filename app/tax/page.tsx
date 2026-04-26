@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { PageSkeleton } from "@/components/loading-skeleton"
 import { supabase } from "@/lib/supabase"
+import { useCurrency } from "@/components/currency-context"
 
 type TaxRecord = {
   id: string
@@ -31,6 +32,7 @@ const taxTypeLabels: Record<string, string> = {
 
 export default function TaxPage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
 
   const [records, setRecords] = useState<TaxRecord[]>([])
   const [role, setRole] = useState<string | null>(null)
@@ -335,15 +337,15 @@ export default function TaxPage() {
           )}
 
           <div className="mobile-grid mb-8">
-            <Metric label="GST Payable" value={formatINR(totals.gstPayable)} color="from-rose-400 to-pink-500" />
-            <Metric label="GST Receivable" value={formatINR(totals.gstReceivable)} color="from-cyan-400 to-sky-500" />
-            <Metric label="Net GST Position" value={formatINR(totals.netGstPosition)} color={totals.netGstPosition >= 0 ? "from-amber-300 to-orange-400" : "from-emerald-400 to-teal-500"} />
-            <Metric label="Unpaid Liability" value={formatINR(totals.unpaidLiability)} color="from-violet-400 to-fuchsia-500" />
+            <Metric label="GST Payable" value={formatMoney(totals.gstPayable)} color="from-rose-400 to-pink-500" />
+            <Metric label="GST Receivable" value={formatMoney(totals.gstReceivable)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Net GST Position" value={formatMoney(totals.netGstPosition)} color={totals.netGstPosition >= 0 ? "from-amber-300 to-orange-400" : "from-emerald-400 to-teal-500"} />
+            <Metric label="Unpaid Liability" value={formatMoney(totals.unpaidLiability)} color="from-violet-400 to-fuchsia-500" />
           </div>
 
           <div className="mobile-grid mb-8">
-            <InfoCard label="TDS Deducted" value={formatINR(totals.tdsDeducted)} />
-            <InfoCard label="Income Tax Provision" value={formatINR(totals.incomeTaxProvision)} />
+            <InfoCard label="TDS Deducted" value={formatMoney(totals.tdsDeducted)} />
+            <InfoCard label="Income Tax Provision" value={formatMoney(totals.incomeTaxProvision)} />
             <InfoCard label="Overdue Records" value={String(totals.overdue)} />
           </div>
 
@@ -569,7 +571,7 @@ export default function TaxPage() {
                             </td>
                             <td className="px-5 py-4 font-bold text-white">{record.title}</td>
                             <td className="px-5 py-4">{record.counterparty || "—"}</td>
-                            <td className="px-5 py-4 font-bold text-white">{formatINR(record.amount)}</td>
+                            <td className="px-5 py-4 font-bold text-white">{formatMoney(record.amount)}</td>
                             <td className="px-5 py-4">
                               <StatusBadge status={record.status} />
                             </td>
@@ -664,7 +666,7 @@ function isOverdue(record: TaxRecord) {
   return record.due_date < new Date().toISOString().slice(0, 10)
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

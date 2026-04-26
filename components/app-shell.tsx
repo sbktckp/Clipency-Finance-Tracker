@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Sidebar } from "@/components/sidebar"
+import { CurrencySwitch } from "@/components/currency-switch"
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false)
@@ -50,12 +51,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="premium-button rounded-xl border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-white"
-        >
-          Menu
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <CurrencySwitch />
+          </div>
+
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="premium-button rounded-xl border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-white"
+          >
+            Menu
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}
@@ -108,6 +115,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           `}</style>
         </div>
       )}
+
+      <div className="fixed right-6 top-5 z-[60] hidden lg:block">
+        <CurrencySwitch />
+      </div>
 
       <main
         className={`relative z-10 min-h-screen transition-all duration-300 ease-out ${

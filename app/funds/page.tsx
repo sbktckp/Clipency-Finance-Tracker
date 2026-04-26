@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 import { PageSkeleton } from "@/components/loading-skeleton"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   id: string
@@ -206,25 +207,25 @@ export default function FundsPage() {
               <div className="mobile-grid mb-8">
                 <Metric
                   label="Static Fund"
-                  value={formatINR(totals.staticFund)}
-                  subtext={`${formatINR(totals.staticCredits)} in - ${formatINR(totals.staticDebits)} out`}
+                  value={formatMoney(totals.staticFund)}
+                  subtext={`${formatMoney(totals.staticCredits)} in - ${formatMoney(totals.staticDebits)} out`}
                   color="from-violet-500 to-fuchsia-500"
                 />
                 <Metric
                   label="Dynamic Fund"
-                  value={formatINR(totals.dynamicFund)}
-                  subtext={`${formatINR(totals.dynamicCredits)} in - ${formatINR(totals.dynamicDebits)} out`}
+                  value={formatMoney(totals.dynamicFund)}
+                  subtext={`${formatMoney(totals.dynamicCredits)} in - ${formatMoney(totals.dynamicDebits)} out`}
                   color="from-cyan-400 to-sky-500"
                 />
                 <Metric
                   label="Net Central Position"
-                  value={formatINR(totals.netCentralPosition)}
+                  value={formatMoney(totals.netCentralPosition)}
                   subtext="Static Fund + Dynamic Fund"
                   color="from-emerald-400 to-teal-500"
                 />
                 <Metric
                   label="Platform Fees"
-                  value={formatINR(totals.platformFees)}
+                  value={formatMoney(totals.platformFees)}
                   subtext="Company revenue from client payments"
                   color="from-amber-300 to-orange-400"
                 />
@@ -248,17 +249,17 @@ export default function FundsPage() {
                       <div className="rounded-2xl border border-violet-400/20 bg-black/25 px-5 py-4 shadow-xl shadow-violet-950/20">
                         <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Available</p>
                         <p className="mt-1 whitespace-nowrap bg-gradient-to-r from-violet-300 to-fuchsia-400 bg-clip-text text-3xl font-black text-transparent">
-                          {formatINR(totals.staticFund)}
+                          {formatMoney(totals.staticFund)}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
-                    <Row label="Static Credits" value={formatINR(totals.staticCredits)} />
-                    <Row label="Static Debits" value={`-${formatINR(totals.staticDebits)}`} danger />
-                    <Row label="Investments" value={formatINR(totals.investments)} />
-                    <Row label="Platform Fees" value={formatINR(totals.platformFees)} />
+                    <Row label="Static Credits" value={formatMoney(totals.staticCredits)} />
+                    <Row label="Static Debits" value={`-${formatMoney(totals.staticDebits)}`} danger />
+                    <Row label="Investments" value={formatMoney(totals.investments)} />
+                    <Row label="Platform Fees" value={formatMoney(totals.platformFees)} />
                   </div>
                 </div>
 
@@ -279,17 +280,17 @@ export default function FundsPage() {
                       <div className="rounded-2xl border border-cyan-400/20 bg-black/25 px-5 py-4 shadow-xl shadow-cyan-950/20">
                         <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Available</p>
                         <p className="mt-1 whitespace-nowrap bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-3xl font-black text-transparent">
-                          {formatINR(totals.dynamicFund)}
+                          {formatMoney(totals.dynamicFund)}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
-                    <Row label="Client Payments" value={formatINR(totals.clientPayments)} />
-                    <Row label="Dynamic Credits" value={formatINR(totals.dynamicCredits)} />
-                    <Row label="Dynamic Debits" value={`-${formatINR(totals.dynamicDebits)}`} danger />
-                    <Row label="Remaining Dynamic Balance" value={formatINR(totals.dynamicFund)} />
+                    <Row label="Client Payments" value={formatMoney(totals.clientPayments)} />
+                    <Row label="Dynamic Credits" value={formatMoney(totals.dynamicCredits)} />
+                    <Row label="Dynamic Debits" value={`-${formatMoney(totals.dynamicDebits)}`} danger />
+                    <Row label="Remaining Dynamic Balance" value={formatMoney(totals.dynamicFund)} />
                   </div>
                 </div>
               </div>
@@ -391,7 +392,7 @@ export default function FundsPage() {
                               }`}
                             >
                               {item.direction === "in" ? "+" : "-"}
-                              {formatINR(item.amount)}
+                              {formatMoney(item.amount)}
                             </td>
                             <td className="px-5 py-4">{item.date}</td>
                           </tr>
@@ -451,7 +452,7 @@ function Row({
   )
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

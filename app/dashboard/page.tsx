@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase"
 import { AppShell } from "@/components/app-shell"
 import { PageSkeleton } from "@/components/loading-skeleton"
 import { FinanceCharts } from "@/components/finance-charts"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   amount: number
@@ -22,6 +23,7 @@ type Debit = {
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
   const [email, setEmail] = useState("")
   const [role, setRole] = useState("")
   const [credits, setCredits] = useState<Credit[]>([])
@@ -201,25 +203,25 @@ export default function DashboardPage() {
           <div className="mobile-grid">
             <MetricCard
               label="Static Fund"
-              value={formatINR(totals.staticFund)}
-              subtext={`${formatINR(totals.staticCredits)} credits - ${formatINR(totals.staticDebits)} debits`}
+              value={formatMoney(totals.staticFund)}
+              subtext={`${formatMoney(totals.staticCredits)} credits - ${formatMoney(totals.staticDebits)} debits`}
               color="from-violet-500 to-fuchsia-500"
             />
             <MetricCard
               label="Dynamic Fund"
-              value={formatINR(totals.dynamicFund)}
-              subtext={`${formatINR(totals.dynamicCredits)} credits - ${formatINR(totals.dynamicDebits)} debits`}
+              value={formatMoney(totals.dynamicFund)}
+              subtext={`${formatMoney(totals.dynamicCredits)} credits - ${formatMoney(totals.dynamicDebits)} debits`}
               color="from-cyan-400 to-sky-500"
             />
             <MetricCard
               label="Total Credits"
-              value={formatINR(totals.totalCredits)}
+              value={formatMoney(totals.totalCredits)}
               subtext="All incoming money recorded"
               color="from-emerald-400 to-teal-500"
             />
             <MetricCard
               label="Total Debits"
-              value={formatINR(totals.totalDebits)}
+              value={formatMoney(totals.totalDebits)}
               subtext="All outgoing money recorded"
               color="from-rose-400 to-pink-500"
             />
@@ -291,13 +293,13 @@ export default function DashboardPage() {
 
                   <SnapshotRow
                     label="Net Position"
-                    value={formatINR(totals.staticFund + totals.dynamicFund)}
+                    value={formatMoney(totals.staticFund + totals.dynamicFund)}
                     tone={totals.staticFund + totals.dynamicFund >= 0 ? "good" : "danger"}
                   />
                 </div>
 
                 <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
-                  Platform revenue captured so far: <span className="font-bold text-amber-300">{formatINR(totals.platformFees)}</span>
+                  Platform revenue captured so far: <span className="font-bold text-amber-300">{formatMoney(totals.platformFees)}</span>
                 </div>
               </div>
             </div>
@@ -381,7 +383,7 @@ function safePercent(value: number, total: number) {
   return `${percentage}%`
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

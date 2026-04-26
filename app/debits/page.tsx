@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 import { PageSkeleton } from "@/components/loading-skeleton"
+import { useCurrency } from "@/components/currency-context"
 
 type Debit = {
   id: string
@@ -284,10 +285,10 @@ export default function DebitsPage() {
           </div>
 
           <div className="mobile-grid mb-8">
-            <Metric label="Total Debits" value={formatINR(totals.totalDebits)} color="from-rose-400 to-pink-500" />
-            <Metric label="Static Fund Debits" value={formatINR(totals.staticDebits)} color="from-violet-500 to-fuchsia-500" />
-            <Metric label="Dynamic Fund Debits" value={formatINR(totals.dynamicDebits)} color="from-cyan-400 to-sky-500" />
-            <Metric label="Client Refunds" value={formatINR(totals.refunds)} color="from-amber-300 to-orange-400" />
+            <Metric label="Total Debits" value={formatMoney(totals.totalDebits)} color="from-rose-400 to-pink-500" />
+            <Metric label="Static Fund Debits" value={formatMoney(totals.staticDebits)} color="from-violet-500 to-fuchsia-500" />
+            <Metric label="Dynamic Fund Debits" value={formatMoney(totals.dynamicDebits)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Client Refunds" value={formatMoney(totals.refunds)} color="from-amber-300 to-orange-400" />
           </div>
 
           <div className="mb-8 rounded-3xl border border-amber-400/25 bg-amber-500/10 p-5 text-sm text-amber-200">
@@ -517,7 +518,7 @@ export default function DebitsPage() {
                               {debit.fund_type}
                             </span>
                           </td>
-                          <td className="px-5 py-4 font-semibold text-rose-300">{formatINR(debit.amount)}</td>
+                          <td className="px-5 py-4 font-semibold text-rose-300">{formatMoney(debit.amount)}</td>
                           <td className="px-5 py-4">{debit.payment_date}</td>
                           <td className="px-5 py-4">
                             <div className="flex gap-2">
@@ -593,7 +594,7 @@ function parseAmount(value: string) {
   return Math.round(parsed)
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

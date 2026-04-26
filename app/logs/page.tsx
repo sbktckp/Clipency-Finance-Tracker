@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 import { PageSkeleton } from "@/components/loading-skeleton"
+import { useCurrency } from "@/components/currency-context"
 
 type AccessLog = {
   id: string
@@ -29,6 +30,7 @@ type FinanceLog = {
 
 export default function LogsPage() {
   const router = useRouter()
+  const { formatMoney } = useCurrency()
 
   const [accessLogs, setAccessLogs] = useState<AccessLog[]>([])
   const [financeLogs, setFinanceLogs] = useState<FinanceLog[]>([])
@@ -345,7 +347,7 @@ export default function LogsPage() {
                             </td>
                             <td className="px-5 py-4 capitalize">{log.entity_type}</td>
                             <td className="px-5 py-4 font-semibold text-white">
-                              {log.amount ? formatINR(log.amount) : "—"}
+                              {log.amount ? formatMoney(log.amount) : "—"}
                             </td>
                             <td className="px-5 py-4">{log.description || "—"}</td>
                             <td className="px-5 py-4">{formatDate(date)}</td>
@@ -470,13 +472,6 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
   )
 }
 
-function formatINR(value: number) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(Number(value || 0))
-}
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-IN", {

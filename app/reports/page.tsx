@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 import { PageSkeleton } from "@/components/loading-skeleton"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   id: string
@@ -427,31 +428,31 @@ export default function ReportsPage() {
           ) : (
             <>
               <div className="mobile-grid mb-8">
-                <Metric label="Net Central Position" value={formatINR(report.netPosition)} color="from-emerald-400 to-teal-500" />
-                <Metric label="Static Fund" value={formatINR(report.staticFund)} color="from-violet-500 to-fuchsia-500" />
-                <Metric label="Dynamic Fund" value={formatINR(report.dynamicFund)} color="from-cyan-400 to-sky-500" />
-                <Metric label="Platform Fees" value={formatINR(report.platformFees)} color="from-amber-300 to-orange-400" />
+                <Metric label="Net Central Position" value={formatMoney(report.netPosition)} color="from-emerald-400 to-teal-500" />
+                <Metric label="Static Fund" value={formatMoney(report.staticFund)} color="from-violet-500 to-fuchsia-500" />
+                <Metric label="Dynamic Fund" value={formatMoney(report.dynamicFund)} color="from-cyan-400 to-sky-500" />
+                <Metric label="Platform Fees" value={formatMoney(report.platformFees)} color="from-amber-300 to-orange-400" />
               </div>
 
               <div className="mb-8 grid gap-6 xl:grid-cols-3">
                 <ReportCard title="Credit Report">
-                  <Row label="Total Credits" value={formatINR(report.totalCredits)} />
-                  <Row label="Client Payments" value={formatINR(report.clientPayments)} />
-                  <Row label="Investments" value={formatINR(report.investments)} />
-                  <Row label="Platform Fees Earned" value={formatINR(report.platformFees)} />
+                  <Row label="Total Credits" value={formatMoney(report.totalCredits)} />
+                  <Row label="Client Payments" value={formatMoney(report.clientPayments)} />
+                  <Row label="Investments" value={formatMoney(report.investments)} />
+                  <Row label="Platform Fees Earned" value={formatMoney(report.platformFees)} />
                 </ReportCard>
 
                 <ReportCard title="Debit Report">
-                  <Row label="Total Debits" value={formatINR(report.totalDebits)} danger />
-                  <Row label="Static Debits" value={formatINR(report.staticDebits)} danger />
-                  <Row label="Dynamic Debits" value={formatINR(report.dynamicDebits)} danger />
+                  <Row label="Total Debits" value={formatMoney(report.totalDebits)} danger />
+                  <Row label="Static Debits" value={formatMoney(report.staticDebits)} danger />
+                  <Row label="Dynamic Debits" value={formatMoney(report.dynamicDebits)} danger />
                   <Row label="Static Burn" value={`${report.staticBurn}%`} danger={report.staticBurn > 50} />
                 </ReportCard>
 
                 <ReportCard title="Campaign Exposure">
                   <Row label="Campaigns Tracked" value={String(report.campaignCount)} />
-                  <Row label="Dynamic Allocation" value={formatINR(report.dynamicCredits)} />
-                  <Row label="Dynamic Debits" value={formatINR(report.dynamicDebits)} danger />
+                  <Row label="Dynamic Allocation" value={formatMoney(report.dynamicCredits)} />
+                  <Row label="Dynamic Debits" value={formatMoney(report.dynamicDebits)} danger />
                   <Row label="Dynamic Exposure" value={`${report.dynamicExposure}%`} danger={report.dynamicExposure > 70} />
                 </ReportCard>
               </div>
@@ -529,7 +530,7 @@ export default function ReportsPage() {
                             <td className="px-5 py-4">{item.campaign}</td>
                             <td className={`px-5 py-4 font-semibold ${item.direction === "in" ? "text-emerald-300" : "text-rose-300"}`}>
                               {item.direction === "in" ? "+" : "-"}
-                              {formatINR(item.amount)}
+                              {formatMoney(item.amount)}
                             </td>
                             <td className="px-5 py-4">{item.date}</td>
                           </tr>
@@ -602,7 +603,7 @@ function safePercent(value: number, total: number) {
   return `${percentage}%`
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

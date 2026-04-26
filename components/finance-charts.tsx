@@ -1,5 +1,7 @@
 "use client"
 
+import { useCurrency } from "@/components/currency-context"
+
 import {
   Bar,
   BarChart,
@@ -28,7 +30,7 @@ type Debit = {
   payment_date?: string
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -47,6 +49,7 @@ export function FinanceCharts({
   credits: Credit[]
   debits: Debit[]
 }) {
+  const { formatMoney } = useCurrency()
   const staticCredits = credits.reduce(
     (sum, item) => sum + safeNumber(item.static_fund_amount),
     0
@@ -138,7 +141,7 @@ export function FinanceCharts({
                 ))}
               </Pie>
               <Tooltip
-                formatter={(value) => formatINR(Number(value))}
+                formatter={(value) => formatMoney(Number(value))}
                 contentStyle={{
                   background: "#080b16",
                   border: "1px solid rgba(255,255,255,0.12)",
@@ -151,8 +154,8 @@ export function FinanceCharts({
         </div>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <MiniStat label="Static Fund" value={formatINR(staticFund)} tone="violet" />
-          <MiniStat label="Dynamic Fund" value={formatINR(dynamicFund)} tone="cyan" />
+          <MiniStat label="Static Fund" value={formatMoney(staticFund)} tone="violet" />
+          <MiniStat label="Dynamic Fund" value={formatMoney(dynamicFund)} tone="cyan" />
         </div>
       </ChartCard>
 
@@ -168,7 +171,7 @@ export function FinanceCharts({
               <XAxis dataKey="name" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" tickFormatter={(value) => `₹${Math.round(value / 1000)}k`} />
               <Tooltip
-                formatter={(value) => formatINR(Number(value))}
+                formatter={(value) => formatMoney(Number(value))}
                 contentStyle={{
                   background: "#080b16",
                   border: "1px solid rgba(255,255,255,0.12)",
@@ -226,7 +229,7 @@ export function FinanceCharts({
                 <XAxis dataKey="date" stroke="#94a3b8" />
                 <YAxis stroke="#94a3b8" tickFormatter={(value) => `₹${Math.round(value / 1000)}k`} />
                 <Tooltip
-                  formatter={(value) => formatINR(Number(value))}
+                  formatter={(value) => formatMoney(Number(value))}
                   contentStyle={{
                     background: "#080b16",
                     border: "1px solid rgba(255,255,255,0.12)",

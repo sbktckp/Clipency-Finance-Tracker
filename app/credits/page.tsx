@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
 import { PageSkeleton } from "@/components/loading-skeleton"
+import { useCurrency } from "@/components/currency-context"
 
 type Credit = {
   id: string
@@ -266,10 +267,10 @@ export default function CreditsPage() {
           </div>
 
           <div className="mobile-grid mb-8">
-            <Metric label="Total Credits" value={formatINR(totals.totalCredits)} color="from-emerald-400 to-teal-500" />
-            <Metric label="Static Allocation" value={formatINR(totals.staticFund)} color="from-violet-500 to-fuchsia-500" />
-            <Metric label="Dynamic Allocation" value={formatINR(totals.dynamicFund)} color="from-cyan-400 to-sky-500" />
-            <Metric label="Platform Fees" value={formatINR(totals.platformFees)} color="from-amber-300 to-orange-400" />
+            <Metric label="Total Credits" value={formatMoney(totals.totalCredits)} color="from-emerald-400 to-teal-500" />
+            <Metric label="Static Allocation" value={formatMoney(totals.staticFund)} color="from-violet-500 to-fuchsia-500" />
+            <Metric label="Dynamic Allocation" value={formatMoney(totals.dynamicFund)} color="from-cyan-400 to-sky-500" />
+            <Metric label="Platform Fees" value={formatMoney(totals.platformFees)} color="from-amber-300 to-orange-400" />
           </div>
 
           <div className="mb-8 overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-5 shadow-2xl shadow-black/20 backdrop-blur">
@@ -455,10 +456,10 @@ export default function CreditsPage() {
                           </td>
                           <td className="px-4 py-4">{credit.client_name || "—"}</td>
                           <td className="px-4 py-4">{credit.campaign_name || "—"}</td>
-                          <td className="px-4 py-4 font-semibold text-emerald-300">{formatINR(credit.amount)}</td>
-                          <td className="px-4 py-4">{formatINR(credit.platform_fee_amount)}</td>
-                          <td className="px-4 py-4 text-cyan-300">{formatINR(credit.dynamic_fund_amount)}</td>
-                          <td className="px-4 py-4 text-violet-300">{formatINR(credit.static_fund_amount)}</td>
+                          <td className="px-4 py-4 font-semibold text-emerald-300">{formatMoney(credit.amount)}</td>
+                          <td className="px-4 py-4">{formatMoney(credit.platform_fee_amount)}</td>
+                          <td className="px-4 py-4 text-cyan-300">{formatMoney(credit.dynamic_fund_amount)}</td>
+                          <td className="px-4 py-4 text-violet-300">{formatMoney(credit.static_fund_amount)}</td>
                           <td className="px-4 py-4">{credit.payment_date}</td>
                           <td className="px-4 py-4">
                             <div className="flex gap-2">
@@ -528,7 +529,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
   )
 }
 
-function formatINR(value: number) {
+function formatMoney(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
