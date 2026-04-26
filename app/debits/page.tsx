@@ -49,6 +49,7 @@ export default function DebitsPage() {
   const [fundType, setFundType] = useState<"static" | "dynamic">("dynamic")
   const [paymentDate, setPaymentDate] = useState(new Date().toISOString().slice(0, 10))
   const [notes, setNotes] = useState("")
+  const [editingDebitId, setEditingDebitId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchDebits()
@@ -69,6 +70,29 @@ export default function DebitsPage() {
     }
 
     setLoading(false)
+  }
+
+  function startEditDebit(debit: Debit) {
+    setEditingDebitId(debit.id)
+    setDebitType(debit.debit_type)
+    setRecipientName(debit.recipient_name || "")
+    setCampaignName(debit.campaign_name || "")
+    setAmount(String(Math.round(Number(debit.amount || 0))))
+    setFundType(debit.fund_type)
+    setPaymentDate(debit.payment_date)
+    setNotes(debit.notes || "")
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  function resetDebitForm() {
+    setEditingDebitId(null)
+    setDebitType("clipper_payout")
+    setRecipientName("")
+    setCampaignName("")
+    setAmount("")
+    setFundType("dynamic")
+    setPaymentDate(new Date().toISOString().slice(0, 10))
+    setNotes("")
   }
 
   async function deleteDebit(id: string) {
@@ -105,7 +129,7 @@ export default function DebitsPage() {
 
     const { data: sessionData } = await supabase.auth.getSession()
 
-    const { error } = await supabase.from("finance_debits").insert({
+    const payload = {
       debit_type: debitType,
       recipient_name: recipientName || null,
       campaign_name: campaignName || null,
@@ -114,18 +138,19 @@ export default function DebitsPage() {
       payment_date: paymentDate,
       notes,
       created_by: sessionData.session?.user.id,
-    })
+    }
 
-    if (error) {
-      setError(error.message)
+    const result = editingDebitId
+      ? await supabase.from("finance_debits").update(payload).eq("id", editingDebitId)
+      : await supabase.from("finance_debits").insert(payload)
+
+    if (result.error) {
+      setError(result.error.message)
       setSaving(false)
       return
     }
 
-    setRecipientName("")
-    setCampaignName("")
-    setAmount("")
-    setNotes("")
+    resetDebitForm()
     await fetchDebits()
     setSaving(false)
   }
@@ -290,8 +315,10 @@ export default function DebitsPage() {
 
           <div className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]">
             <form onSubmit={addDebit} className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
-              <h2 className="text-xl font-bold">Add Debit</h2>
-              <p className="mt-1 text-sm text-slate-400">Create a new debit entry.</p>
+              <h2 className="text-xl font-bold">{editingDebitId ? "Edit Debit" : "Add Debit"}</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                {editingDebitId ? "Update the selected debit entry." : "Create a new debit entry."}
+              </p>
 
               <div className="mt-6 space-y-4">
                 <div>
@@ -379,8 +406,18 @@ export default function DebitsPage() {
                   disabled={saving}
                   className="w-full rounded-xl bg-gradient-to-r from-rose-500 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-rose-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
-                  {saving ? "Saving..." : "Add Debit"}
+                  {saving ? "Saving..." : editingDebitId ? "Update Debit" : "Add Debit"}
                 </button>
+
+                {editingDebitId && (
+                  <button
+                    type="button"
+                    onClick={resetDebitForm}
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 font-bold text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+                  >
+                    Cancel Edit
+                  </button>
+                )}
               </div>
             </form>
 
@@ -432,12 +469,20 @@ export default function DebitsPage() {
                           <td className="px-5 py-4 font-semibold text-rose-300">{formatINR(debit.amount)}</td>
                           <td className="px-5 py-4">{debit.payment_date}</td>
                           <td className="px-5 py-4">
-                            <button
-                              onClick={() => deleteDebit(debit.id)}
-                              className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
-                            >
-                              Delete
-                            </button>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => startEditDebit(debit)}
+                                className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300 hover:bg-cyan-500/20"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => deleteDebit(debit.id)}
+                                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs text-red-300 hover:bg-red-500/20"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
