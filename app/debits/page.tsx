@@ -72,7 +72,7 @@ export default function DebitsPage() {
     setSaving(true)
     setError("")
 
-    const numericAmount = Number(amount)
+    const numericAmount = parseAmount(amount)
 
     if (!numericAmount || numericAmount <= 0) {
       setError("Enter a valid debit amount.")
@@ -227,9 +227,10 @@ export default function DebitsPage() {
                 <div>
                   <label className="mb-2 block text-sm text-slate-300">Amount</label>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setAmount(e.target.value.replace(/[^0-9,]/g, ""))}
                     className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
                     placeholder="5000"
                     required
@@ -284,28 +285,28 @@ export default function DebitsPage() {
                     No debits added yet.
                   </div>
                 ) : (
-                  <table className="w-full text-left text-sm">
+                  <table className="w-full min-w-[760px] text-left text-sm">
                     <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500">
                       <tr>
-                        <th className="px-4 py-3">Type</th>
-                        <th className="px-4 py-3">Recipient</th>
-                        <th className="px-4 py-3">Campaign</th>
-                        <th className="px-4 py-3">Fund</th>
-                        <th className="px-4 py-3">Amount</th>
-                        <th className="px-4 py-3">Date</th>
+                        <th className="px-5 py-3">Type</th>
+                        <th className="px-5 py-3">Recipient</th>
+                        <th className="px-5 py-3">Campaign</th>
+                        <th className="px-5 py-3">Fund</th>
+                        <th className="px-5 py-3">Amount</th>
+                        <th className="px-5 py-3">Date</th>
                       </tr>
                     </thead>
                     <tbody>
                       {debits.map((debit) => (
                         <tr key={debit.id} className="border-t border-white/5 text-slate-300">
-                          <td className="px-4 py-4">
+                          <td className="px-5 py-4">
                             <span className="whitespace-nowrap rounded-full bg-white/5 px-3 py-1 text-xs">
                               {debit.debit_type.replaceAll("_", " ")}
                             </span>
                           </td>
-                          <td className="px-4 py-4">{debit.recipient_name || "—"}</td>
-                          <td className="px-4 py-4">{debit.campaign_name || "—"}</td>
-                          <td className="px-4 py-4">
+                          <td className="px-5 py-4">{debit.recipient_name || "—"}</td>
+                          <td className="px-5 py-4">{debit.campaign_name || "—"}</td>
+                          <td className="px-5 py-4">
                             <span
                               className={`rounded-full px-3 py-1 text-xs ${
                                 debit.fund_type === "static"
@@ -316,8 +317,8 @@ export default function DebitsPage() {
                               {debit.fund_type}
                             </span>
                           </td>
-                          <td className="px-4 py-4 font-semibold text-rose-300">{formatINR(debit.amount)}</td>
-                          <td className="px-4 py-4">{debit.payment_date}</td>
+                          <td className="px-5 py-4 font-semibold text-rose-300">{formatINR(debit.amount)}</td>
+                          <td className="px-5 py-4">{debit.payment_date}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -366,6 +367,12 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
       </p>
     </div>
   )
+}
+
+function parseAmount(value: string) {
+  const cleaned = value.replace(/,/g, "").trim()
+  const parsed = Number(cleaned)
+  return Math.round(parsed)
 }
 
 function formatINR(value: number) {
