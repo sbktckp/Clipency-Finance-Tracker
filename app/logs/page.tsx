@@ -33,6 +33,10 @@ export default function LogsPage() {
   const [financeLogs, setFinanceLogs] = useState<FinanceLog[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [logTypeFilter, setLogTypeFilter] = useState("all")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   useEffect(() => {
     checkAccessAndFetchLogs()
@@ -129,24 +133,62 @@ export default function LogsPage() {
     await fetchLogs()
   }
 
+  const filteredAccessLogs = useMemo(() => {
+    return accessLogs.filter((log) => {
+      const search = searchTerm.toLowerCase().trim()
+
+      const matchesSearch =
+        !search ||
+        (log.full_name || "").toLowerCase().includes(search) ||
+        log.email.toLowerCase().includes(search) ||
+        (log.role || "").toLowerCase().includes(search) ||
+        log.event_type.toLowerCase().includes(search)
+
+      const dateOnly = new Date(log.created_at).toISOString().slice(0, 10)
+      const matchesStartDate = !startDate || dateOnly >= startDate
+      const matchesEndDate = !endDate || dateOnly <= endDate
+
+      return matchesSearch && matchesStartDate && matchesEndDate
+    })
+  }, [accessLogs, searchTerm, startDate, endDate])
+
+  const filteredFinanceLogs = useMemo(() => {
+    return financeLogs.filter((log) => {
+      const search = searchTerm.toLowerCase().trim()
+
+      const matchesSearch =
+        !search ||
+        (log.user_email || "").toLowerCase().includes(search) ||
+        log.action.toLowerCase().includes(search) ||
+        log.entity_type.toLowerCase().includes(search) ||
+        (log.description || "").toLowerCase().includes(search)
+
+      const dateOnly = new Date(log.created_at).toISOString().slice(0, 10)
+      const matchesStartDate = !startDate || dateOnly >= startDate
+      const matchesEndDate = !endDate || dateOnly <= endDate
+
+      return matchesSearch && matchesStartDate && matchesEndDate
+    })
+  }, [financeLogs, searchTerm, startDate, endDate])
+
   const stats = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10)
 
     return {
-      loginEntries: accessLogs.length,
-      financeEntries: financeLogs.length,
+      loginEntries: filteredAccessLogs.length,
+      financeEntries: filteredFinanceLogs.length,
       uniqueUsers: new Set([
-        ...accessLogs.map((log) => log.email),
-        ...financeLogs.map((log) => log.user_email || ""),
+        ...filteredAccessLogs.map((log) => log.email),
+        ...filteredFinanceLogs.map((log) => log.user_email || ""),
       ]).size,
-      todayLogins: accessLogs.filter((log) =>
+      todayLogins: filteredAccessLogs.filter((log) =>
         new Date(log.created_at).toISOString().slice(0, 10) === today
       ).length,
-      todayFinance: financeLogs.filter((log) =>
+      todayFinance: filteredFinanceLogs.filter((log) =>
         new Date(log.created_at).toISOString().slice(0, 10) === today
       ).length,
     }
-  }, [accessLogs, financeLogs])
+  }, [filteredAccessLogs, filteredFinanceLogs])
 
   return (
     <AppShell>
@@ -181,6 +223,72 @@ export default function LogsPage() {
             </button>
           </div>
 
+          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="grid gap-4 md:grid-cols-[1fr_170px_170px_170px_auto]">
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Search Logs</label>
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search email, name, role, action, description..."
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Log Type</label>
+                <select
+                  value={logTypeFilter}
+                  onChange={(e) => setLogTypeFilter(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                >
+                  <option value="all">All Logs</option>
+                  <option value="finance">Finance Only</option>
+                  <option value="login">Login Only</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">From</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">To</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm("")
+                    setLogTypeFilter("all")
+                    setStartDate("")
+                    setEndDate("")
+                  }}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-slate-500">
+              Showing {filteredAccessLogs.length} login logs and {filteredFinanceLogs.length} finance logs.
+            </p>
+          </div>
+
           {error && (
             <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
               {error}
@@ -201,11 +309,12 @@ export default function LogsPage() {
                 <Metric label="Today Finance" value={String(stats.todayFinance)} color="from-rose-400 to-pink-500" />
               </div>
 
+              {logTypeFilter !== "login" && (
               <LogSection
                 title="Finance Activity Ledger"
                 subtitle="Every credit/debit create, edit, and delete action appears here."
               >
-                {financeLogs.length === 0 ? (
+                {filteredFinanceLogs.length === 0 ? (
                   <Empty text="No finance activity recorded yet." />
                 ) : (
                   <table className="w-full min-w-[1000px] text-left text-sm">
@@ -222,7 +331,7 @@ export default function LogsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {financeLogs.map((log) => {
+                      {filteredFinanceLogs.map((log) => {
                         const date = new Date(log.created_at)
 
                         return (
@@ -256,13 +365,16 @@ export default function LogsPage() {
                 )}
               </LogSection>
 
-              <div className="mt-8" />
+              )}
 
+              {logTypeFilter === "all" && <div className="mt-8" />}
+
+              {logTypeFilter !== "finance" && (
               <LogSection
                 title="User Entry Ledger"
                 subtitle="Successful login entries appear here."
               >
-                {accessLogs.length === 0 ? (
+                {filteredAccessLogs.length === 0 ? (
                   <Empty text="No login entries recorded yet." />
                 ) : (
                   <table className="w-full min-w-[950px] text-left text-sm">
@@ -278,7 +390,7 @@ export default function LogsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {accessLogs.map((log) => {
+                      {filteredAccessLogs.map((log) => {
                         const date = new Date(log.created_at)
 
                         return (
@@ -312,6 +424,7 @@ export default function LogsPage() {
                   </table>
                 )}
               </LogSection>
+              )}
             </>
           )}
         </div>
