@@ -39,7 +39,23 @@ export default function CreditsPage() {
   const [notes, setNotes] = useState("")
   const [editingCreditId, setEditingCreditId] = useState<string | null>(null)
 
+  async function loadCurrentRole() {
+    const { data: sessionData } = await supabase.auth.getSession()
+    const email = sessionData.session?.user.email
+
+    if (!email) return
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("email", email)
+      .single()
+
+    setCurrentRole(profile?.role || null)
+  }
+
   useEffect(() => {
+    loadCurrentRole()
     fetchCredits()
   }, [])
 
