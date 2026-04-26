@@ -32,6 +32,9 @@ export default function ReportsPage() {
   const [debits, setDebits] = useState<Debit[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [datePreset, setDatePreset] = useState("all")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   useEffect(() => {
     fetchReports()
@@ -68,13 +71,71 @@ export default function ReportsPage() {
     setLoading(false)
   }
 
-  const report = useMemo(() => {
-    const totalCredits = credits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
-    const totalDebits = debits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
 
-    const staticCredits = credits.reduce((sum, item) => sum + Number(item.static_fund_amount || 0), 0)
-    const dynamicCredits = credits.reduce((sum, item) => sum + Number(item.dynamic_fund_amount || 0), 0)
-    const platformFees = credits.reduce((sum, item) => sum + Number(item.platform_fee_amount || 0), 0)
+
+  function getActiveDateRange() {
+    const today = new Date()
+    const yyyy = today.getFullYear()
+    const mm = String(today.getMonth() + 1).padStart(2, "0")
+    const dd = String(today.getDate()).padStart(2, "0")
+
+    if (datePreset === "today") {
+      const date = `${yyyy}-${mm}-${dd}`
+      return { from: date, to: date }
+    }
+
+    if (datePreset === "this_month") {
+      return { from: `${yyyy}-${mm}-01`, to: `${yyyy}-${mm}-${dd}` }
+    }
+
+    if (datePreset === "last_month") {
+      const firstDayLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
+      const lastDayLastMonth = new Date(today.getFullYear(), today.getMonth(), 0)
+
+      return {
+        from: firstDayLastMonth.toISOString().slice(0, 10),
+        to: lastDayLastMonth.toISOString().slice(0, 10),
+      }
+    }
+
+    if (datePreset === "custom") {
+      return { from: startDate, to: endDate }
+    }
+
+    return { from: "", to: "" }
+  }
+
+  const filteredCredits = useMemo(() => {
+    const { from, to } = getActiveDateRange()
+
+    return credits.filter((credit) => {
+      const date = credit.payment_date || ""
+      const afterStart = !from || date >= from
+      const beforeEnd = !to || date <= to
+
+      return afterStart && beforeEnd
+    })
+  }, [credits, datePreset, startDate, endDate])
+
+  const filteredDebits = useMemo(() => {
+    const { from, to } = getActiveDateRange()
+
+    return debits.filter((debit) => {
+      const date = debit.payment_date || ""
+      const afterStart = !from || date >= from
+      const beforeEnd = !to || date <= to
+
+      return afterStart && beforeEnd
+    })
+  }, [debits, datePreset, startDate, endDate])
+
+  const report = useMemo(() => {
+    const totalCredits = filteredCredits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+    const totalDebits = filteredDebits.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+    const staticCredits = filteredCredits.reduce((sum, item) => sum + Number(item.static_fund_amount || 0), 0)
+    const dynamicCredits = filteredCredits.reduce((sum, item) => sum + Number(item.dynamic_fund_amount || 0), 0)
+    const platformFees = filteredCredits.reduce((sum, item) => sum + Number(item.platform_fee_amount || 0), 0)
 
     const staticDebits = debits
       .filter((item) => item.fund_type === "static")
@@ -125,7 +186,7 @@ export default function ReportsPage() {
       dynamicExposure,
       staticBurn,
     }
-  }, [credits, debits])
+  }, [filteredCredits, filteredDebits])
 
   function downloadCSV(filename: string, rows: Record<string, any>[]) {
     if (rows.length === 0) {
@@ -159,7 +220,7 @@ export default function ReportsPage() {
   function exportCreditsCSV() {
     downloadCSV(
       `clipency-credits-${new Date().toISOString().slice(0, 10)}.csv`,
-      credits.map((credit) => ({
+      filteredCredits.map((credit) => ({
         id: credit.id,
         type: credit.source_type,
         client: credit.client_name || "",
@@ -176,7 +237,7 @@ export default function ReportsPage() {
   function exportDebitsCSV() {
     downloadCSV(
       `clipency-debits-${new Date().toISOString().slice(0, 10)}.csv`,
-      debits.map((debit) => ({
+      filteredDebits.map((debit) => ({
         id: debit.id,
         type: debit.debit_type,
         recipient: debit.recipient_name || "",
@@ -229,7 +290,7 @@ export default function ReportsPage() {
     return [...creditRows, ...debitRows]
       .sort((a, b) => String(b.date).localeCompare(String(a.date)))
       .slice(0, 12)
-  }, [credits, debits])
+  }, [filteredCredits, filteredDebits])
 
   return (
     <AppShell>
@@ -285,6 +346,71 @@ export default function ReportsPage() {
                 Refresh Report
               </button>
             </div>
+          </div>
+
+          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="grid gap-4 md:grid-cols-[220px_180px_180px_auto]">
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Report Period</label>
+                <select
+                  value={datePreset}
+                  onChange={(e) => {
+                    setDatePreset(e.target.value)
+                    if (e.target.value !== "custom") {
+                      setStartDate("")
+                      setEndDate("")
+                    }
+                  }}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                >
+                  <option value="all">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="this_month">This Month</option>
+                  <option value="last_month">Last Month</option>
+                  <option value="custom">Custom Range</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">From</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  disabled={datePreset !== "custom"}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400 disabled:cursor-not-allowed disabled:opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">To</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  disabled={datePreset !== "custom"}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400 disabled:cursor-not-allowed disabled:opacity-40"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDatePreset("all")
+                    setStartDate("")
+                    setEndDate("")
+                  }}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-slate-500">
+              Report showing {filteredCredits.length} credit entries and {filteredDebits.length} debit entries.
+            </p>
           </div>
 
           {error && (
