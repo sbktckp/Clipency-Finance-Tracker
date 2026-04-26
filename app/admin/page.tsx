@@ -24,8 +24,8 @@ export default function AdminPage() {
 
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
-  const [role, setRole] = useState("finance")
-  const [department, setDepartment] = useState("Finance")
+  const [role, setRole] = useState("employee")
+  const [department, setDepartment] = useState("Employee")
 
   useEffect(() => {
     checkAdminAccess()
@@ -120,8 +120,8 @@ export default function AdminPage() {
     setSuccess(existingProfile?.id ? "Profile updated successfully." : "Profile added successfully.")
     setFullName("")
     setEmail("")
-    setRole("finance")
-    setDepartment("Finance")
+    setRole("employee")
+    setDepartment("Employee")
     await fetchProfiles()
     setSaving(false)
   }
@@ -230,7 +230,6 @@ export default function AdminPage() {
                     className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
                   >
                     <option value="senior_management">Senior Management</option>
-                    <option value="finance">Finance</option>
                     <option value="employee">Employee</option>
                   </select>
                 </div>
@@ -300,8 +299,6 @@ export default function AdminPage() {
                               className={`rounded-full px-3 py-1 text-xs ${
                                 profile.role === "senior_management"
                                   ? "bg-violet-500/10 text-violet-300"
-                                  : profile.role === "finance"
-                                  ? "bg-cyan-500/10 text-cyan-300"
                                   : "bg-slate-500/10 text-slate-300"
                               }`}
                             >

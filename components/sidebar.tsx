@@ -3,22 +3,48 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
 
-const navItems = [
+const baseNavItems = [
   { name: "Overview", href: "/dashboard", icon: "◆" },
   { name: "Credits", href: "/credits", icon: "↑" },
   { name: "Debits", href: "/debits", icon: "↓" },
   { name: "Funds", href: "/funds", icon: "◈" },
   { name: "Campaign Finance", href: "/campaigns", icon: "◎" },
   { name: "Reports", href: "/reports", icon: "▣" },
-  { name: "Admin", href: "/admin", icon: "⚙" },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
+  const [role, setRole] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadRole() {
+      const { data: sessionData } = await supabase.auth.getSession()
+      const email = sessionData.session?.user.email
+
+      if (!email) return
+
+      const { data } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("email", email)
+        .single()
+
+      setRole(data?.role || null)
+    }
+
+    loadRole()
+  }, [])
+
+  const navItems =
+    role === "senior_management"
+      ? [...baseNavItems, { name: "Admin", href: "/admin", icon: "⚙" }]
+      : baseNavItems
 
   return (
-    <aside className="relative min-h-screen w-76 overflow-hidden border-r border-violet-500/20 bg-[#050816] px-5 py-6 text-white">
+    <aside className="relative min-h-screen w-80 overflow-hidden border-r border-violet-500/20 bg-[#050816] px-5 py-6 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_35%)]" />
 
       <div className="relative z-10">
@@ -46,7 +72,7 @@ export function Sidebar() {
           <div className="mt-6 rounded-2xl border border-violet-500/20 bg-white/[0.03] p-4 backdrop-blur">
             <p className="text-xs text-slate-400">Internal Control System</p>
             <p className="mt-1 text-sm font-semibold text-white">
-              Senior Management + Finance
+              {role === "senior_management" ? "Senior Management Access" : "Employee Access"}
             </p>
           </div>
         </div>

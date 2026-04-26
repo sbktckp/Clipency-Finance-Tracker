@@ -45,7 +45,7 @@ export default function DashboardPage() {
         .eq("email", user.email)
         .single()
 
-      if (!profile || (profile.role !== "senior_management" && profile.role !== "finance")) {
+      if (!profile || (profile.role !== "senior_management" && profile.role !== "employee")) {
         router.push("/login")
         return
       }

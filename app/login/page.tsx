@@ -42,7 +42,7 @@ export default function LoginPage() {
       return
     }
 
-    if (profile.role !== "senior_management" && profile.role !== "finance") {
+    if (profile.role !== "senior_management" && profile.role !== "employee") {
       setError("Access restricted. You do not have finance access.")
       await supabase.auth.signOut()
       setLoading(false)
