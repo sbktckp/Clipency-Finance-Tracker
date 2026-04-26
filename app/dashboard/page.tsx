@@ -303,7 +303,8 @@ export default function DashboardPage() {
             </div>
           </div>
                   </div>
-        </section>
+                <FinanceCharts credits={credits} debits={debits} />
+</section>
       </div>
     </AppShell>
   )
