@@ -25,6 +25,9 @@ export default function CreditsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   const [sourceType, setSourceType] = useState<"client_payment" | "investment">("client_payment")
   const [clientName, setClientName] = useState("")
@@ -127,8 +130,28 @@ export default function CreditsPage() {
     setSaving(false)
   }
 
+  const filteredCredits = useMemo(() => {
+    return credits.filter((credit) => {
+      const search = searchTerm.toLowerCase().trim()
+
+      const matchesSearch =
+        !search ||
+        credit.source_type.toLowerCase().includes(search) ||
+        (credit.client_name || "").toLowerCase().includes(search) ||
+        (credit.campaign_name || "").toLowerCase().includes(search) ||
+        (credit.notes || "").toLowerCase().includes(search)
+
+      const creditDate = credit.payment_date || ""
+
+      const matchesStartDate = !startDate || creditDate >= startDate
+      const matchesEndDate = !endDate || creditDate <= endDate
+
+      return matchesSearch && matchesStartDate && matchesEndDate
+    })
+  }, [credits, searchTerm, startDate, endDate])
+
   const totals = useMemo(() => {
-    return credits.reduce(
+    return filteredCredits.reduce(
       (acc, item) => {
         acc.totalCredits += Number(item.amount || 0)
         acc.staticFund += Number(item.static_fund_amount || 0)
@@ -143,7 +166,7 @@ export default function CreditsPage() {
         platformFees: 0,
       }
     )
-  }, [credits])
+  }, [filteredCredits])
 
   return (
     <AppShell>
@@ -177,6 +200,58 @@ export default function CreditsPage() {
             <Metric label="Static Allocation" value={formatINR(totals.staticFund)} color="from-violet-500 to-fuchsia-500" />
             <Metric label="Dynamic Allocation" value={formatINR(totals.dynamicFund)} color="from-cyan-400 to-sky-500" />
             <Metric label="Platform Fees" value={formatINR(totals.platformFees)} color="from-amber-300 to-orange-400" />
+          </div>
+
+          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="grid gap-4 md:grid-cols-[1fr_180px_180px_auto]">
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Search Credits</label>
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search client, campaign, type, notes..."
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">From</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">To</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm("")
+                    setStartDate("")
+                    setEndDate("")
+                  }}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-slate-500">
+              Showing {filteredCredits.length} of {credits.length} credit entries.
+            </p>
           </div>
 
           <div className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]">
@@ -269,9 +344,9 @@ export default function CreditsPage() {
               <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
                 {loading ? (
                   <p className="p-6 text-slate-400">Loading credits...</p>
-                ) : credits.length === 0 ? (
+                ) : filteredCredits.length === 0 ? (
                   <div className="p-8 text-center text-slate-400">
-                    No credits added yet.
+                    No credit entries match your current filters.
                   </div>
                 ) : (
                   <table className="w-full text-left text-sm">
@@ -289,7 +364,7 @@ export default function CreditsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {credits.map((credit) => (
+                      {filteredCredits.map((credit) => (
                         <tr key={credit.id} className="border-t border-white/5 text-slate-300">
                           <td className="px-4 py-4">
                             <span className="whitespace-nowrap rounded-full bg-white/5 px-3 py-1 text-xs">
