@@ -253,18 +253,50 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 to-cyan-500/10 p-6 shadow-2xl shadow-violet-950/30">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
-                Current System
-              </p>
-              <h2 className="mt-4 text-2xl font-bold">Central Fund Connected</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Credits and debits are now feeding the dashboard. Next we’ll build the Funds page
-                as a detailed breakdown of Static Fund and Dynamic Fund.
-              </p>
+            <div className="relative overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6 shadow-2xl shadow-violet-950/30">
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-2xl" />
+              <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-fuchsia-500/10 blur-2xl" />
 
-              <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
-                Platform Fees: {formatINR(totals.platformFees)}
+              <div className="relative">
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+                  Command Snapshot
+                </p>
+
+                <h2 className="mt-4 text-2xl font-bold">Finance Health Monitor</h2>
+
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  Live interpretation of Clipency’s central fund position, separating company-owned capital from client/campaign liabilities.
+                </p>
+
+                <div className="mt-6 grid gap-3">
+                  <SnapshotRow
+                    label="System Health"
+                    value={totals.staticFund >= 0 && totals.dynamicFund >= 0 ? "Stable" : "Attention Needed"}
+                    tone={totals.staticFund >= 0 && totals.dynamicFund >= 0 ? "good" : "danger"}
+                  />
+
+                  <SnapshotRow
+                    label="Static Safety"
+                    value={totals.staticFund >= 0 ? "Protected" : "Overdrawn"}
+                    tone={totals.staticFund >= 0 ? "good" : "danger"}
+                  />
+
+                  <SnapshotRow
+                    label="Dynamic Discipline"
+                    value={totals.dynamicFund >= 0 ? "Campaign-Safe" : "Overdrawn"}
+                    tone={totals.dynamicFund >= 0 ? "good" : "danger"}
+                  />
+
+                  <SnapshotRow
+                    label="Net Position"
+                    value={formatINR(totals.staticFund + totals.dynamicFund)}
+                    tone={totals.staticFund + totals.dynamicFund >= 0 ? "good" : "danger"}
+                  />
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
+                  Platform revenue captured so far: <span className="font-bold text-amber-300">{formatINR(totals.platformFees)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -311,6 +343,31 @@ function ProgressRow({ label, value }: { label: string; value: string }) {
           style={{ width: value }}
         />
       </div>
+    </div>
+  )
+}
+
+function SnapshotRow({
+  label,
+  value,
+  tone,
+}: {
+  label: string
+  value: string
+  tone: "good" | "danger"
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+      <span className="text-sm text-slate-400">{label}</span>
+      <span
+        className={`rounded-full px-3 py-1 text-xs font-semibold ${
+          tone === "good"
+            ? "bg-emerald-400/10 text-emerald-300"
+            : "bg-red-400/10 text-red-300"
+        }`}
+      >
+        {value}
+      </span>
     </div>
   )
 }
