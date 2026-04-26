@@ -88,7 +88,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-[#2b1422] flex items-center justify-center px-6">
+    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
       <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-950 p-8 shadow-2xl">
         <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl border border-violet-400/30 bg-white/[0.04] p-3 shadow-2xl shadow-violet-950/40">
             <img
@@ -112,7 +112,7 @@ export default function LoginPage() {
             <label className="mb-2 block text-sm font-medium">Email</label>
             <input
               type="email"
-              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-[#2b1422] outline-none focus:border-violet-500"
+              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-white outline-none focus:border-violet-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@clipency.com"
@@ -124,7 +124,7 @@ export default function LoginPage() {
             <label className="mb-2 block text-sm font-medium">Password</label>
             <input
               type="password"
-              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-[#2b1422] outline-none focus:border-violet-500"
+              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-white outline-none focus:border-violet-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"

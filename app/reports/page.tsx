@@ -295,15 +295,15 @@ export default function ReportsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
-                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-[#2b1422]"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
               >
                 ← Back to Dashboard
               </Link>
@@ -342,7 +342,7 @@ export default function ReportsPage() {
 
               <button
                 onClick={fetchReports}
-                className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] transition hover:border-violet-400/40 hover:bg-violet-500/10"
+                className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-violet-400/40 hover:bg-violet-500/10"
               >
                 Refresh Report
               </button>
@@ -402,7 +402,7 @@ export default function ReportsPage() {
                     setStartDate("")
                     setEndDate("")
                   }}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-[#2b1422]"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
                 >
                   Clear
                 </button>
@@ -572,7 +572,7 @@ function Row({ label, value, danger = false }: { label: string; value: string; d
   return (
     <div className="flex items-center justify-between gap-4 border-b border-white/5 pb-3 last:border-0 last:pb-0">
       <span className="text-slate-400">{label}</span>
-      <span className={danger ? "font-semibold text-rose-300" : "font-semibold text-[#2b1422]"}>
+      <span className={danger ? "font-semibold text-rose-300" : "font-semibold text-white"}>
         {value}
       </span>
     </div>
@@ -584,7 +584,7 @@ function ProgressRow({ label, value }: { label: string; value: string }) {
     <div>
       <div className="mb-2 flex items-center justify-between text-sm">
         <span className="text-slate-300">{label}</span>
-        <span className="font-semibold text-[#2b1422]">{value}</span>
+        <span className="font-semibold text-white">{value}</span>
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-white/5">
         <div

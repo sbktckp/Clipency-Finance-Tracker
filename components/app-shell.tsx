@@ -28,8 +28,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [mobileOpen])
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#fff1f5] text-[#2b1422]">
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_20%_10%,rgba(244,114,182,0.18),transparent_28%),radial-gradient(circle_at_90%_20%,rgba(216,180,254,0.18),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(251,207,232,0.28),transparent_30%)]" />
+    <div className="relative min-h-screen overflow-x-hidden bg-[#02030a] text-white">
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_20%_10%,rgba(139,92,246,0.10),transparent_28%),radial-gradient(circle_at_90%_20%,rgba(34,211,238,0.08),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(217,70,239,0.07),transparent_30%)]" />
 
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 

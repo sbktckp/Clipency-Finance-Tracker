@@ -229,8 +229,8 @@ export default function ProjectionsPage() {
 
   return (
     <AppShell>
-      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#fff1f5] px-4 py-5 text-[#2b1422] sm:px-6 sm:py-8 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(216,180,254,0.18),transparent_30%)]" />
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.12),transparent_30%)]" />
 
         <div className="mobile-container relative z-10 mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
@@ -247,7 +247,7 @@ export default function ProjectionsPage() {
 
             <button
               onClick={fetchData}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-[#2b1422] transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10"
             >
               Refresh Projection
             </button>
@@ -392,7 +392,7 @@ export default function ProjectionsPage() {
                   className="rounded-2xl border border-white/10 bg-black/20 p-4"
                 >
                   <p className="text-sm text-slate-400">Action {index + 1}</p>
-                  <p className="mt-1 text-base font-semibold text-[#2b1422]">{action}</p>
+                  <p className="mt-1 text-base font-semibold text-white">{action}</p>
                 </div>
               ))}
             </div>
@@ -419,7 +419,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
       <p className="text-sm text-slate-500">{label}</p>
-      <p className="mt-2 text-xl font-black text-[#2b1422]">{value}</p>
+      <p className="mt-2 text-xl font-black text-white">{value}</p>
     </div>
   )
 }
@@ -428,7 +428,7 @@ function MiniProjection({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
       <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-2 text-xl font-black text-[#2b1422]">{value}</p>
+      <p className="mt-2 text-xl font-black text-white">{value}</p>
     </div>
   )
 }
