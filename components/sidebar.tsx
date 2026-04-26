@@ -1,125 +1,154 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
-import { supabase } from "@/lib/supabase"
 
-const baseNavItems = [
+type SidebarProps = {
+  collapsed: boolean
+  setCollapsed: (value: boolean) => void
+}
+
+const navItems = [
   { name: "Overview", href: "/dashboard", icon: "◆" },
   { name: "Credits", href: "/credits", icon: "↑" },
   { name: "Debits", href: "/debits", icon: "↓" },
-  { name: "Funds", href: "/funds", icon: "◈" },
+  { name: "Funds", href: "/funds", icon: "◇" },
   { name: "Campaign Finance", href: "/campaigns", icon: "◎" },
   { name: "Reports", href: "/reports", icon: "▣" },
-  { name: "Tax", href: "/tax", icon: "◍" },
+  { name: "Tax", href: "/tax", icon: "●" },
   { name: "Projections", href: "/projections", icon: "◈" },
-  { name: "Snapshots", href: "/snapshots", icon: "◫" },
+  { name: "Snapshots", href: "/snapshots", icon: "▥" },
+  { name: "Logs", href: "/logs", icon: "◷" },
+  { name: "Admin", href: "/admin", icon: "⚙" },
 ]
 
-export function Sidebar() {
+export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
   const pathname = usePathname()
-  const [role, setRole] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function loadRole() {
-      const { data: sessionData } = await supabase.auth.getSession()
-      const email = sessionData.session?.user.email
-
-      if (!email) return
-
-      const { data } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("email", email)
-        .single()
-
-      setRole(data?.role || null)
-    }
-
-    loadRole()
-  }, [])
-
-  const navItems =
-    role === "senior_management"
-      ? [
-          ...baseNavItems,
-          { name: "Logs", href: "/logs", icon: "◷" },
-          { name: "Admin", href: "/admin", icon: "⚙" },
-        ]
-      : baseNavItems
 
   return (
-    <aside className="relative min-h-screen w-80 overflow-hidden border-r border-violet-500/20 bg-[#050816]/95 px-5 py-6 text-white shadow-2xl shadow-black/40 backdrop-blur-xl">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_35%)]" />
-
-      <div className="relative z-10">
-        <div className="mb-10">
-          <div className="flex items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/30 bg-white/5 shadow-lg shadow-violet-900/30 backdrop-blur transition hover:scale-105 hover:border-cyan-300/40">
-              <Image
+    <aside
+      className={`fixed left-0 top-0 z-40 hidden h-screen border-r border-white/10 bg-[#050718]/95 text-white shadow-2xl shadow-black/40 backdrop-blur-xl transition-all duration-300 ease-out lg:block ${
+        collapsed ? "w-[96px]" : "w-[300px]"
+      }`}
+    >
+      <div className="flex h-full flex-col overflow-hidden">
+        {/* Header */}
+        <div className={`flex items-center gap-4 px-5 py-6 ${collapsed ? "justify-center" : "justify-between"}`}>
+          <Link href="/dashboard" className="flex min-w-0 items-center gap-3">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-violet-400/30 bg-white/[0.04] shadow-lg shadow-violet-950/30">
+              <img
                 src="/clipency-logo.png"
-                alt="Clipency Logo"
-                width={38}
-                height={38}
-                className="rounded-xl object-contain"
-                priority
+                alt="Clipency"
+                className="h-10 w-10 object-contain"
               />
             </div>
 
-            <div>
-              <h2 className="text-xl font-bold tracking-tight">Clipency</h2>
-              <p className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
-                Finance OS
-              </p>
-            </div>
-          </div>
+            {!collapsed && (
+              <div className="min-w-0">
+                <h1 className="truncate text-xl font-black leading-tight">Clipency</h1>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.35em] text-cyan-300">
+                  Finance OS
+                </p>
+              </div>
+            )}
+          </Link>
 
-          <div className="mt-6 rounded-2xl border border-violet-500/20 bg-white/[0.03] p-4 backdrop-blur">
-            <p className="text-xs text-slate-400">Internal Control System</p>
-            <p className="mt-1 text-sm font-semibold text-white">
-              {role === "senior_management" ? "Senior Management Access" : "Employee Access"}
-            </p>
-          </div>
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+              title="Collapse sidebar"
+            >
+              ←
+            </button>
+          )}
         </div>
 
-        <nav className="space-y-2">
+        {collapsed && (
+          <div className="px-5">
+            <button
+              onClick={() => setCollapsed(false)}
+              className="mb-4 flex h-11 w-full items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-sm text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+              title="Expand sidebar"
+            >
+              →
+            </button>
+          </div>
+        )}
+
+        {/* Access Card */}
+        {!collapsed && (
+          <div className="mx-5 mb-6 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+            <p className="text-xs text-slate-400">Internal Control System</p>
+            <p className="mt-2 text-sm font-bold text-white">Senior Management Access</p>
+          </div>
+        )}
+
+        {/* Nav */}
+        <nav className="flex-1 space-y-2 overflow-y-auto px-4 pb-4 sidebar-scroll">
           {navItems.map((item) => {
-            const active = pathname === item.href
+            const active =
+              pathname === item.href ||
+              (item.href !== "/dashboard" && pathname.startsWith(item.href))
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                title={collapsed ? item.name : undefined}
+                className={`group flex items-center gap-4 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
+                  collapsed ? "justify-center" : ""
+                } ${
                   active
-                    ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-900/40"
-                    : "text-slate-300 hover:bg-white/[0.06] hover:text-white hover:shadow-lg hover:shadow-violet-950/20"
+                    ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-950/40"
+                    : "text-slate-300 hover:bg-white/[0.06] hover:text-white"
                 }`}
               >
                 <span
-                  className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs ${
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-base transition ${
                     active
-                      ? "bg-white/20"
-                      : "bg-white/[0.04] text-cyan-300 group-hover:bg-violet-500/20"
+                      ? "bg-white/15 text-white"
+                      : "bg-white/[0.04] text-cyan-300 group-hover:bg-white/[0.08]"
                   }`}
                 >
                   {item.icon}
                 </span>
-                {item.name}
+
+                {!collapsed && (
+                  <span className="truncate">
+                    {item.name}
+                  </span>
+                )}
               </Link>
             )
           })}
         </nav>
 
-        <div className="mt-10 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-200">
-          <p className="font-semibold text-amber-300">Fund Discipline</p>
-          <p className="mt-1">
-            Dynamic Fund is client/campaign money. Static Fund is company-owned money.
-          </p>
-        </div>
+        {/* Footer note */}
+        {!collapsed && (
+          <div className="m-5 rounded-2xl border border-amber-400/20 bg-amber-500/10 p-4 text-sm leading-6 text-amber-200">
+            <p className="font-bold text-amber-300">Fund Discipline</p>
+            <p className="mt-2">
+              Dynamic Fund is client/campaign money. Static Fund is company-owned money.
+            </p>
+          </div>
+        )}
       </div>
+
+      <style jsx>{`
+        .sidebar-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.14);
+          border-radius: 999px;
+        }
+      `}</style>
     </aside>
   )
 }
