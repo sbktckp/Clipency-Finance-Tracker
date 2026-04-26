@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
+import { PageSkeleton } from "@/components/loading-skeleton"
 
 type AccessLog = {
   id: string

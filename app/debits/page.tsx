@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
+import { PageSkeleton } from "@/components/loading-skeleton"
 
 type Debit = {
   id: string
