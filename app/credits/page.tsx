@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { AppShell } from "@/components/app-shell"
 import { supabase } from "@/lib/supabase"
@@ -39,6 +40,7 @@ export default function CreditsPage() {
 
   async function fetchCredits() {
     setLoading(true)
+
     const { data, error } = await supabase
       .from("finance_credits")
       .select("*")
@@ -126,28 +128,39 @@ export default function CreditsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-hidden bg-[#02030a] p-8 text-white">
+      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10">
-          <div className="mb-8">
-            <p className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
-              Credit Control
-            </p>
-            <h1 className="mt-4 text-3xl font-bold">Credits</h1>
-            <p className="mt-2 text-slate-400">
-              Record client payments and investments. Platform fee goes to Static Fund; remaining campaign money goes to Dynamic Fund.
-            </p>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <Link
+                href="/dashboard"
+                className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400/40 hover:bg-violet-500/20 hover:text-white"
+              >
+                ← Back to Dashboard
+              </Link>
+
+              <div>
+                <p className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
+                  Credit Control
+                </p>
+                <h1 className="mt-4 text-3xl font-bold">Credits</h1>
+                <p className="mt-2 max-w-4xl text-slate-400">
+                  Record client payments and investments. Platform fee goes to Static Fund; remaining campaign money goes to Dynamic Fund.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="mb-8 grid gap-6 md:grid-cols-4">
+          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             <Metric label="Total Credits" value={formatINR(totals.totalCredits)} color="from-emerald-400 to-teal-500" />
             <Metric label="Static Allocation" value={formatINR(totals.staticFund)} color="from-violet-500 to-fuchsia-500" />
             <Metric label="Dynamic Allocation" value={formatINR(totals.dynamicFund)} color="from-cyan-400 to-sky-500" />
             <Metric label="Platform Fees" value={formatINR(totals.platformFees)} color="from-amber-300 to-orange-400" />
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-[420px_1fr]">
+          <div className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]">
             <form onSubmit={addCredit} className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">Add Credit</h2>
               <p className="mt-1 text-sm text-slate-400">Create a new credit entry.</p>
@@ -167,25 +180,8 @@ export default function CreditsPage() {
 
                 {sourceType === "client_payment" && (
                   <>
-                    <div>
-                      <label className="mb-2 block text-sm text-slate-300">Client Name</label>
-                      <input
-                        value={clientName}
-                        onChange={(e) => setClientName(e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
-                        placeholder="Client / Brand name"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="mb-2 block text-sm text-slate-300">Campaign Name</label>
-                      <input
-                        value={campaignName}
-                        onChange={(e) => setCampaignName(e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
-                        placeholder="Campaign name"
-                      />
-                    </div>
+                    <Input label="Client Name" value={clientName} onChange={setClientName} placeholder="Client / Brand name" />
+                    <Input label="Campaign Name" value={campaignName} onChange={setCampaignName} placeholder="Campaign name" />
 
                     <div>
                       <label className="mb-2 block text-sm text-slate-300">Platform Fee %</label>
@@ -194,7 +190,6 @@ export default function CreditsPage() {
                         value={platformFeePercentage}
                         onChange={(e) => setPlatformFeePercentage(e.target.value)}
                         className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
-                        placeholder="20"
                       />
                     </div>
                   </>
@@ -248,46 +243,46 @@ export default function CreditsPage() {
               </div>
             </form>
 
-            <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="min-w-0 rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">Credit Ledger</h2>
               <p className="mt-1 text-sm text-slate-400">Live entries from Supabase.</p>
 
-              <div className="mt-6 overflow-x-auto">
+              <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
                 {loading ? (
-                  <p className="text-slate-400">Loading credits...</p>
+                  <p className="p-6 text-slate-400">Loading credits...</p>
                 ) : credits.length === 0 ? (
-                  <div className="rounded-2xl border border-dashed border-white/10 p-8 text-center text-slate-400">
+                  <div className="p-8 text-center text-slate-400">
                     No credits added yet.
                   </div>
                 ) : (
-                  <table className="w-full min-w-[900px] text-left text-sm">
-                    <thead className="text-xs uppercase tracking-wider text-slate-500">
-                      <tr className="border-b border-white/10">
-                        <th className="py-3">Type</th>
-                        <th>Client</th>
-                        <th>Campaign</th>
-                        <th>Amount</th>
-                        <th>Platform Fee</th>
-                        <th>Dynamic Fund</th>
-                        <th>Static Fund</th>
-                        <th>Date</th>
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-white/[0.03] text-xs uppercase tracking-wider text-slate-500">
+                      <tr>
+                        <th className="px-4 py-3">Type</th>
+                        <th className="px-4 py-3">Client</th>
+                        <th className="px-4 py-3">Campaign</th>
+                        <th className="px-4 py-3">Amount</th>
+                        <th className="px-4 py-3">Fee</th>
+                        <th className="px-4 py-3">Dynamic</th>
+                        <th className="px-4 py-3">Static</th>
+                        <th className="px-4 py-3">Date</th>
                       </tr>
                     </thead>
                     <tbody>
                       {credits.map((credit) => (
-                        <tr key={credit.id} className="border-b border-white/5 text-slate-300">
-                          <td className="py-4">
-                            <span className="rounded-full bg-white/5 px-3 py-1 text-xs">
+                        <tr key={credit.id} className="border-t border-white/5 text-slate-300">
+                          <td className="px-4 py-4">
+                            <span className="whitespace-nowrap rounded-full bg-white/5 px-3 py-1 text-xs">
                               {credit.source_type.replace("_", " ")}
                             </span>
                           </td>
-                          <td>{credit.client_name || "—"}</td>
-                          <td>{credit.campaign_name || "—"}</td>
-                          <td className="font-semibold text-emerald-300">{formatINR(credit.amount)}</td>
-                          <td>{formatINR(credit.platform_fee_amount)}</td>
-                          <td className="text-cyan-300">{formatINR(credit.dynamic_fund_amount)}</td>
-                          <td className="text-violet-300">{formatINR(credit.static_fund_amount)}</td>
-                          <td>{credit.payment_date}</td>
+                          <td className="px-4 py-4">{credit.client_name || "—"}</td>
+                          <td className="px-4 py-4">{credit.campaign_name || "—"}</td>
+                          <td className="px-4 py-4 font-semibold text-emerald-300">{formatINR(credit.amount)}</td>
+                          <td className="px-4 py-4">{formatINR(credit.platform_fee_amount)}</td>
+                          <td className="px-4 py-4 text-cyan-300">{formatINR(credit.dynamic_fund_amount)}</td>
+                          <td className="px-4 py-4 text-violet-300">{formatINR(credit.static_fund_amount)}</td>
+                          <td className="px-4 py-4">{credit.payment_date}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -302,12 +297,36 @@ export default function CreditsPage() {
   )
 }
 
+function Input({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  placeholder: string
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm text-slate-300">{label}</label>
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+        placeholder={placeholder}
+      />
+    </div>
+  )
+}
+
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
-      <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>
+      <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>
         {value}
       </p>
     </div>
