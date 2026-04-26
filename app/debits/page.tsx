@@ -35,6 +35,7 @@ const debitTypes = [
 ] as const
 
 export default function DebitsPage() {
+  const { formatMoney } = useCurrency()
   const [debits, setDebits] = useState<Debit[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)

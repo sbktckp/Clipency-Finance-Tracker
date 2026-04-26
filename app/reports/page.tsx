@@ -30,6 +30,7 @@ type Debit = {
 }
 
 export default function ReportsPage() {
+  const { formatMoney } = useCurrency()
   const [credits, setCredits] = useState<Credit[]>([])
   const [debits, setDebits] = useState<Debit[]>([])
   const [loading, setLoading] = useState(true)

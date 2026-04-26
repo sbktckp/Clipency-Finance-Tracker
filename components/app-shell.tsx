@@ -116,6 +116,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
+      <div className="fixed right-6 top-28 z-[60] hidden lg:block">
+        <CurrencySwitch />
+      </div>
+
       <main
         className={`relative z-10 min-h-screen transition-all duration-300 ease-out ${
           collapsed ? "lg:pl-[96px]" : "lg:pl-[300px]"

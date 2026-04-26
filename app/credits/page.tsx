@@ -23,6 +23,7 @@ type Credit = {
 }
 
 export default function CreditsPage() {
+  const { formatMoney } = useCurrency()
   const [credits, setCredits] = useState<Credit[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
