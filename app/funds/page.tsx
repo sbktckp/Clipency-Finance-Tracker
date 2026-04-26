@@ -230,20 +230,27 @@ export default function FundsPage() {
               </div>
 
               <div className="mb-8 grid gap-6 xl:grid-cols-2">
-                <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 to-fuchsia-500/10 p-6 shadow-2xl shadow-violet-950/30">
-                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
-                        Company-Owned Money
-                      </p>
-                      <h2 className="mt-4 text-2xl font-bold">Static Fund</h2>
-                      <p className="mt-2 text-sm leading-6 text-slate-300">
-                        Static Fund includes investments and platform fees. It is the company-owned operating balance.
-                      </p>
-                    </div>
-                    <p className="max-w-full break-words bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-3xl font-black leading-tight text-transparent xl:text-right 2xl:text-4xl">
-                      {formatINR(totals.staticFund)}
+                <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 via-fuchsia-500/10 to-black/20 p-7 shadow-2xl shadow-violet-950/30">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
+                      Company-Owned Money
                     </p>
+
+                    <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold">Static Fund</h2>
+                        <p className="mt-2 max-w-md text-sm leading-6 text-slate-300">
+                          Company-owned operating balance built from investments and platform fees.
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl border border-violet-400/20 bg-black/25 px-5 py-4 shadow-xl shadow-violet-950/20">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Available</p>
+                        <p className="mt-1 whitespace-nowrap bg-gradient-to-r from-violet-300 to-fuchsia-400 bg-clip-text text-3xl font-black text-transparent">
+                          {formatINR(totals.staticFund)}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
@@ -254,20 +261,27 @@ export default function FundsPage() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-cyan-600/15 to-sky-500/10 p-6 shadow-2xl shadow-cyan-950/20">
-                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
-                        Client/Campaign Money
-                      </p>
-                      <h2 className="mt-4 text-2xl font-bold">Dynamic Fund</h2>
-                      <p className="mt-2 text-sm leading-6 text-slate-300">
-                        Dynamic Fund is campaign-linked money. It should not be treated as free company balance.
-                      </p>
-                    </div>
-                    <p className="max-w-full break-words bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-3xl font-black leading-tight text-transparent xl:text-right 2xl:text-4xl">
-                      {formatINR(totals.dynamicFund)}
+                <div className="rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-cyan-600/15 via-sky-500/10 to-black/20 p-7 shadow-2xl shadow-cyan-950/20">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+                      Client/Campaign Money
                     </p>
+
+                    <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold">Dynamic Fund</h2>
+                        <p className="mt-2 max-w-md text-sm leading-6 text-slate-300">
+                          Campaign-linked client money. Trackable, refundable, and not free company balance.
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl border border-cyan-400/20 bg-black/25 px-5 py-4 shadow-xl shadow-cyan-950/20">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Available</p>
+                        <p className="mt-1 whitespace-nowrap bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-3xl font-black text-transparent">
+                          {formatINR(totals.dynamicFund)}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mt-6 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
