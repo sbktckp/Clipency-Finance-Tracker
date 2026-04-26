@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { AppShell } from "@/components/app-shell"
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -54,10 +55,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <AppShell>
       <header className="border-b border-slate-800 bg-slate-950 px-8 py-5 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Clipency Finance Dashboard</h1>
+          <h1 className="text-2xl font-bold">Overview</h1>
           <p className="text-sm text-slate-400">{email} · {role}</p>
         </div>
         <button
@@ -69,7 +70,7 @@ export default function DashboardPage() {
       </header>
 
       <section className="p-8">
-        <div className="mb-6 rounded-xl border border-amber-700 bg-amber-950/30 p-4 text-amber-300">
+        <div className="mb-8 rounded-xl border border-amber-700 bg-amber-950/30 p-4 text-amber-300">
           Dynamic Fund represents client/campaign money and should not be treated as company-owned balance.
         </div>
 
@@ -83,12 +84,11 @@ export default function DashboardPage() {
         <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-6">
           <h2 className="text-xl font-semibold">Finance System Ready</h2>
           <p className="mt-2 text-slate-400">
-            Login, Supabase Auth, and role-based access are now connected cleanly.
-            Next we can add credits, debits, funds, reports, and CRUD forms.
+            Sidebar navigation is now active. Next we can add real Supabase tables, CRUD forms, and reports.
           </p>
         </div>
       </section>
-    </main>
+    </AppShell>
   )
 }
 
