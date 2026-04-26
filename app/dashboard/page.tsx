@@ -165,7 +165,8 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        <section className="relative z-10 p-8">
+        <section className="relative z-10 px-6 py-8 lg:px-8">
+          <div className="mx-auto max-w-7xl">
           {error && (
             <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
               {error}
@@ -195,7 +196,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             <MetricCard
               label="Static Fund"
               value={formatINR(totals.staticFund)}
@@ -267,6 +268,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+                  </div>
         </section>
       </div>
     </AppShell>
@@ -285,13 +287,13 @@ function MetricCard({
   color: string
 }) {
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
+    <div className="group relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
-      <p className={`mt-4 bg-gradient-to-r ${color} bg-clip-text text-4xl font-black text-transparent`}>
+      <p className={`mt-4 max-w-full truncate bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent 2xl:text-3xl`}>
         {value}
       </p>
-      <p className="mt-3 text-xs text-slate-500">{subtext}</p>
+      <p className="mt-3 line-clamp-2 text-xs text-slate-500">{subtext}</p>
     </div>
   )
 }
