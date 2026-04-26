@@ -471,7 +471,7 @@ export default function TaxPage() {
 
             <div className="space-y-6">
               <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-                <div className="grid gap-4 md:grid-cols-[1fr_180px_180px_auto]">
+                <div className="grid gap-4 xl:grid-cols-[minmax(260px,1fr)_220px_220px_120px]">
                   <div>
                     <label className="mb-2 block text-sm text-slate-300">Search Tax Records</label>
                     <input
@@ -520,7 +520,7 @@ export default function TaxPage() {
                         setTypeFilter("all")
                         setStatusFilter("all")
                       }}
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                      className="h-[52px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
                     >
                       Clear
                     </button>
