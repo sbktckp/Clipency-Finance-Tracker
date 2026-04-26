@@ -224,8 +224,8 @@ export default function LogsPage() {
             </button>
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-            <div className="grid gap-4 md:grid-cols-[1fr_170px_170px_170px_auto]">
+          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Logs</label>
                 <input
@@ -297,7 +297,7 @@ export default function LogsPage() {
           )}
 
           {loading ? (
-            <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
+            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
               Loading logs...
             </div>
           ) : (
@@ -444,10 +444,10 @@ function LogSection({
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
       <h2 className="text-xl font-bold">{title}</h2>
       <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+      <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
         {children}
       </div>
     </div>
@@ -460,7 +460,7 @@ function Empty({ text }: { text: string }) {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>

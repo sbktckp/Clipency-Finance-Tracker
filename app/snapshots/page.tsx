@@ -278,7 +278,7 @@ export default function MonthlySnapshotsPage() {
             </div>
           )}
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="grid gap-5 lg:grid-cols-[240px_1fr_auto] lg:items-end">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Finance Cycle Month</label>
@@ -322,13 +322,13 @@ export default function MonthlySnapshotsPage() {
             <InfoCard label="Entries Count" value={`${currentCycleTotals.creditEntries} credits · ${currentCycleTotals.debitEntries} debits`} />
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <h2 className="text-2xl font-bold">Snapshot Ledger</h2>
             <p className="mt-1 text-sm text-slate-400">
               Saved finance-cycle records appear here.
             </p>
 
-            <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+            <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
               {snapshots.length === 0 ? (
                 <div className="p-8 text-center text-slate-400">
                   No monthly snapshots saved yet.
@@ -387,7 +387,7 @@ export default function MonthlySnapshotsPage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>
@@ -399,7 +399,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <p className="text-sm text-slate-400">{label}</p>
       <p className="mt-3 text-2xl font-black text-white">{value}</p>
     </div>

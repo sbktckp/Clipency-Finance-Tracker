@@ -198,7 +198,7 @@ export default function FundsPage() {
           )}
 
           {loading ? (
-            <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
+            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
               Loading fund data...
             </div>
           ) : (
@@ -326,7 +326,7 @@ export default function FundsPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div>
                     <h2 className="text-xl font-bold">Recent Fund Movements</h2>
@@ -351,7 +351,7 @@ export default function FundsPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+                <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
                   {recentMovements.length === 0 ? (
                     <div className="p-8 text-center text-slate-400">
                       No fund movements yet.
@@ -421,7 +421,7 @@ function Metric({
   color: string
 }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>

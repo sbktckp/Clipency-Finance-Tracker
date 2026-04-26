@@ -347,10 +347,10 @@ export default function TaxPage() {
             <InfoCard label="Overdue Records" value={String(totals.overdue)} />
           </div>
 
-          <div className="mb-8 grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
+          <div className="mb-8 grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
             <form
               onSubmit={saveTaxRecord}
-              className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur"
+              className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur"
             >
               <h2 className="text-2xl font-bold">{editingId ? "Edit Tax Record" : "Add Tax Record"}</h2>
               <p className="mt-1 text-sm text-slate-400">
@@ -362,7 +362,7 @@ export default function TaxPage() {
                   <select
                     value={taxType}
                     onChange={(e) => setTaxType(e.target.value)}
-                    className="input"
+                    className="finance-input finance-control-height"
                   >
                     <option value="gst_payable">GST Payable</option>
                     <option value="gst_receivable">GST Receivable</option>
@@ -377,7 +377,7 @@ export default function TaxPage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Example: April GST liability"
-                    className="input"
+                    className="finance-input finance-control-height"
                   />
                 </Field>
 
@@ -386,7 +386,7 @@ export default function TaxPage() {
                     value={counterparty}
                     onChange={(e) => setCounterparty(e.target.value)}
                     placeholder="Client / Vendor / Department"
-                    className="input"
+                    className="finance-input finance-control-height"
                   />
                 </Field>
 
@@ -395,7 +395,7 @@ export default function TaxPage() {
                     value={referenceNumber}
                     onChange={(e) => setReferenceNumber(e.target.value)}
                     placeholder="Invoice / challan / filing reference"
-                    className="input"
+                    className="finance-input finance-control-height"
                   />
                 </Field>
 
@@ -405,7 +405,7 @@ export default function TaxPage() {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Amount"
-                    className="input"
+                    className="finance-input finance-control-height"
                   />
                 </Field>
 
@@ -413,7 +413,7 @@ export default function TaxPage() {
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="input"
+                    className="finance-input finance-control-height"
                   >
                     <option value="unpaid">Unpaid</option>
                     <option value="partially_paid">Partially Paid</option>
@@ -427,7 +427,7 @@ export default function TaxPage() {
                       type="date"
                       value={dueDate}
                       onChange={(e) => setDueDate(e.target.value)}
-                      className="input"
+                      className="finance-input finance-control-height"
                     />
                   </Field>
 
@@ -436,7 +436,7 @@ export default function TaxPage() {
                       type="date"
                       value={paymentDate}
                       onChange={(e) => setPaymentDate(e.target.value)}
-                      className="input"
+                      className="finance-input finance-control-height"
                     />
                   </Field>
                 </div>
@@ -470,15 +470,15 @@ export default function TaxPage() {
             </form>
 
             <div className="space-y-6">
-              <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-                <div className="grid gap-4 xl:grid-cols-[minmax(260px,1fr)_220px_220px_120px]">
+              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+                <div className="finance-filter-grid overflow-safe">
                   <div>
                     <label className="mb-2 block text-sm text-slate-300">Search Tax Records</label>
                     <input
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Search title, counterparty, reference, notes..."
-                      className="input"
+                      placeholder="Search tax records..."
+                      className="finance-input finance-control-height"
                     />
                   </div>
 
@@ -487,7 +487,7 @@ export default function TaxPage() {
                     <select
                       value={typeFilter}
                       onChange={(e) => setTypeFilter(e.target.value)}
-                      className="input"
+                      className="finance-input finance-control-height"
                     >
                       <option value="all">All Types</option>
                       <option value="gst_payable">GST Payable</option>
@@ -503,7 +503,7 @@ export default function TaxPage() {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="input"
+                      className="finance-input finance-control-height"
                     >
                       <option value="all">All Status</option>
                       <option value="unpaid">Unpaid</option>
@@ -532,13 +532,13 @@ export default function TaxPage() {
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
                 <h2 className="text-2xl font-bold">Tax Ledger</h2>
                 <p className="mt-1 text-sm text-slate-400">
                   Latest compliance records and statutory dues.
                 </p>
 
-                <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+                <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
                   {filteredRecords.length === 0 ? (
                     <div className="p-8 text-center text-slate-400">
                       No tax records found.
@@ -608,21 +608,7 @@ export default function TaxPage() {
           </div>
         </div>
 
-        <style jsx>{`
-          .input {
-            width: 100%;
-            border-radius: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #0b1020;
-            padding: 0.85rem 1rem;
-            color: white;
-            outline: none;
-          }
 
-          .input:focus {
-            border-color: rgba(167, 139, 250, 0.8);
-          }
-        `}</style>
       </section>
     </AppShell>
   )
@@ -639,7 +625,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>
@@ -651,7 +637,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <p className="text-sm text-slate-400">{label}</p>
       <p className="mt-3 text-2xl font-black text-white">{value}</p>
     </div>

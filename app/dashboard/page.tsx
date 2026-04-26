@@ -226,7 +226,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="mt-8 grid gap-6 xl:grid-cols-3">
-            <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur xl:col-span-2">
+            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur xl:col-span-2">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold">Central Fund Intelligence</h2>
@@ -322,7 +322,7 @@ function MetricCard({
   color: string
 }) {
   return (
-    <div className="group relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
+    <div className="group relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:border-violet-400/30">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-4 max-w-full truncate bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent 2xl:text-3xl`}>

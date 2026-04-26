@@ -272,8 +272,8 @@ export default function CreditsPage() {
             <Metric label="Platform Fees" value={formatINR(totals.platformFees)} color="from-amber-300 to-orange-400" />
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-            <div className="grid gap-4 md:grid-cols-[1fr_180px_180px_auto]">
+          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Credits</label>
                 <input
@@ -324,8 +324,8 @@ export default function CreditsPage() {
             </p>
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]">
-            <form onSubmit={addCredit} className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
+            <form onSubmit={addCredit} className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">{editingCreditId ? "Edit Credit" : "Add Credit"}</h2>
               <p className="mt-1 text-sm text-slate-400">
                 {editingCreditId ? "Update the selected credit entry." : "Create a new credit entry."}
@@ -419,11 +419,11 @@ export default function CreditsPage() {
               </div>
             </form>
 
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="min-w-0 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
               <h2 className="text-xl font-bold">Credit Ledger</h2>
               <p className="mt-1 text-sm text-slate-400">Live entries from Supabase.</p>
 
-              <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+              <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
                 {loading ? (
                   <p className="p-6 text-slate-400">Loading credits...</p>
                 ) : filteredCredits.length === 0 ? (
@@ -518,7 +518,7 @@ function Input({
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 break-words bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent`}>

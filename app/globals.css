@@ -261,3 +261,389 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ---------- Clipency Finance OS Global Layout Safety ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Prevent cards/forms/tables from pushing outside page width */
+.overflow-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.scroll-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Premium horizontal table scroll */
+.scroll-safe::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-safe::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.scroll-safe::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  border-radius: 999px;
+}
+
+/* Universal form controls */
+.finance-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b1020;
+  padding: 0.85rem 1rem;
+  color: white;
+  outline: none;
+}
+
+.finance-input:focus {
+  border-color: rgba(167, 139, 250, 0.8);
+}
+
+/* Filter grids should never force overflow */
+.finance-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.finance-filter-search {
+  min-width: 260px;
+}
+
+@media (max-width: 900px) {
+  .finance-filter-search {
+    min-width: 100%;
+  }
+}
+
+/* Prevent long text from breaking cards */
+.finance-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Keep select/input height consistent */
+.finance-control-height {
+  min-height: 52px;
+}
+EOFpython3 - <<'PY'
+from pathlib import Path
+
+pages = [
+    "app/credits/page.tsx",
+    "app/debits/page.tsx",
+    "app/logs/page.tsx",
+    "app/reports/page.tsx",
+    "app/tax/page.tsx",
+    "app/funds/page.tsx",
+    "app/campaigns/page.tsx",
+    "app/snapshots/page.tsx",
+    "app/projections/page.tsx",
+    "app/dashboard/page.tsx",
+]
+
+for file in pages:
+    p = Path(file)
+    if not p.exists():
+        continue
+
+    text = p.read_text()
+
+    # Replace fragile filter grid patterns with responsive global grid
+    text = text.replace(
+        'className="grid gap-4 md:grid-cols-[1fr_160px_170px_170px_auto]"',
+        'className="finance-filter-grid"'
+    )
+    text = text.replace(
+        'className="grid gap-4 md:grid-cols-[1fr_170px_170px_170px_auto]"',
+        'className="finance-filter-grid"'
+    )
+    text = text.replace(
+        'className="grid gap-4 md:grid-cols-[220px_180px_180px_auto]"',
+        'className="finance-filter-grid"'
+    )
+    text = text.replace(
+        'className="grid gap-4 xl:grid-cols-[minmax(260px,1fr)_220px_220px_120px]"',
+        'className="finance-filter-grid"'
+    )
+    text = text.replace(
+        'className="grid gap-4 md:grid-cols-[1fr_auto]"',
+        'className="finance-filter-grid"'
+    )
+    text = text.replace(
+        'className="grid gap-4 md:grid-cols-[1fr_180px_180px_auto]"',
+        'className="finance-filter-grid"'
+    )
+
+    # Make horizontal table wrappers safe
+    text = text.replace(
+        'className="mt-6 overflow-x-auto rounded-2xl border border-white/10"',
+        'className="scroll-safe mt-6 rounded-2xl border border-white/10"'
+    )
+    text = text.replace(
+        'className="overflow-x-auto rounded-2xl border border-white/10"',
+        'className="scroll-safe rounded-2xl border border-white/10"'
+    )
+
+    # Make common input class safer where possible
+    text = text.replace(
+        'className="input"',
+        'className="finance-input finance-control-height"'
+    )
+
+    # Keep textarea min height
+    text = text.replace(
+        'className="finance-input finance-control-height min-h-28 resize-none"',
+        'className="finance-input min-h-28 resize-none"'
+    )
+
+    # Add min-width safety to main card grids
+    text = text.replace(
+        'className="mb-8 grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]"',
+        'className="mb-8 grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]"'
+    )
+    text = text.replace(
+        'className="grid gap-8 xl:grid-cols-[380px_minmax(0,1fr)]"',
+        'className="grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]"'
+    )
+    text = text.replace(
+        'className="mb-8 grid gap-6 xl:grid-cols-[1fr_420px]"',
+        'className="mb-8 grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]"'
+    )
+
+    # Make large cards clip safely
+    text = text.replace(
+        'rounded-3xl border border-white/10 bg-white/[0.035]',
+        'overflow-safe rounded-3xl border border-white/10 bg-white/[0.035]'
+    )
+
+    p.write_text(text)
+
+print("Applied global responsive safety patch across finance pages.")
+PY
+cd /workspaces/Clipency-Finance-Tracker
+
+cat >> app/globals.css <<'EOF'
+
+/* ---------- Clipency Finance OS Global Layout Safety ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Prevent cards/forms/tables from pushing outside page width */
+.overflow-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.scroll-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Premium horizontal table scroll */
+.scroll-safe::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-safe::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.scroll-safe::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  border-radius: 999px;
+}
+
+/* Universal form controls */
+.finance-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b1020;
+  padding: 0.85rem 1rem;
+  color: white;
+  outline: none;
+}
+
+.finance-input:focus {
+  border-color: rgba(167, 139, 250, 0.8);
+}
+
+/* Filter grids should never force overflow */
+.finance-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.finance-filter-search {
+  min-width: 260px;
+}
+
+@media (max-width: 900px) {
+  .finance-filter-search {
+    min-width: 100%;
+  }
+}
+
+/* Prevent long text from breaking cards */
+.finance-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Keep select/input height consistent */
+.finance-control-height {
+  min-height: 52px;
+}
+
+/* ---------- Clipency Finance OS Global Layout Safety ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Prevent cards/forms/tables from pushing outside page width */
+.overflow-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.scroll-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Premium horizontal table scroll */
+.scroll-safe::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-safe::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.scroll-safe::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  border-radius: 999px;
+}
+
+/* Universal form controls */
+.finance-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b1020;
+  padding: 0.85rem 1rem;
+  color: white;
+  outline: none;
+}
+
+.finance-input:focus {
+  border-color: rgba(167, 139, 250, 0.8);
+}
+
+/* Filter grids should never force overflow */
+.finance-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.finance-filter-search {
+  min-width: 260px;
+}
+
+@media (max-width: 900px) {
+  .finance-filter-search {
+    min-width: 100%;
+  }
+}
+
+/* Prevent long text from breaking cards */
+.finance-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Keep select/input height consistent */
+.finance-control-height {
+  min-height: 52px;
+}

@@ -349,8 +349,8 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-            <div className="grid gap-4 md:grid-cols-[220px_180px_180px_auto]">
+          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Report Period</label>
                 <select
@@ -421,7 +421,7 @@ export default function ReportsPage() {
           )}
 
           {loading ? (
-            <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
+            <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-slate-400">
               Loading reports...
             </div>
           ) : (
@@ -457,7 +457,7 @@ export default function ReportsPage() {
               </div>
 
               <div className="mb-8 grid gap-6 xl:grid-cols-2">
-                <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
+                <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
                   <h2 className="text-xl font-bold">Fund Health</h2>
                   <p className="mt-1 text-sm text-slate-400">Operational reading of the finance system.</p>
 
@@ -485,7 +485,7 @@ export default function ReportsPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
+              <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div>
                     <h2 className="text-xl font-bold">Recent Transactions</h2>
@@ -495,7 +495,7 @@ export default function ReportsPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+                <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
                   {recentTransactions.length === 0 ? (
                     <div className="p-8 text-center text-slate-400">No transactions yet.</div>
                   ) : (
@@ -549,7 +549,7 @@ export default function ReportsPage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 max-w-full truncate bg-gradient-to-r ${color} bg-clip-text text-2xl font-black text-transparent 2xl:text-3xl`}>
@@ -561,7 +561,7 @@ function Metric({ label, value, color }: { label: string; value: string; color: 
 
 function ReportCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
+    <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20">
       <h2 className="text-xl font-bold">{title}</h2>
       <div className="mt-6 space-y-4 text-sm">{children}</div>
     </div>

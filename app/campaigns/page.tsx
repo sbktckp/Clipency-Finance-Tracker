@@ -271,8 +271,8 @@ export default function CampaignFinancePage() {
             <Metric label="Net P&L" value={formatINR(totals.netPL)} color={totals.netPL >= 0 ? "from-violet-400 to-fuchsia-500" : "from-rose-400 to-red-500"} />
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
-            <div className="grid gap-4 md:grid-cols-[1fr_auto]">
+          <div className="mb-8 overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="finance-filter-grid">
               <div>
                 <label className="mb-2 block text-sm text-slate-300">Search Campaigns</label>
                 <input
@@ -299,7 +299,7 @@ export default function CampaignFinancePage() {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
+          <div className="overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-2xl font-bold">Campaign P&L Ledger</h2>
@@ -309,7 +309,7 @@ export default function CampaignFinancePage() {
               </div>
             </div>
 
-            <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+            <div className="scroll-safe mt-6 rounded-2xl border border-white/10">
               {filteredCampaigns.length === 0 ? (
                 <div className="p-8 text-center text-slate-400">
                   No campaign records found.
@@ -365,7 +365,7 @@ export default function CampaignFinancePage() {
 
 function Metric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
+    <div className="relative min-w-0 overflow-hidden overflow-safe overflow-safe overflow-safe rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20">
       <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${color}`} />
       <p className="text-sm text-slate-400">{label}</p>
       <p className={`mt-3 bg-gradient-to-r ${color} bg-clip-text text-3xl font-black text-transparent`}>
