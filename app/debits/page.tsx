@@ -37,6 +37,10 @@ export default function DebitsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [fundFilter, setFundFilter] = useState("all")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
 
   const [debitType, setDebitType] = useState<Debit["debit_type"]>("clipper_payout")
   const [recipientName, setRecipientName] = useState("")
@@ -126,8 +130,30 @@ export default function DebitsPage() {
     setSaving(false)
   }
 
+  const filteredDebits = useMemo(() => {
+    return debits.filter((debit) => {
+      const search = searchTerm.toLowerCase().trim()
+
+      const matchesSearch =
+        !search ||
+        debit.debit_type.toLowerCase().includes(search) ||
+        debit.fund_type.toLowerCase().includes(search) ||
+        (debit.recipient_name || "").toLowerCase().includes(search) ||
+        (debit.campaign_name || "").toLowerCase().includes(search) ||
+        (debit.notes || "").toLowerCase().includes(search)
+
+      const matchesFund = fundFilter === "all" || debit.fund_type === fundFilter
+
+      const debitDate = debit.payment_date || ""
+      const matchesStartDate = !startDate || debitDate >= startDate
+      const matchesEndDate = !endDate || debitDate <= endDate
+
+      return matchesSearch && matchesFund && matchesStartDate && matchesEndDate
+    })
+  }, [debits, searchTerm, fundFilter, startDate, endDate])
+
   const totals = useMemo(() => {
-    return debits.reduce(
+    return filteredDebits.reduce(
       (acc, item) => {
         acc.totalDebits += Number(item.amount || 0)
 
@@ -152,7 +178,7 @@ export default function DebitsPage() {
         refunds: 0,
       }
     )
-  }, [debits])
+  }, [filteredDebits])
 
   return (
     <AppShell>
@@ -193,6 +219,72 @@ export default function DebitsPage() {
             <p className="mt-1">
               Use <b>Dynamic Fund</b> for client/campaign-linked outflows like refunds and campaign payouts.
               Use <b> Static Fund</b> for company-owned expenses like salaries, subscriptions, and internal operations.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl shadow-black/20 backdrop-blur">
+            <div className="grid gap-4 md:grid-cols-[1fr_160px_170px_170px_auto]">
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Search Debits</label>
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search recipient, campaign, type, notes..."
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">Fund</label>
+                <select
+                  value={fundFilter}
+                  onChange={(e) => setFundFilter(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                >
+                  <option value="all">All</option>
+                  <option value="static">Static</option>
+                  <option value="dynamic">Dynamic</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">From</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-slate-300">To</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-violet-400"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm("")
+                    setFundFilter("all")
+                    setStartDate("")
+                    setEndDate("")
+                  }}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm text-slate-500">
+              Showing {filteredDebits.length} of {debits.length} debit entries.
             </p>
           </div>
 
@@ -299,9 +391,9 @@ export default function DebitsPage() {
               <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
                 {loading ? (
                   <p className="p-6 text-slate-400">Loading debits...</p>
-                ) : debits.length === 0 ? (
+                ) : filteredDebits.length === 0 ? (
                   <div className="p-8 text-center text-slate-400">
-                    No debits added yet.
+                    No debit entries match your current filters.
                   </div>
                 ) : (
                   <table className="w-full min-w-[760px] text-left text-sm">
@@ -317,7 +409,7 @@ export default function DebitsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {debits.map((debit) => (
+                      {filteredDebits.map((debit) => (
                         <tr key={debit.id} className="border-t border-white/5 text-slate-300">
                           <td className="px-5 py-4">
                             <span className="whitespace-nowrap rounded-full bg-white/5 px-3 py-1 text-xs">
