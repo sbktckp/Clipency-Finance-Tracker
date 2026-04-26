@@ -24,3 +24,240 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ------------------------------
+   Clipency Finance OS Premium Motion Layer
+------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #02030a;
+  color: white;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.45);
+  color: #ffffff;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #06b6d4);
+  border-radius: 999px;
+  border: 2px solid #050816;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c026d3, #22d3ee);
+}
+
+/* Page reveal */
+@keyframes clipencyFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.99);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes clipencyFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes clipencyGlow {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes clipencyShine {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(180%) skewX(-18deg);
+  }
+}
+
+@keyframes clipencyPulseBorder {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.16);
+  }
+}
+
+.clipency-page-enter {
+  animation: clipencyFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Applies premium behavior across app cards */
+.clipency-premium-ui .rounded-3xl,
+.clipency-premium-ui .rounded-2xl {
+  transition:
+    transform 260ms ease,
+    border-color 260ms ease,
+    background 260ms ease,
+    box-shadow 260ms ease,
+    opacity 260ms ease;
+}
+
+.clipency-premium-ui .rounded-3xl:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.32);
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.32),
+    0 0 40px rgba(124, 58, 237, 0.08);
+}
+
+/* Premium button behavior */
+.clipency-premium-ui button,
+.clipency-premium-ui a {
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.clipency-premium-ui button:hover,
+.clipency-premium-ui a:hover {
+  transform: translateY(-1px);
+}
+
+.clipency-premium-ui button:active,
+.clipency-premium-ui a:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Add subtle shine to primary gradient buttons/active nav */
+.clipency-premium-ui .bg-gradient-to-r {
+  position: relative;
+  overflow: hidden;
+}
+
+.clipency-premium-ui .bg-gradient-to-r::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: 0;
+  width: 42%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  transform: translateX(-140%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.clipency-premium-ui .bg-gradient-to-r:hover::after {
+  animation: clipencyShine 0.9s ease;
+}
+
+/* Inputs feel smoother */
+.clipency-premium-ui input,
+.clipency-premium-ui select,
+.clipency-premium-ui textarea {
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease,
+    transform 220ms ease;
+}
+
+.clipency-premium-ui input:focus,
+.clipency-premium-ui select:focus,
+.clipency-premium-ui textarea:focus {
+  box-shadow:
+    0 0 0 4px rgba(139, 92, 246, 0.12),
+    0 0 35px rgba(139, 92, 246, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Premium background glow utilities */
+.clipency-ambient-glow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.clipency-ambient-glow::before {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  top: -160px;
+  right: 8%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.22), transparent 65%);
+  filter: blur(10px);
+  animation: clipencyGlow 7s ease-in-out infinite;
+}
+
+.clipency-ambient-glow::after {
+  content: "";
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  bottom: -150px;
+  left: 20%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 65%);
+  filter: blur(12px);
+  animation: clipencyGlow 9s ease-in-out infinite;
+}
+
+/* Tiny premium grid texture */
+.clipency-grid-texture {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+/* Respect accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

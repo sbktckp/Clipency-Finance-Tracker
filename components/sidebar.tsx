@@ -44,13 +44,13 @@ export function Sidebar() {
       : baseNavItems
 
   return (
-    <aside className="relative min-h-screen w-80 overflow-hidden border-r border-violet-500/20 bg-[#050816] px-5 py-6 text-white">
+    <aside className="relative min-h-screen w-80 overflow-hidden border-r border-violet-500/20 bg-[#050816]/95 px-5 py-6 text-white shadow-2xl shadow-black/40 backdrop-blur-xl">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_35%)]" />
 
       <div className="relative z-10">
         <div className="mb-10">
           <div className="flex items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/30 bg-white/5 shadow-lg shadow-violet-900/30 backdrop-blur">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/30 bg-white/5 shadow-lg shadow-violet-900/30 backdrop-blur transition hover:scale-105 hover:border-cyan-300/40">
               <Image
                 src="/clipency-logo.png"
                 alt="Clipency Logo"
@@ -85,10 +85,10 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all ${
+                className={`group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
                   active
                     ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-900/40"
-                    : "text-slate-300 hover:bg-white/[0.06] hover:text-white"
+                    : "text-slate-300 hover:bg-white/[0.06] hover:text-white hover:shadow-lg hover:shadow-violet-950/20"
                 }`}
               >
                 <span
