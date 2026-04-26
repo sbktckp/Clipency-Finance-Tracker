@@ -36,7 +36,7 @@ export default function LoginPage() {
       .single()
 
     if (profileError || !profile) {
-      setError("Access restricted. No profile found.")
+      setError(profileError?.message || `No profile found for ${user.email}`)
       await supabase.auth.signOut()
       setLoading(false)
       return
