@@ -229,17 +229,17 @@ export default function ProjectionsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.12),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="kicker">
                 Strategic Finance Intelligence
               </p>
 
-              <h1 className="mt-4 gradient-title text-4xl font-black">Company Projections</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-4xl font-black">Company Projections</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Analyse current company status, project profit/loss scenarios, estimate fund impact, and calculate operating runway.
               </p>
@@ -269,7 +269,7 @@ export default function ProjectionsPage() {
             </p>
           </div>
 
-          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid mb-8">
             <Metric label="Static Fund" value={formatINR(projection.staticFund)} color="from-violet-400 to-fuchsia-500" />
             <Metric label="Dynamic Fund" value={formatINR(projection.dynamicFund)} color="from-cyan-400 to-sky-500" />
             <Metric label="Net Central Position" value={formatINR(projection.netCentralPosition)} color="from-emerald-400 to-teal-500" />
@@ -308,7 +308,7 @@ export default function ProjectionsPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.25em]">
                 Projection Risk
               </p>
-              <h2 className="mt-4 gradient-title text-4xl font-black">{projection.riskLevel}</h2>
+              <h2 className="mt-4 gradient-title gradient-title text-4xl font-black">{projection.riskLevel}</h2>
               <p className="mt-3 text-sm leading-6 opacity-80">
                 Based on current Static Fund, estimated monthly burn, and selected profit/loss scenario.
               </p>

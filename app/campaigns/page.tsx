@@ -234,17 +234,17 @@ export default function CampaignFinancePage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="kicker">
                 Campaign Intelligence
               </p>
 
-              <h1 className="mt-4 gradient-title text-4xl font-black">Campaign Profit & Loss</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-4xl font-black">Campaign Profit & Loss</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Track campaign-wise client payments, platform revenue, outflows, remaining campaign balance, and net P&L.
               </p>
@@ -264,7 +264,7 @@ export default function CampaignFinancePage() {
             </div>
           )}
 
-          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid mb-8">
             <Metric label="Client Payments" value={formatINR(totals.clientPayments)} color="from-emerald-400 to-teal-500" />
             <Metric label="Platform Revenue" value={formatINR(totals.platformRevenue)} color="from-amber-300 to-orange-400" />
             <Metric label="Campaign Pool" value={formatINR(totals.campaignPool)} color="from-cyan-400 to-sky-500" />

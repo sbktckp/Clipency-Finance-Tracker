@@ -258,11 +258,11 @@ export default function DebitsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,63,94,0.14),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(124,58,237,0.12),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
@@ -275,7 +275,7 @@ export default function DebitsPage() {
                 Debit Control
               </p>
 
-              <h1 className="mt-4 gradient-title text-3xl font-bold">Debits</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-3xl font-bold">Debits</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Record refunds, clipper payouts, salaries, intern payouts, subscriptions, and other expenses.
                 Every debit must be assigned to either Static Fund or Dynamic Fund.
@@ -283,7 +283,7 @@ export default function DebitsPage() {
             </div>
           </div>
 
-          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid mb-8">
             <Metric label="Total Debits" value={formatINR(totals.totalDebits)} color="from-rose-400 to-pink-500" />
             <Metric label="Static Fund Debits" value={formatINR(totals.staticDebits)} color="from-violet-500 to-fuchsia-500" />
             <Metric label="Dynamic Fund Debits" value={formatINR(totals.dynamicDebits)} color="from-cyan-400 to-sky-500" />
@@ -455,7 +455,7 @@ export default function DebitsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full premium-button rounded-xl bg-gradient-to-r from-rose-500 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-rose-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button premium-button rounded-xl bg-gradient-to-r from-rose-500 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-rose-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : editingDebitId ? "Update Debit" : "Add Debit"}
                 </button>

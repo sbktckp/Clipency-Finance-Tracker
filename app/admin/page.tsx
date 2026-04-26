@@ -157,11 +157,11 @@ export default function AdminPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
@@ -174,7 +174,7 @@ export default function AdminPage() {
                 Access Control
               </p>
 
-              <h1 className="mt-4 gradient-title text-3xl font-bold">Admin</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-3xl font-bold">Admin</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Manage who can access Clipency Finance OS. Users with senior_management or finance role can enter the system.
               </p>
@@ -256,7 +256,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : "Save Access"}
                 </button>

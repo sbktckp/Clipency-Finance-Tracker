@@ -295,11 +295,11 @@ export default function ReportsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
@@ -312,13 +312,13 @@ export default function ReportsPage() {
                 Executive Reports
               </p>
 
-              <h1 className="mt-4 gradient-title text-3xl font-bold">Reports</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-3xl font-bold">Reports</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Live financial reporting from Credits, Debits, Funds, and Campaign Finance.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="mobile-actions">
               <button
                 onClick={exportCreditsCSV}
                 className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-200 transition hover:border-emerald-300/40 hover:bg-emerald-500/20"
@@ -426,7 +426,7 @@ export default function ReportsPage() {
             </div>
           ) : (
             <>
-              <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mobile-grid mb-8">
                 <Metric label="Net Central Position" value={formatINR(report.netPosition)} color="from-emerald-400 to-teal-500" />
                 <Metric label="Static Fund" value={formatINR(report.staticFund)} color="from-violet-500 to-fuchsia-500" />
                 <Metric label="Dynamic Fund" value={formatINR(report.dynamicFund)} color="from-cyan-400 to-sky-500" />

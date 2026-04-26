@@ -152,7 +152,7 @@ export default function DashboardPage() {
               <div className="mb-2 kicker">
                 Live Internal Finance Control
               </div>
-              <h1 className="gradient-title text-3xl font-bold tracking-tight">Financial Command Centre</h1>
+              <h1 className="gradient-title gradient-title text-3xl font-bold tracking-tight">Financial Command Centre</h1>
               <p className="mt-1 text-sm text-slate-400">
                 {email} · {role.replace("_", " ")}
               </p>
@@ -198,7 +198,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid">
             <MetricCard
               label="Static Fund"
               value={formatINR(totals.staticFund)}

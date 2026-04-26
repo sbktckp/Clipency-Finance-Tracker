@@ -160,11 +160,11 @@ export default function FundsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%),radial-gradient(circle_at_center,rgba(217,70,239,0.08),transparent_40%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
@@ -177,7 +177,7 @@ export default function FundsPage() {
                 Central Fund Control
               </p>
 
-              <h1 className="mt-4 gradient-title text-3xl font-bold">Funds</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-3xl font-bold">Funds</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Live central fund breakdown. Every credit and debit entry reflects here automatically.
               </p>
@@ -203,7 +203,7 @@ export default function FundsPage() {
             </div>
           ) : (
             <>
-              <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="mobile-grid mb-8">
                 <Metric
                   label="Static Fund"
                   value={formatINR(totals.staticFund)}

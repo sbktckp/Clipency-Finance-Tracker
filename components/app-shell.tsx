@@ -19,24 +19,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     localStorage.setItem("clipency-sidebar-collapsed", String(collapsed))
   }, [collapsed])
 
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : ""
+
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileOpen])
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#02030a] text-white">
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_20%_10%,rgba(139,92,246,0.10),transparent_28%),radial-gradient(circle_at_90%_20%,rgba(34,211,238,0.08),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(217,70,239,0.07),transparent_30%)]" />
+
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       {/* Mobile top bar */}
       <div className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-[#050718]/95 px-4 py-3 backdrop-blur-xl lg:hidden">
-        <div className="flex items-center gap-3">
-          <img src="/clipency-logo.png" alt="Clipency" className="h-9 w-9 rounded-xl" />
-          <div>
-            <p className="font-black leading-tight">Clipency</p>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-300">Finance OS</p>
+        <div className="flex min-w-0 items-center gap-3">
+          <img
+            src="/clipency-logo.png"
+            alt="Clipency"
+            className="h-10 w-10 shrink-0 rounded-xl border border-white/10 bg-white/[0.04] object-contain p-1"
+          />
+
+          <div className="min-w-0">
+            <p className="truncate font-black leading-tight">Clipency</p>
+            <p className="truncate text-[10px] uppercase tracking-[0.3em] text-cyan-300">
+              Finance OS
+            </p>
           </div>
         </div>
 
         <button
           onClick={() => setMobileOpen(true)}
-          className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white"
+          className="premium-button rounded-xl border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-white"
         >
           Menu
         </button>
@@ -46,18 +62,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {mobileOpen && (
         <div className="fixed inset-0 z-[80] lg:hidden">
           <button
-            className="absolute inset-0 bg-black/70"
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
             aria-label="Close mobile menu"
           />
 
-          <div className="absolute left-0 top-0 h-full w-[300px] max-w-[85vw] border-r border-white/10 bg-[#050718] shadow-2xl shadow-black/60">
-            <div className="flex items-center justify-between border-b border-white/10 p-4">
-              <div className="flex items-center gap-3">
-                <img src="/clipency-logo.png" alt="Clipency" className="h-10 w-10 rounded-xl" />
-                <div>
-                  <p className="font-black">Clipency</p>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-300">Finance OS</p>
+          <div className="absolute left-0 top-0 h-full w-[310px] max-w-[86vw] animate-[mobileDrawerIn_220ms_ease-out] overflow-y-auto border-r border-white/10 bg-[#050718] shadow-2xl shadow-black/70">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#050718]/95 p-4 backdrop-blur-xl">
+              <div className="flex min-w-0 items-center gap-3">
+                <img
+                  src="/clipency-logo.png"
+                  alt="Clipency"
+                  className="h-11 w-11 shrink-0 rounded-xl border border-white/10 bg-white/[0.04] object-contain p-1"
+                />
+                <div className="min-w-0">
+                  <p className="truncate font-black">Clipency</p>
+                  <p className="truncate text-[10px] uppercase tracking-[0.3em] text-cyan-300">
+                    Finance OS
+                  </p>
                 </div>
               </div>
 
@@ -71,6 +93,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
             <MobileNav onNavigate={() => setMobileOpen(false)} />
           </div>
+
+          <style jsx>{`
+            @keyframes mobileDrawerIn {
+              from {
+                transform: translateX(-100%);
+                opacity: 0.6;
+              }
+              to {
+                transform: translateX(0);
+                opacity: 1;
+              }
+            }
+          `}</style>
         </div>
       )}
 
@@ -101,18 +136,18 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
   ]
 
   return (
-    <nav className="space-y-2 overflow-y-auto p-4">
+    <nav className="space-y-2 p-4">
       {items.map((item) => (
         <a
           key={item.href}
           href={item.href}
           onClick={onNavigate}
-          className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-300 hover:bg-white/[0.06] hover:text-white"
+          className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04] text-cyan-300">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] text-cyan-300">
             {item.icon}
           </span>
-          {item.name}
+          <span className="truncate">{item.name}</span>
         </a>
       ))}
     </nav>

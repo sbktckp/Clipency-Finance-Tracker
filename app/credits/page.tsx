@@ -240,11 +240,11 @@ export default function CreditsPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link
                 href="/dashboard"
@@ -257,7 +257,7 @@ export default function CreditsPage() {
                 <p className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
                   Credit Control
                 </p>
-                <h1 className="mt-4 gradient-title text-3xl font-bold">Credits</h1>
+                <h1 className="mt-4 gradient-title gradient-title text-3xl font-bold">Credits</h1>
                 <p className="mt-2 max-w-4xl text-slate-400">
                   Record client payments and investments. Platform fee goes to Static Fund; remaining campaign money goes to Dynamic Fund.
                 </p>
@@ -265,7 +265,7 @@ export default function CreditsPage() {
             </div>
           </div>
 
-          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid mb-8">
             <Metric label="Total Credits" value={formatINR(totals.totalCredits)} color="from-emerald-400 to-teal-500" />
             <Metric label="Static Allocation" value={formatINR(totals.staticFund)} color="from-violet-500 to-fuchsia-500" />
             <Metric label="Dynamic Allocation" value={formatINR(totals.dynamicFund)} color="from-cyan-400 to-sky-500" />
@@ -402,7 +402,7 @@ export default function CreditsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
+                  className="w-full premium-button premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold shadow-lg shadow-violet-900/30 transition hover:opacity-90 disabled:opacity-60"
                 >
                   {saving ? "Saving..." : editingCreditId ? "Update Credit" : "Add Credit"}
                 </button>

@@ -295,17 +295,17 @@ export default function TaxPage() {
 
   return (
     <AppShell>
-      <section className="relative min-h-screen overflow-x-hidden bg-[#02030a] px-6 py-8 text-white lg:px-8">
+      <section className="mobile-page relative min-h-screen overflow-x-hidden bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.16),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.10),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mobile-container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="kicker">
                 Compliance Control
               </p>
 
-              <h1 className="mt-4 gradient-title text-4xl font-black">Tax Control</h1>
+              <h1 className="mt-4 gradient-title gradient-title text-4xl font-black">Tax Control</h1>
               <p className="mt-2 max-w-4xl text-slate-400">
                 Track GST, TDS, income tax provisions, statutory dues, due dates, payment status, and compliance exposure.
               </p>
@@ -334,20 +334,20 @@ export default function TaxPage() {
             </div>
           )}
 
-          <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mobile-grid mb-8">
             <Metric label="GST Payable" value={formatINR(totals.gstPayable)} color="from-rose-400 to-pink-500" />
             <Metric label="GST Receivable" value={formatINR(totals.gstReceivable)} color="from-cyan-400 to-sky-500" />
             <Metric label="Net GST Position" value={formatINR(totals.netGstPosition)} color={totals.netGstPosition >= 0 ? "from-amber-300 to-orange-400" : "from-emerald-400 to-teal-500"} />
             <Metric label="Unpaid Liability" value={formatINR(totals.unpaidLiability)} color="from-violet-400 to-fuchsia-500" />
           </div>
 
-          <div className="mb-8 grid gap-5 lg:grid-cols-3">
+          <div className="mobile-grid mb-8">
             <InfoCard label="TDS Deducted" value={formatINR(totals.tdsDeducted)} />
             <InfoCard label="Income Tax Provision" value={formatINR(totals.incomeTaxProvision)} />
             <InfoCard label="Overdue Records" value={String(totals.overdue)} />
           </div>
 
-          <div className="mb-8 grid min-w-0 gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
+          <div className="mb-8 grid min-w-0 gap-6 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
             <form
               onSubmit={saveTaxRecord}
               className="overflow-safe overflow-safe premium-card premium-hover overflow-safe rounded-3xl p-6 shadow-2xl shadow-black/20 backdrop-blur"
@@ -452,7 +452,7 @@ export default function TaxPage() {
 
                 <button
                   disabled={saving}
-                  className="w-full premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full premium-button premium-button rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-3 font-bold text-white shadow-lg shadow-violet-950/30 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editingId ? "Update Tax Record" : "Add Tax Record"}
                 </button>

@@ -1,11 +1,11 @@
 export function PageSkeleton({ title = "Loading Finance OS" }: { title?: string }) {
   return (
-    <div className="min-h-screen bg-[#02030a] px-6 py-8 text-white lg:px-8">
+    <div className="min-h-screen bg-[#02030a] px-4 py-5 text-white sm:px-6 sm:py-8 lg:px-8">
       <div className="mx-auto max-w-7xl animate-pulse">
         <div className="mb-8">
           <div className="h-7 w-48 rounded-full bg-white/10" />
           <div className="mt-5 h-10 w-80 rounded-xl bg-white/10" />
-          <div className="mt-3 h-5 w-[520px] max-w-full rounded-xl bg-white/5" />
+          <div className="mt-3 h-5 w-full max-w-[520px] rounded-xl bg-white/5" />
           <p className="mt-4 text-sm text-slate-500">{title}</p>
         </div>
 
@@ -22,7 +22,7 @@ export function PageSkeleton({ title = "Loading Finance OS" }: { title?: string 
           ))}
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
+        <div className="grid gap-6 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
           <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6">
             <div className="h-7 w-36 rounded-xl bg-white/10" />
             <div className="mt-3 h-4 w-56 rounded-full bg-white/5" />

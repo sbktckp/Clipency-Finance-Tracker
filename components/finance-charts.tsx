@@ -116,13 +116,13 @@ export function FinanceCharts({
     .slice(-8)
 
   return (
-    <div className="mt-10 grid gap-6 xl:grid-cols-2">
+    <div className="mt-10 grid min-w-0 gap-6 xl:grid-cols-2">
       <ChartCard
         label="Fund Architecture"
         title="Static vs Dynamic Fund"
         subtitle="Live split between company-owned and campaign-linked money."
       >
-        <div className="h-72">
+        <div className="h-[260px] sm:h-72">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -161,7 +161,7 @@ export function FinanceCharts({
         title="Credits vs Debits"
         subtitle="Total recorded inflow against total recorded outflow."
       >
-        <div className="h-72">
+        <div className="h-[260px] sm:h-72">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={inflowOutflowData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
@@ -214,7 +214,7 @@ export function FinanceCharts({
         title="Inflow / Outflow Timeline"
         subtitle="Recent credit and debit movement by payment date."
       >
-        <div className="h-72">
+        <div className="h-[260px] sm:h-72">
           {trendData.length === 0 ? (
             <div className="flex h-full items-center justify-center text-sm text-slate-500">
               No trend data available yet.
