@@ -6,35 +6,31 @@ export function CurrencySwitch() {
   const { currency, setCurrency, rateLabel, rateAvailable, loadingRate } = useCurrency()
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-xl shadow-black/10 backdrop-blur">
-      <div className="flex items-center gap-2">
+    <div className="currency-switch compact-glass">
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           onClick={() => setCurrency("INR")}
-          className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
-            currency === "INR"
-              ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-950/20"
-              : "bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white"
+          className={`currency-toggle-btn ${
+            currency === "INR" ? "currency-toggle-active-inr" : ""
           }`}
         >
-          ₹ INR
+          ₹
         </button>
 
         <button
           type="button"
           disabled={!rateAvailable || loadingRate}
           onClick={() => setCurrency("USD")}
-          className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
-            currency === "USD"
-              ? "bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-lg shadow-cyan-950/20"
-              : "bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white"
+          className={`currency-toggle-btn ${
+            currency === "USD" ? "currency-toggle-active-usd" : ""
           } disabled:cursor-not-allowed disabled:opacity-45`}
         >
-          $ USD
+          $
         </button>
       </div>
 
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="currency-rate-label">
         {rateLabel}
       </p>
     </div>

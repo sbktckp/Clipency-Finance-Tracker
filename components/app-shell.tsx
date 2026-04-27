@@ -52,13 +52,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
-            <CurrencySwitch />
-          </div>
+          <CurrencySwitch />
 
           <button
             onClick={() => setMobileOpen(true)}
-            className="premium-button rounded-xl border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-white"
+            className="premium-button rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-white"
           >
             Menu
           </button>
@@ -116,7 +114,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      <div className="fixed right-6 top-28 z-[60] hidden lg:block">
+      <div className="fixed right-7 top-24 z-[60] hidden lg:block">
         <CurrencySwitch />
       </div>
 
