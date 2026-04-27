@@ -31,6 +31,7 @@ const debitTypes = [
   { value: "employee_salary", label: "Employee Salary" },
   { value: "intern_payout", label: "Intern Payout" },
   { value: "subscription", label: "Subscription" },
+  { value: "marketing", label: "Marketing" },
   { value: "other", label: "Other" },
 ] as const
 
