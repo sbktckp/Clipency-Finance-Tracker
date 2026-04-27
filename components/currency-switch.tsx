@@ -3,7 +3,7 @@
 import { useCurrency } from "@/components/currency-context"
 
 export function CurrencySwitch() {
-  const { currency, setCurrency, rateLabel } = useCurrency()
+  const { currency, setCurrency, rateLabel, rateAvailable, loadingRate } = useCurrency()
 
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-xl shadow-black/10 backdrop-blur">
@@ -22,12 +22,13 @@ export function CurrencySwitch() {
 
         <button
           type="button"
+          disabled={!rateAvailable || loadingRate}
           onClick={() => setCurrency("USD")}
           className={`rounded-xl px-4 py-2 text-sm font-bold transition ${
             currency === "USD"
               ? "bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-lg shadow-cyan-950/20"
               : "bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white"
-          }`}
+          } disabled:cursor-not-allowed disabled:opacity-45`}
         >
           $ USD
         </button>

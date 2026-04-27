@@ -7,20 +7,23 @@ type CurrencyMode = "INR" | "USD"
 type CurrencyContextValue = {
   currency: CurrencyMode
   setCurrency: (currency: CurrencyMode) => void
-  usdInrRate: number
+  usdInrRate: number | null
   loadingRate: boolean
   rateLabel: string
+  rateAvailable: boolean
   formatMoney: (amountInInr: number) => string
-  convertMoney: (amountInInr: number) => number
+  convertMoney: (amountInInr: number) => number | null
 }
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null)
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const [currency, setCurrencyState] = useState<CurrencyMode>("INR")
-  const [usdInrRate, setUsdInrRate] = useState(83)
+  const [usdInrRate, setUsdInrRate] = useState<number | null>(null)
   const [loadingRate, setLoadingRate] = useState(true)
   const [rateDate, setRateDate] = useState("")
+  const [rateSource, setRateSource] = useState("")
+  const [rateError, setRateError] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem("clipency-currency-mode")
@@ -30,6 +33,12 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     }
 
     fetchRate()
+
+    const interval = window.setInterval(() => {
+      fetchRate()
+    }, 60 * 60 * 1000)
+
+    return () => window.clearInterval(interval)
   }, [])
 
   function setCurrency(value: CurrencyMode) {
@@ -37,28 +46,55 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("clipency-currency-mode", value)
   }
 
+  async function fetchJson(url: string) {
+    const response = await fetch(url, { cache: "no-store" })
+
+    if (!response.ok) {
+      throw new Error(`FX API failed: ${url}`)
+    }
+
+    return response.json()
+  }
+
   async function fetchRate() {
+    setLoadingRate(true)
+    setRateError(false)
+
     try {
-      setLoadingRate(true)
+      const primary = await fetchJson("https://open.er-api.com/v6/latest/USD")
+      const primaryRate = Number(primary?.rates?.INR)
 
-      const response = await fetch(
-        "https://api.frankfurter.dev/v2/rates?base=USD&quotes=INR",
-        { cache: "no-store" }
-      )
-
-      if (!response.ok) {
-        throw new Error("Could not fetch exchange rate.")
+      if (primaryRate > 0) {
+        setUsdInrRate(primaryRate)
+        setRateDate(primary?.time_last_update_utc || "")
+        setRateSource("API")
+        return
       }
 
-      const data = await response.json()
-      const rate = Number(data?.rates?.INR)
+      throw new Error("Primary FX rate missing INR")
+    } catch (primaryError) {
+      console.error("Primary currency rate fetch failed:", primaryError)
 
-      if (rate > 0) {
-        setUsdInrRate(rate)
-        setRateDate(data?.date || "")
+      try {
+        const backup = await fetchJson("https://api.frankfurter.app/latest?from=USD&to=INR")
+        const backupRate = Number(backup?.rates?.INR)
+
+        if (backupRate > 0) {
+          setUsdInrRate(backupRate)
+          setRateDate(backup?.date || "")
+          setRateSource("API Backup")
+          return
+        }
+
+        throw new Error("Backup FX rate missing INR")
+      } catch (backupError) {
+        console.error("Backup currency rate fetch failed:", backupError)
+
+        setUsdInrRate(null)
+        setRateDate("")
+        setRateSource("")
+        setRateError(true)
       }
-    } catch (error) {
-      console.error("Currency rate fetch failed:", error)
     } finally {
       setLoadingRate(false)
     }
@@ -68,6 +104,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     const amount = Number(amountInInr || 0)
 
     if (currency === "USD") {
+      if (!usdInrRate || usdInrRate <= 0) return null
       return amount / usdInrRate
     }
 
@@ -77,6 +114,10 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   function formatMoney(amountInInr: number) {
     const converted = convertMoney(amountInInr)
 
+    if (converted === null) {
+      return "FX unavailable"
+    }
+
     return new Intl.NumberFormat(currency === "USD" ? "en-US" : "en-IN", {
       style: "currency",
       currency,
@@ -84,19 +125,24 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     }).format(Number(converted || 0))
   }
 
+  const rateAvailable = Boolean(usdInrRate && usdInrRate > 0)
+
   const value = useMemo(
     () => ({
       currency,
       setCurrency,
       usdInrRate,
       loadingRate,
+      rateAvailable,
       rateLabel: loadingRate
-        ? "Fetching live FX..."
-        : `1 USD ≈ ₹${usdInrRate.toFixed(2)}${rateDate ? ` · ${rateDate}` : ""}`,
+        ? "Fetching live FX from API..."
+        : rateError || !rateAvailable
+          ? "FX API unavailable. USD conversion paused."
+          : `${rateSource}: 1 USD ≈ ₹${usdInrRate?.toFixed(2)}${rateDate ? ` · ${rateDate}` : ""}`,
       formatMoney,
       convertMoney,
     }),
-    [currency, usdInrRate, loadingRate, rateDate]
+    [currency, usdInrRate, loadingRate, rateDate, rateSource, rateError, rateAvailable]
   )
 
   return (
