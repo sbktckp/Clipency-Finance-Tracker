@@ -198,29 +198,6 @@ export default function LandingPage() {
 EOFcat > app/page.tsx << 'EOF'
 import Link from "next/link"
 
-const features = [
-  {
-    title: "Real-Time Financial Tracking",
-    description:
-      "Track credits, debits, campaign spending, platform fees, salaries, payouts, and dynamic fund movement in real time.",
-  },
-  {
-    title: "Central Fund Control",
-    description:
-      "Monitor Static Fund, Dynamic Fund, Total Debits, and Net Position with a centralized command dashboard.",
-  },
-  {
-    title: "Campaign Finance Intelligence",
-    description:
-      "Manage client-linked campaign budgets separately from company-owned operating capital.",
-  },
-  {
-    title: "Live Currency Conversion",
-    description:
-      "Switch instantly between INR and USD using live exchange rates across the entire platform.",
-  },
-]
-
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-[#04010d] text-white overflow-hidden">
