@@ -1,20 +1,20 @@
 "use client"
 
 import {
-  Instagram,
-  Linkedin,
-  Github,
-  Twitter,
+  User,
+  Link,
+  Code2,
+  Send,
   Globe,
   Mail,
 } from "lucide-react"
 
 export default function Footer() {
   const socials = [
-    Instagram,
-    Linkedin,
-    Github,
-    Twitter,
+    User,
+    Link,
+    Code2,
+    Send,
     Globe,
     Mail,
   ]

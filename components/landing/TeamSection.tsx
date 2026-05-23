@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Instagram, Linkedin, Github } from "lucide-react"
+import { User, Link, Code2 } from "lucide-react"
 
 const members = [
   {
@@ -99,7 +99,7 @@ export default function TeamSection() {
                 }}
               >
                 <div className="flex gap-6">
-                  {[Instagram, Linkedin, Github].map((Icon, i) => (
+                  {[User, Link, Code2].map((Icon, i) => (
                     <motion.div
                       whileHover={{ scale: 1.2 }}
                       key={i}
