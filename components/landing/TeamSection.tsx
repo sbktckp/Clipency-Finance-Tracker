@@ -153,7 +153,7 @@ function ExecutivePortraitCard({
 
 export default function TeamSection() {
   return (
-    <section className="relative overflow-hidden bg-black py-28 text-white">
+    <section id="team" className="relative overflow-hidden bg-black py-28 text-white">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px]" />
 
       <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-violet-500/10 blur-[140px]" />
