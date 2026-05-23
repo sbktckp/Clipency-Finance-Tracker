@@ -17,7 +17,7 @@ const executives = [
     ],
 
     // REPLACE WITH GOOGLE DRIVE DIRECT IMAGE URL
-    image: "/images/team/ayush.jpg",
+    image: "/ayush.png",
   },
   {
     name: "Shreya Roy",
@@ -33,7 +33,7 @@ const executives = [
     ],
 
     // REPLACE WITH GOOGLE DRIVE DIRECT IMAGE URL
-    image: "/images/team/shreya.jpg",
+    image: "/shreya.jpg",
   },
   {
     name: "Smit Bharat Patil",
@@ -48,7 +48,7 @@ const executives = [
     ],
 
     // REPLACE WITH GOOGLE DRIVE DIRECT IMAGE URL
-    image: "/images/team/smit.jpg",
+    image: "/smit.jpg",
   },
 ]
 
@@ -87,7 +87,7 @@ function ExecutiveCard({ executive, index }: any) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
       viewport={{ once: true }}
-      className={`group relative h-[520px] perspective-1000 ${
+      className={`group relative h-[520px] perspective ${
         executive.featured ? "scale-105 lg:-translate-y-4" : ""
       }`}
     >
@@ -98,11 +98,11 @@ function ExecutiveCard({ executive, index }: any) {
           y: -10,
         }}
         transition={{ duration: 0.4 }}
-        className="relative h-full w-full preserve-3d"
+        className="relative h-full w-full transform-style-preserve-3d"
       >
         {/* FRONT */}
         <div
-          className={`absolute inset-0 rounded-[32px] border ${executive.border} bg-gradient-to-br ${executive.glow} overflow-hidden backdrop-blur-2xl backface-hidden`}
+          className={`absolute inset-0 rounded-[32px] border ${executive.border} bg-gradient-to-br ${executive.glow} overflow-hidden backdrop-blur-2xl backface-visibility-hidden`}
         >
           {/* ambient glow */}
           <div className="absolute inset-0 opacity-40">
@@ -180,7 +180,7 @@ function ExecutiveCard({ executive, index }: any) {
         </div>
 
         {/* BACK */}
-        <div className="absolute inset-0 rotate-y-180 rounded-[32px] border border-cyan-400/20 bg-black/80 p-8 backdrop-blur-3xl backface-hidden">
+        <div className="absolute inset-0 rotate-y-180 rounded-[32px] border border-cyan-400/20 bg-black/80 p-8 backdrop-blur-3xl backface-visibility-hidden">
           <div className="flex h-full flex-col items-center justify-center text-center">
             <div className="rounded-full border border-cyan-500/20 bg-cyan-500/10 p-6">
               <Link className="h-10 w-10 text-cyan-300" />
