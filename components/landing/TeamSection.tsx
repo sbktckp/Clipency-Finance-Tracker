@@ -16,14 +16,14 @@ const executives = [
   {
     name: "Shreya Roy",
     role: "CFO",
-    image: "/shreya.jpg",
+    image: "/shreya.JPG",
     linkedin: "https://www.linkedin.com/in/shreyaroy3004/",
     featured: true,
   },
   {
     name: "Smit Bharat Patil",
     role: "CTO",
-    image: "/smit.jpg",
+    image: "/smit.JPG",
     linkedin: "https://www.linkedin.com/in/sbktckp/",
     featured: false,
   },
