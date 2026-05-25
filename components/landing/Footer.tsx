@@ -1,15 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Camera, Linkedin, Github, MessageCircle, Globe, Mail } from "lucide-react"
+import { Camera, Briefcase, Code2, MessageCircle, Globe, Mail } from "lucide-react"
 
 const socials = [
-  { Icon: Camera, href: "#",                        label: "Instagram" },
-  { Icon: Linkedin,  href: "#",                        label: "LinkedIn"  },
-  { Icon: Github,    href: "#",                        label: "GitHub"    },
-  { Icon: MessageCircle,   href: "#",                        label: "Twitter"   },
-  { Icon: Globe,     href: "https://clipency.in",      label: "Website"   },
-  { Icon: Mail,      href: "mailto:hello@clipency.in", label: "Email"     },
+  { Icon: Camera,        href: "#",                        label: "Instagram" },
+  { Icon: Briefcase,     href: "#",                        label: "LinkedIn"  },
+  { Icon: Code2,         href: "#",                        label: "GitHub"    },
+  { Icon: MessageCircle, href: "#",                        label: "Twitter"   },
+  { Icon: Globe,         href: "https://clipency.in",      label: "Website"   },
+  { Icon: Mail,          href: "mailto:hello@clipency.in", label: "Email"     },
 ]
 
 export default function Footer() {
@@ -17,7 +17,6 @@ export default function Footer() {
     <footer className="relative px-6 py-24 border-t border-white/[0.06] overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(139,92,246,0.05),transparent_60%)] pointer-events-none" />
       <div className="relative max-w-7xl mx-auto flex flex-col items-center text-center">
-
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.75 }}>
           <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-b from-white via-white/90 to-white/30 bg-clip-text text-transparent tracking-tight">
             Clipency Finance OS

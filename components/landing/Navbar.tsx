@@ -4,6 +4,12 @@ import Link from "next/link"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState } from "react"
 
+const navLinks = [
+  { label: "Features", href: "#features" },
+  { label: "Engine",   href: "#algorithm" },
+  { label: "Team",     href: "#team" },
+]
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const { scrollY } = useScroll()
@@ -30,13 +36,13 @@ export default function Navbar() {
         </motion.div>
 
         <div className="hidden md:flex items-center gap-1 rounded-2xl border border-white/[0.07] bg-white/[0.03] px-2 py-1.5">
-          {["Features", "Engine", "Team"].map((item) => (
+          {navLinks.map((link) => (
             
-              key={item}
-              href={`#${(item as string).toLowerCase()}`}
+              key={link.label}
+              href={link.href}
               className="px-5 py-2 text-sm text-white/55 hover:text-white rounded-xl hover:bg-white/[0.07] transition-all duration-200 font-medium"
             >
-              {item}
+              {link.label}
             </a>
           ))}
         </div>
