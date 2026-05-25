@@ -4,10 +4,10 @@ import { Activity, Wallet, TrendingUp, Sparkles } from "lucide-react"
 import { useRef } from "react"
 
 const cards = [
-  { title: "Revenue Intelligence",   icon: TrendingUp, description: "Real-time analytics across campaigns, subscriptions, and operational finance.", gradient: "from-pink-500 to-rose-500",     spot: "rgba(236,72,153,0.1)"   },
-  { title: "AI Finance Assistant",   icon: Sparkles,   description: "Smart forecasting and anomaly detection powered by financial intelligence.",   gradient: "from-fuchsia-500 to-pink-500",  spot: "rgba(217,70,239,0.09)"  },
-  { title: "Transaction Monitoring", icon: Activity,   description: "Track live transaction flows and operational spending across departments.",    gradient: "from-rose-500 to-pink-400",     spot: "rgba(251,113,133,0.09)" },
-  { title: "Fund Visibility",        icon: Wallet,     description: "Maintain complete clarity between campaign funds and company-owned capital.",  gradient: "from-pink-400 to-fuchsia-500",  spot: "rgba(236,72,153,0.08)"  },
+  { title: "Revenue Intelligence",   icon: TrendingUp, description: "Real-time analytics across campaigns, subscriptions, and operational finance.", gradient: "from-pink-300 to-rose-300",     spot: "rgba(249,168,212,0.07)"   },
+  { title: "AI Finance Assistant",   icon: Sparkles,   description: "Smart forecasting and anomaly detection powered by financial intelligence.",   gradient: "from-fuchsia-300 to-pink-300",  spot: "rgba(240,171,252,0.06)"  },
+  { title: "Transaction Monitoring", icon: Activity,   description: "Track live transaction flows and operational spending across departments.",    gradient: "from-rose-300 to-pink-200",     spot: "rgba(253,164,175,0.06)" },
+  { title: "Fund Visibility",        icon: Wallet,     description: "Maintain complete clarity between campaign funds and company-owned capital.",  gradient: "from-pink-300 to-fuchsia-300",  spot: "rgba(249,168,212,0.05)"  },
 ]
 
 function Card({ card, index }: { card: typeof cards[0]; index: number }) {
@@ -21,11 +21,11 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
       transition={{ delay: index * 0.1, duration: 0.75, ease: "easeOut" }}
       whileHover={{ y: -8 }}
       onMouseMove={(e) => { const r = ref.current!.getBoundingClientRect(); mx.set(e.clientX - r.left); my.set(e.clientY - r.top) }}
-      className="group relative rounded-[36px] border border-pink-500/[0.1] bg-pink-500/[0.03] backdrop-blur-xl p-8 overflow-hidden hover:border-pink-400/25 transition-all duration-500 cursor-default">
+      className="group relative rounded-[36px] border border-pink-300/[0.12] bg-pink-400/[0.02] backdrop-blur-xl p-8 overflow-hidden hover:border-pink-300/20 transition-all duration-500 cursor-default">
       <motion.div className="pointer-events-none absolute inset-0 rounded-[36px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{ background: `radial-gradient(350px circle at ${mx}px ${my}px, ${card.spot}, transparent 70%)` }} />
       <motion.div whileHover={{ scale: 1.1, rotate: 8 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}
-        className={`h-16 w-16 rounded-3xl bg-gradient-to-br ${card.gradient} flex items-center justify-center shadow-[0_8px_24px_rgba(236,72,153,0.3)]`}>
+        className={`h-16 w-16 rounded-3xl bg-gradient-to-br ${card.gradient} flex items-center justify-center shadow-[0_8px_24px_rgba(249,168,212,0.2)]`}>
         <Icon size={28} strokeWidth={1.8} />
       </motion.div>
       <h3 className="mt-7 text-2xl font-bold">{card.title}</h3>
@@ -39,16 +39,16 @@ function Card({ card, index }: { card: typeof cards[0]; index: number }) {
 
 export default function FinanceDashboard() {
   return (
-    <section id="features" className="relative px-6 py-32 border-t border-pink-500/[0.07]">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(236,72,153,0.03),transparent)] pointer-events-none" />
+    <section id="features" className="relative px-6 py-32 border-t border-pink-300/[0.07]">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(249,168,212,0.03),transparent)] pointer-events-none" />
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.75 }} className="mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-pink-500/[0.15] bg-pink-500/[0.05] px-4 py-2 text-xs uppercase tracking-[0.28em] text-pink-300/70 mb-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-pink-300/[0.12] bg-pink-400/[0.03] px-4 py-2 text-xs uppercase tracking-[0.28em] text-pink-200/70 mb-7">
             <span>✨</span> Features
           </div>
           <h2 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.05]">
             Live Financial<br />
-            <span className="bg-gradient-to-r from-pink-300 via-rose-300 to-fuchsia-300 bg-clip-text text-transparent">Infrastructure</span>
+            <span className="bg-gradient-to-r from-pink-200 via-rose-200 to-fuchsia-200 bg-clip-text text-transparent">Infrastructure</span>
           </h2>
           <p className="mt-6 text-lg text-white/45 max-w-xl leading-relaxed">Built like a modern fintech OS — live insights, real-time tracking, AI forecasting, and enterprise-grade analytics.</p>
         </motion.div>

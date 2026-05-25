@@ -10,13 +10,13 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative px-6 py-24 border-t border-pink-500/[0.07] overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(236,72,153,0.05),transparent_60%)] pointer-events-none" />
+    <footer className="relative px-6 py-24 border-t border-pink-300/[0.07] overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(249,168,212,0.04),transparent_60%)] pointer-events-none" />
       <div className="relative max-w-7xl mx-auto flex flex-col items-center text-center">
 
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.75 }}>
           <div className="text-3xl mb-4">🌸</div>
-          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-b from-white via-pink-100/80 to-pink-300/30 bg-clip-text text-transparent tracking-tight">
+          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-b from-white via-pink-100/70 to-pink-200/20 bg-clip-text text-transparent tracking-tight">
             Clipency Finance OS
           </h2>
           <p className="mt-4 text-white/35 text-base">Built for modern operational finance ✨</p>
@@ -25,7 +25,7 @@ export default function Footer() {
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.7 }} className="mt-8">
           <a href="/login">
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 font-semibold text-sm shadow-[0_0_40px_rgba(236,72,153,0.3)] hover:shadow-[0_0_55px_rgba(236,72,153,0.5)] transition-shadow duration-300">
+              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-300 to-rose-300 font-semibold text-sm shadow-[0_0_40px_rgba(249,168,212,0.2)] hover:shadow-[0_0_55px_rgba(249,168,212,0.35)] transition-shadow duration-300">
               Get Started ✨
             </motion.button>
           </a>
@@ -37,7 +37,7 @@ export default function Footer() {
               initial={{ opacity: 0, scale: 0.7 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.08, type: "spring", stiffness: 300, damping: 22 }}
               whileHover={{ scale: 1.18, y: -5 }} whileTap={{ scale: 0.93 }} aria-label={label}
-              className="h-[52px] w-[52px] rounded-2xl border border-pink-500/[0.12] bg-pink-500/[0.04] flex items-center justify-center text-white/45 hover:text-pink-300 hover:border-pink-400/30 hover:bg-pink-500/[0.1] transition-all duration-300"
+              className="h-[52px] w-[52px] rounded-2xl border border-pink-300/[0.1] bg-pink-400/[0.03] flex items-center justify-center text-white/45 hover:text-pink-200 hover:border-pink-200/20 hover:bg-pink-400/[0.06] transition-all duration-300"
               dangerouslySetInnerHTML={{ __html: svg }} />
           ))}
         </div>
@@ -47,9 +47,9 @@ export default function Footer() {
           className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 w-full text-white/20 text-sm">
           <p>© Clipency 2026. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-pink-300/60 transition-colors duration-200">Privacy Policy</a>
-            <a href="#" className="hover:text-pink-300/60 transition-colors duration-200">Terms of Service</a>
-            <a href="mailto:contact@clipency.in" className="hover:text-pink-300/60 transition-colors duration-200">Contact</a>
+            <a href="#" className="hover:text-pink-200/60 transition-colors duration-200">Privacy Policy</a>
+            <a href="#" className="hover:text-pink-200/60 transition-colors duration-200">Terms of Service</a>
+            <a href="mailto:contact@clipency.in" className="hover:text-pink-200/60 transition-colors duration-200">Contact</a>
           </div>
         </motion.div>
       </div>

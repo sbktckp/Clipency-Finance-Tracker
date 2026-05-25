@@ -15,8 +15,8 @@ export default function CursorGlow() {
   }, [mx, my])
   return (
     <>
-      <motion.div className="fixed rounded-full pointer-events-none z-0" style={{ x: x1, y: y1, translateX: "-50%", translateY: "-50%", width: 260, height: 260, background: "radial-gradient(circle,rgba(236,72,153,0.15) 0%,rgba(251,113,133,0.07) 50%,transparent 70%)", filter: "blur(32px)" }} />
-      <motion.div className="fixed rounded-full pointer-events-none z-0" style={{ x: x2, y: y2, translateX: "-50%", translateY: "-50%", width: 600, height: 600, background: "radial-gradient(circle,rgba(236,72,153,0.05) 0%,transparent 70%)", filter: "blur(80px)" }} />
+      <motion.div className="fixed rounded-full pointer-events-none z-0" style={{ x: x1, y: y1, translateX: "-50%", translateY: "-50%", width: 260, height: 260, background: "radial-gradient(circle,rgba(249,168,212,0.1) 0%,rgba(251,113,133,0.07) 50%,transparent 70%)", filter: "blur(32px)" }} />
+      <motion.div className="fixed rounded-full pointer-events-none z-0" style={{ x: x2, y: y2, translateX: "-50%", translateY: "-50%", width: 600, height: 600, background: "radial-gradient(circle,rgba(249,168,212,0.04) 0%,transparent 70%)", filter: "blur(80px)" }} />
     </>
   )
 }
