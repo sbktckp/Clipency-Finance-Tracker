@@ -1,13 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Instagram, Linkedin, Github, Twitter, Globe, Mail } from "lucide-react"
+import { Camera, Linkedin, Github, MessageCircle, Globe, Mail } from "lucide-react"
 
 const socials = [
-  { Icon: Instagram, href: "#",                        label: "Instagram" },
+  { Icon: Camera, href: "#",                        label: "Instagram" },
   { Icon: Linkedin,  href: "#",                        label: "LinkedIn"  },
   { Icon: Github,    href: "#",                        label: "GitHub"    },
-  { Icon: Twitter,   href: "#",                        label: "Twitter"   },
+  { Icon: MessageCircle,   href: "#",                        label: "Twitter"   },
   { Icon: Globe,     href: "https://clipency.in",      label: "Website"   },
   { Icon: Mail,      href: "mailto:hello@clipency.in", label: "Email"     },
 ]

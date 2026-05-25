@@ -33,7 +33,7 @@ export default function Navbar() {
           {["Features", "Engine", "Team"].map((item) => (
             
               key={item}
-              href={`#${item.toLowerCase()}`}
+              href={`#${(item as string).toLowerCase()}`}
               className="px-5 py-2 text-sm text-white/55 hover:text-white rounded-xl hover:bg-white/[0.07] transition-all duration-200 font-medium"
             >
               {item}
