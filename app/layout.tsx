@@ -16,6 +16,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Clipency Finance OS",
   description: "Internal finance control system for Clipency",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
+  openGraph: {
+    title: "Clipency Finance OS",
+    description: "Internal finance control system for Clipency",
+    url: "https://finance.clipency.in",
+    siteName: "Clipency",
+    images: [{ url: "/opengraph-image.png", width: 512, height: 512 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Clipency Finance OS",
+    description: "Internal finance control system for Clipency",
+    images: ["/opengraph-image.png"],
+  },
 };
 
 export default function RootLayout({
