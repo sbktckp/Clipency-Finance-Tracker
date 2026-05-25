@@ -12,7 +12,7 @@ const container = {
 }
 const word = {
   hidden: { opacity: 0, y: 60, skewY: 5 },
-  show: { opacity: 1, y: 0, skewY: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, skewY: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
 }
 const bars = [50, 80, 65, 110, 95, 140, 120]
 const feed = [
@@ -117,7 +117,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
           style={{ rotateX, rotateY, transformPerspective: 1400 }}
           onMouseMove={(e) => {
             const r = e.currentTarget.getBoundingClientRect()
@@ -154,7 +154,7 @@ export default function HeroSection() {
                   key={i}
                   initial={{ height: 0 }}
                   animate={{ height: h }}
-                  transition={{ delay: 0.6 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 0.6 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
                   className="flex-1 rounded-t-2xl bg-gradient-to-t from-blue-500/80 to-purple-500/80"
                 />
               ))}
