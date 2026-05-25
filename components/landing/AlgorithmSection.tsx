@@ -1,72 +1,59 @@
 "use client"
-import { motion, useScroll, useSpring, useTransform } from "framer-motion"
-import { Database, Cpu, Brain, BarChart3, Activity, LineChart } from "lucide-react"
-import { useRef } from "react"
+import { motion } from "framer-motion"
+import { Database, Cpu, Brain, LineChart, BarChart3, Activity } from "lucide-react"
 
 const steps = [
-  { title: "Data Collection",        icon: Database,  description: "Capture transactions, payouts, subscriptions, and campaign flow with zero latency.", glow: "#ec4899", gradient: "from-pink-300 to-rose-300"     },
-  { title: "Transaction Processing", icon: Cpu,       description: "Process operational finance events in real time with sub-second execution.",         glow: "#f43f5e", gradient: "from-rose-300 to-pink-200"     },
-  { title: "AI Insights",            icon: Brain,     description: "Detect anomalies and generate financial intelligence around the clock.",              glow: "#d946ef", gradient: "from-fuchsia-300 to-pink-300"  },
-  { title: "Forecasting",            icon: LineChart, description: "Predict runway, burn rate, and future financial exposure with ML-driven models.",     glow: "#ec4899", gradient: "from-pink-200 to-fuchsia-300"  },
-  { title: "Dashboard Analytics",    icon: BarChart3, description: "Visualize every key metric and business performance indicator instantly.",            glow: "#f43f5e", gradient: "from-rose-200 to-pink-300"     },
-  { title: "KPI Tracking",           icon: Activity,  description: "Monitor operational health with live KPI dashboards across all departments.",         glow: "#ec4899", gradient: "from-pink-300 to-rose-200"     },
+  { n: "01", title: "Data Collection",        icon: Database,  body: "Every transaction, payout, subscription, and campaign event captured with zero latency." },
+  { n: "02", title: "Transaction Processing", icon: Cpu,       body: "Operational finance events processed in real time. Sub-second execution across all flows." },
+  { n: "03", title: "AI Insights",            icon: Brain,     body: "Anomaly detection and pattern recognition running continuously. No manual intervention needed." },
+  { n: "04", title: "Forecasting",            icon: LineChart, body: "Runway, burn rate, and exposure predicted with ML models trained on your operational data." },
+  { n: "05", title: "Dashboard Analytics",    icon: BarChart3, body: "Every KPI and performance metric visualized the moment it changes. No refresh needed." },
+  { n: "06", title: "KPI Tracking",           icon: Activity,  body: "Operational health monitored across all departments. One source of truth for the whole company." },
 ]
 
 export default function AlgorithmSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.2"] })
-  const rawH = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
-  const lineH = useSpring(rawH, { stiffness: 40, damping: 16 })
-
   return (
-    <section id="algorithm" className="relative px-6 py-32 border-t border-pink-300/[0.07]">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_50%,rgba(249,168,212,0.03),transparent)] pointer-events-none" />
-      <div className="max-w-4xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.75 }} className="mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-pink-300/[0.12] bg-pink-400/[0.03] px-4 py-2 text-xs uppercase tracking-[0.28em] text-pink-200/70 mb-7">
-            <span>✨</span> Engine
-          </div>
-          <h2 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.05]">
-            How Clipency's<br />
-            <span className="bg-gradient-to-r from-pink-200 via-fuchsia-200 to-rose-200 bg-clip-text text-transparent">Engine Works</span>
+    <section id="algorithm" className="px-8 py-28 border-t border-white/[0.05]">
+      <div className="max-w-7xl mx-auto">
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-20"
+        >
+          <p className="text-[10px] tracking-[0.35em] text-pink-300/45 uppercase font-medium mb-5">Engine</p>
+          <h2 className="text-5xl md:text-6xl font-black leading-[1.04] tracking-[-0.02em]">
+            How it<br />
+            <span className="text-white/30">works.</span>
           </h2>
-          <p className="mt-6 text-lg text-white/45 max-w-xl leading-relaxed">A modern financial processing architecture built for operational intelligence, live analytics, and scalable decisions.</p>
         </motion.div>
 
-        <div ref={ref} className="relative">
-          <div className="absolute left-[23px] top-4 bottom-4 w-px bg-pink-400/[0.05]" />
-          <motion.div className="absolute left-[23px] top-4 w-px" style={{ height: lineH, background: "linear-gradient(to bottom,#fbcfe8,#f9a8d4,#f5d0fe,#fda4af)" }} />
-          <div className="space-y-5 pl-16">
-            {steps.map((step, i) => {
-              const Icon = step.icon
-              return (
-                <motion.div key={step.title} initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-80px" }} transition={{ delay: i * 0.07, duration: 0.65, ease: "easeOut" }}
-                  className="group relative">
-                  <motion.div initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }}
-                    transition={{ delay: i * 0.07 + 0.2, type: "spring", stiffness: 350, damping: 22 }}
-                    className="absolute -left-[46px] top-1/2 -translate-y-1/2 h-[18px] w-[18px] rounded-full border border-pink-500/20 bg-[#0a0008] flex items-center justify-center">
-                    <div className={`h-2 w-2 rounded-full bg-gradient-to-br ${step.gradient}`} style={{ boxShadow: `0 0 6px ${step.glow}` }} />
-                  </motion.div>
-                  <div className="rounded-[28px] border border-pink-300/[0.08] bg-pink-400/[0.015] backdrop-blur-xl p-6 group-hover:border-pink-200/15 group-hover:bg-pink-400/[0.03] transition-all duration-300">
-                    <div className="flex items-center gap-4">
-                      <motion.div whileHover={{ scale: 1.1, rotate: 8 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                        className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center flex-shrink-0`}
-                        style={{ boxShadow: `0 6px 20px ${step.glow}35` }}>
-                        <Icon size={20} strokeWidth={1.8} />
-                      </motion.div>
-                      <div>
-                        <span className="text-[10px] font-bold tracking-[0.22em] text-pink-200/30">STEP {String(i+1).padStart(2,"0")}</span>
-                        <h3 className="text-lg font-bold leading-tight">{step.title}</h3>
-                      </div>
-                    </div>
-                    <p className="mt-3 text-white/45 leading-relaxed text-sm pl-16">{step.description}</p>
+        <div className="grid md:grid-cols-2 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+          {steps.map((step, i) => {
+            const Icon = step.icon
+            return (
+              <motion.div key={step.n}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.07, duration: 0.6 }}
+                className="group bg-[#080005] p-8 hover:bg-white/[0.02] transition-colors duration-300 cursor-default"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] text-white/20 tracking-[0.28em] font-bold">{step.n}</span>
+                  <div className="h-8 w-8 rounded-lg border border-white/[0.06] bg-transparent flex items-center justify-center group-hover:border-pink-300/15 transition-colors duration-300">
+                    <Icon size={14} strokeWidth={1.6} className="text-white/25 group-hover:text-pink-300/50 transition-colors duration-300" />
                   </div>
-                </motion.div>
-              )
-            })}
-          </div>
+                </div>
+                <h3 className="text-lg font-bold tracking-tight mb-2.5">{step.title}</h3>
+                <p className="text-[13px] text-white/35 leading-relaxed">{step.body}</p>
+              </motion.div>
+            )
+          })}
         </div>
+
       </div>
     </section>
   )
